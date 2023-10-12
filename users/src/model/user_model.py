@@ -22,6 +22,12 @@ class EducationLevel(enum.Enum):
     PROFESSIONAL = 3
     MASTER = 4
 
+class TypeIdentification(enum.Enum):
+    CC = 1
+    NIT = 2
+    CE = 3
+    PASSPORT = 4
+
 class User(db.Model):
     __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
@@ -34,15 +40,16 @@ class TecnicalResource(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), unique=True, nullable=False)
     lastName = db.Column(db.String(50), unique=True, nullable=False)
-    # idType = db.Column(db.String(50), unique=True, nullable=False)
+    typeIdentification = db.Column(db.Enum(TypeIdentification))
     identification = db.Column(db.String(50), unique=True, nullable=False)
     birthDate = db.Column(DateTime(timezone=True))
-    genre = db.Column(db.String(50), unique=True, nullable=False)
+    genre = db.Column(db.Enum(Genre))
     phoneNumber = db.Column(db.String(50), unique=True, nullable=False)
     mobileNumber = db.Column(db.String(50), unique=True, nullable=False)
     city = db.Column(db.String(50), unique=True, nullable=False)
     nationality = db.Column(db.String(50), unique=True, nullable=False)
     address = db.Column(db.String(50), unique=True, nullable=False)
+    userId = db.Column(db.Integer, db.ForeignKey('user.id'))
 
 class AcademicInformation(db.Model):
     __tablename__ = 'academic_information'
@@ -69,3 +76,12 @@ class ProfessionalExperience(db.Model):
     titleJob = db.Column(db.String(50), unique=True, nullable=False)
     companyName = db.Column(db.String(50), unique=True, nullable=False)
     details = db.Column(db.String(250), unique=True, nullable=False)
+
+class AditionalInformation(db.Model):
+    __tablename__ = 'aditional_information'
+    id = db.Column(db.Integer, primary_key=True)
+    tecnicalResourceId = db.Column(db.Integer, db.ForeignKey('tecnical_resource.id'))
+    driverLicense = db.Column(db.String(50), unique=True, nullable=False)
+    TransferAvailability = db.Column(db.Boolean, unique=True, nullable=False)
+    vehicule = db.Column(db.String(50), unique=True, nullable=False)
+
