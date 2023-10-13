@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      - feature-142
+      - feature-85
 jobs:
   test:
     runs-on: ubuntu-latest
