@@ -41,8 +41,7 @@ class User(db.Model):
     expireAt = db.Column(db.DateTime)
     createdAt = db.Column(db.DateTime, default=datetime.datetime.now())
 
-    def __init__(self, id, username, password, userType, salt, token, expireAt, createdAt):
-        self.id = id
+    def __init__(self, username, password, userType, salt, token, expireAt, createdAt):
         self.username = username
         self.password = password
         self.userType = userType
@@ -54,21 +53,20 @@ class User(db.Model):
 class TecnicalResource(db.Model):
     __tablename__ = 'tecnical_resource'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), unique=True, nullable=False)
-    lastName = db.Column(db.String(50), unique=True, nullable=False)
+    name = db.Column(db.String(50), nullable=False)
+    lastName = db.Column(db.String(50), nullable=False)
     typeIdentification = db.Column(db.Enum(TypeIdentification))
     identification = db.Column(db.String(50), unique=True, nullable=False)
     birthDate = db.Column(DateTime(timezone=True))
     genre = db.Column(db.Enum(Genre))
     phoneNumber = db.Column(db.String(50), unique=True, nullable=False)
     mobileNumber = db.Column(db.String(50), unique=True, nullable=False)
-    city = db.Column(db.String(50), unique=True, nullable=False)
-    nationality = db.Column(db.String(50), unique=True, nullable=False)
-    address = db.Column(db.String(50), unique=True, nullable=False)
+    city = db.Column(db.String(50), nullable=False)
+    nationality = db.Column(db.String(50), nullable=False)
+    address = db.Column(db.String(50), nullable=False)
     userId = db.Column(db.Integer, db.ForeignKey('user.id'))
 
-    def __init__(self, id, name, lastName, typeIdentification, identification, birthDate, genre, phoneNumber, mobileNumber, city, nationality, address, userId):
-        self.id = id
+    def __init__(self, name, lastName, typeIdentification, identification, birthDate, genre, phoneNumber, mobileNumber, city, nationality, address, userId):
         self.name = name
         self.lastName = lastName
         self.typeIdentification = typeIdentification
@@ -91,8 +89,7 @@ class AcademicInformation(db.Model):
     startDate = db.Column(DateTime(timezone=True))
     endDate = db.Column(DateTime(timezone=True))
 
-    def __init__(self, id, tecnicalResourceId, educationLevel, professionalSector, startDate, endDate):
-        self.id = id
+    def __init__(self, tecnicalResourceId, educationLevel, professionalSector, startDate, endDate):
         self.tecnicalResourceId = tecnicalResourceId
         self.educationLevel = educationLevel
         self.professionalSector = professionalSector
@@ -105,8 +102,7 @@ class ProfessionalSector(db.Model):
     name = db.Column(db.String(50), unique=True, nullable=False)
     code = db.Column(db.String(50), unique=True, nullable=False)
 
-    def __init__(self, id, name, code):
-        self.id = id
+    def __init__(self, name, code):
         self.name = name
         self.code = code
 
@@ -117,12 +113,11 @@ class ProfessionalExperience(db.Model):
     professionalSector = db.Column(db.Integer, db.ForeignKey('professional_sector.id'))
     startDate = db.Column(DateTime(timezone=True))
     endDate = db.Column(DateTime(timezone=True))
-    titleJob = db.Column(db.String(50), unique=True, nullable=False)
-    companyName = db.Column(db.String(50), unique=True, nullable=False)
-    details = db.Column(db.String(250), unique=True, nullable=False)
+    titleJob = db.Column(db.String(50), nullable=False)
+    companyName = db.Column(db.String(50), nullable=False)
+    details = db.Column(db.String(250), nullable=False)
 
-    def __init__(self, id, tecnicalResourceId, professionalSector, startDate, endDate, titleJob, companyName, details):
-        self.id = id
+    def __init__(self, tecnicalResourceId, professionalSector, startDate, endDate, titleJob, companyName, details):
         self.tecnicalResourceId = tecnicalResourceId
         self.professionalSector = professionalSector
         self.startDate = startDate
@@ -136,11 +131,10 @@ class AditionalInformation(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     tecnicalResourceId = db.Column(db.Integer, db.ForeignKey('tecnical_resource.id'))
     driverLicense = db.Column(db.String(50), unique=True, nullable=False)
-    transferAvailability = db.Column(db.Boolean, unique=True, nullable=False)
-    vehicule = db.Column(db.String(50), unique=True, nullable=False)
+    transferAvailability = db.Column(db.Boolean, nullable=False)
+    vehicule = db.Column(db.String(50), nullable=False)
 
-    def __init__(self, id, tecnicalResourceId, driverLicense, transferAvailability, vehicule):
-        self.id = id
+    def __init__(self, tecnicalResourceId, driverLicense, transferAvailability, vehicule):
         self.tecnicalResourceId = tecnicalResourceId
         self.driverLicense = driverLicense
         self.transferAvailability = transferAvailability
