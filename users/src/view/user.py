@@ -6,8 +6,10 @@ from flask_restful import Resource
 # from strgen import StringGenerator
 import hashlib
 
-from src.model.user import User, db
+from src.model.user import User, db, TecnicalResource
 from src.utils.utils import hash_new_password, get_datetime_iso_format, is_correct_password, get_expiration_datetime
+
+from src.utils.tecnical_resource import TecnicalResourceCreate
 
 class VistaPing(Resource):
     def get(self):
@@ -18,27 +20,73 @@ class VistaSignUp(Resource):
     def post(self):
         if not request.is_json:
             return Response(status=400)
+
         parse_json = request.get_json()
         if parse_json.get('username', None) and parse_json.get('userType', None) and parse_json.get('password', None):
-            users = User.query.filter((User.username==f"{parse_json.get('username', None)}") | (User.userType==f"{parse_json.get('userType', None)}")).all()
-            if len(users) > 0:
-                return Response(status=412)
-            else:
-                salt = "assaasas" #StringGenerator("[\l\d]{15}").render_list(1)
-                password = salt[0] + parse_json.get('password', None)
-                password = hashlib.sha256(password.encode()).hexdigest()
-                new_user = User(
-                    username = parse_json.get('username', None),
-                    userType = parse_json.get('userType', None),
-                    password = password,
-                    salt = salt[0]
-                )
-                db.session.add(new_user)
-                db.session.commit()
+            users = User.query.filter((User.username==f"{parse_json.get('username', None)}")).count()
+            tr = TecnicalResource.query.filter((TecnicalResource.identification==f"{parse_json['personalInformation'].get('identification', None)}")).count()
+
+            # TODO: Validar que no exista un usuario con el mismo username o identificacion
+            if users > 0:
                 return {
-                    "id": new_user.id,
-                    "createdAt": f"{new_user.createdAt}"
-                }, 201
+                    "Username": "Username already exists"
+                }, 412
+            if tr > 0:
+                return {
+                    "Identification": "Identification already exists"
+                }, 412
+            else:
+                # example of json request body for this endpoint (userType can be PERSON or COMPANY):
+                # {
+                #     "username": "test",
+                #     "userType": "PERSON",
+                #     "password": "test"
+                #     "personalInformation": {
+                #        "...": "...",
+                #     },
+                #     "academicInformation": {
+                #        ["...": "..."],
+                #        ["...": "..."],
+                #     },
+                #     "professionalExperience": {
+                #        ["...": "..."],
+                #        ["...": "..."],
+                #     },
+                #     "aditionalInformation": {
+                #        ["...": "..."]
+                #     }
+                # }
+
+                try:
+                    salt = "abc" # StringGenerator("[\l\d]{15}").render_list(1)
+                    password = salt[0] + parse_json.get('password', None)
+                    password = hashlib.sha256(password.encode()).hexdigest()
+                    userType = parse_json.get('userType', None)
+                    new_user = User(
+                        username = parse_json.get('username', None),
+                        userType = userType,
+                        password = b'password',
+                        salt = salt[0],
+                        token='abc',
+                        expireAt=get_datetime_iso_format(datetime.now()),
+                        createdAt=get_datetime_iso_format(datetime.now())
+                    )
+                    db.session.add(new_user)
+                    db.session.commit()
+
+                    # Llamado funciones para el guardado de la informacion del usuario segun el tipo de usuario
+                    if userType == "PERSON":
+                        new_tecnical_resource = TecnicalResourceCreate(new_user.id, parse_json)
+                        print(new_tecnical_resource)
+
+                    return {
+                        "id": new_user.id,
+                        "createdAt": f"{new_user.createdAt}",
+                        "tecnical_resource": new_tecnical_resource[0]
+                    }, 201
+                except Exception as e:
+                    print(e)
+                    return Response(status=400)
         else:
             return Response(status=400)
 

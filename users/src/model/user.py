@@ -59,8 +59,8 @@ class TecnicalResource(db.Model):
     identification = db.Column(db.String(50), unique=True, nullable=False)
     birthDate = db.Column(DateTime(timezone=True))
     genre = db.Column(db.Enum(Genre))
-    phoneNumber = db.Column(db.String(50), unique=True, nullable=False)
-    mobileNumber = db.Column(db.String(50), unique=True, nullable=False)
+    phoneNumber = db.Column(db.String(50), nullable=False)
+    mobileNumber = db.Column(db.String(50), nullable=False)
     city = db.Column(db.String(50), nullable=False)
     nationality = db.Column(db.String(50), nullable=False)
     address = db.Column(db.String(50), nullable=False)
@@ -84,13 +84,15 @@ class AcademicInformation(db.Model):
     __tablename__ = 'academic_information'
     id = db.Column(db.Integer, primary_key=True)
     tecnicalResourceId = db.Column(db.Integer, db.ForeignKey('tecnical_resource.id'))
+    schoolName = db.Column(db.String(50), nullable=False)
     educationLevel = db.Column(db.Enum(EducationLevel))
     professionalSector = db.Column(db.Integer, db.ForeignKey('professional_sector.id'))
     startDate = db.Column(DateTime(timezone=True))
     endDate = db.Column(DateTime(timezone=True))
 
-    def __init__(self, tecnicalResourceId, educationLevel, professionalSector, startDate, endDate):
+    def __init__(self, tecnicalResourceId, schoolName, educationLevel, professionalSector, startDate, endDate):
         self.tecnicalResourceId = tecnicalResourceId
+        self.schoolName = schoolName
         self.educationLevel = educationLevel
         self.professionalSector = professionalSector
         self.startDate = startDate
@@ -110,16 +112,14 @@ class ProfessionalExperience(db.Model):
     __tablename__ = 'professional_experience'
     id = db.Column(db.Integer, primary_key=True)
     tecnicalResourceId = db.Column(db.Integer, db.ForeignKey('tecnical_resource.id'))
-    professionalSector = db.Column(db.Integer, db.ForeignKey('professional_sector.id'))
     startDate = db.Column(DateTime(timezone=True))
     endDate = db.Column(DateTime(timezone=True))
     titleJob = db.Column(db.String(50), nullable=False)
     companyName = db.Column(db.String(50), nullable=False)
     details = db.Column(db.String(250), nullable=False)
 
-    def __init__(self, tecnicalResourceId, professionalSector, startDate, endDate, titleJob, companyName, details):
+    def __init__(self, tecnicalResourceId, startDate, endDate, titleJob, companyName, details):
         self.tecnicalResourceId = tecnicalResourceId
-        self.professionalSector = professionalSector
         self.startDate = startDate
         self.endDate = endDate
         self.titleJob = titleJob
@@ -130,7 +130,7 @@ class AditionalInformation(db.Model):
     __tablename__ = 'aditional_information'
     id = db.Column(db.Integer, primary_key=True)
     tecnicalResourceId = db.Column(db.Integer, db.ForeignKey('tecnical_resource.id'))
-    driverLicense = db.Column(db.String(50), unique=True, nullable=False)
+    driverLicense = db.Column(db.String(50), nullable=False)
     transferAvailability = db.Column(db.Boolean, nullable=False)
     vehicule = db.Column(db.String(50), nullable=False)
 
