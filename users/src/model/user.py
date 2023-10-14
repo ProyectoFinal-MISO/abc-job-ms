@@ -33,7 +33,7 @@ class TypeIdentification(enum.Enum):
 class User(db.Model):
     __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(50), unique=True, nullable=False)
+    email = db.Column(db.String(50), unique=True, nullable=False)
     password = db.Column(db.LargeBinary)
     userType = db.Column(db.Enum(UserType))
     salt = db.Column(db.String(100))
@@ -41,8 +41,8 @@ class User(db.Model):
     expireAt = db.Column(db.DateTime)
     createdAt = db.Column(db.DateTime, default=datetime.datetime.now())
 
-    def __init__(self, username, password, userType, salt, token, expireAt, createdAt):
-        self.username = username
+    def __init__(self, email, password, userType, salt, token, expireAt, createdAt):
+        self.email = email
         self.password = password
         self.userType = userType
         self.salt = salt
@@ -57,7 +57,7 @@ class TecnicalResource(db.Model):
     lastName = db.Column(db.String(50), nullable=False)
     typeIdentification = db.Column(db.Enum(TypeIdentification))
     identification = db.Column(db.String(50), unique=True, nullable=False)
-    birthDate = db.Column(DateTime(timezone=True))
+    age = db.Column(db.Integer, nullable=False)
     genre = db.Column(db.Enum(Genre))
     phoneNumber = db.Column(db.String(50), nullable=False)
     mobileNumber = db.Column(db.String(50), nullable=False)
@@ -66,12 +66,12 @@ class TecnicalResource(db.Model):
     address = db.Column(db.String(50), nullable=False)
     userId = db.Column(db.Integer, db.ForeignKey('user.id'))
 
-    def __init__(self, name, lastName, typeIdentification, identification, birthDate, genre, phoneNumber, mobileNumber, city, nationality, address, userId):
+    def __init__(self, name, lastName, typeIdentification, identification, age, genre, phoneNumber, mobileNumber, city, nationality, address, userId):
         self.name = name
         self.lastName = lastName
         self.typeIdentification = typeIdentification
         self.identification = identification
-        self.birthDate = birthDate
+        self.age = age
         self.genre = genre
         self.phoneNumber = phoneNumber
         self.mobileNumber = mobileNumber

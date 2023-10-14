@@ -22,14 +22,14 @@ class VistaSignUp(Resource):
             return Response(status=400)
 
         parse_json = request.get_json()
-        if parse_json.get('username', None) and parse_json.get('userType', None) and parse_json.get('password', None):
-            users = User.query.filter((User.username==f"{parse_json.get('username', None)}")).count()
+        if parse_json.get('email', None) and parse_json.get('userType', None) and parse_json.get('password', None):
+            users = User.query.filter((User.email==f"{parse_json.get('email', None)}")).count()
             tr = TecnicalResource.query.filter((TecnicalResource.identification==f"{parse_json['personalInformation'].get('identification', None)}")).count()
 
-            # TODO: Validar que no exista un usuario con el mismo username o identificacion
+            # TODO: Validar que no exista un usuario con el mismo email o identificacion
             if users > 0:
                 return {
-                    "Username": "Username already exists"
+                    "Email": "Email already exists"
                 }, 412
             if tr > 0:
                 return {
@@ -38,7 +38,7 @@ class VistaSignUp(Resource):
             else:
                 # example of json request body for this endpoint (userType can be PERSON or COMPANY):
                 # {
-                #     "username": "test",
+                #     "email": "test@test.com",
                 #     "userType": "PERSON",
                 #     "password": "test"
                 #     "personalInformation": {
@@ -63,7 +63,7 @@ class VistaSignUp(Resource):
                     password = hashlib.sha256(password.encode()).hexdigest()
                     userType = parse_json.get('userType', None)
                     new_user = User(
-                        username = parse_json.get('username', None),
+                        email = parse_json.get('email', None),
                         userType = userType,
                         password = b'password',
                         salt = salt[0],
@@ -77,7 +77,6 @@ class VistaSignUp(Resource):
                     # Llamado funciones para el guardado de la informacion del usuario segun el tipo de usuario
                     if userType == "PERSON":
                         new_tecnical_resource = TecnicalResourceCreate(new_user.id, parse_json)
-                        print(new_tecnical_resource)
 
                     return {
                         "id": new_user.id,
@@ -85,7 +84,6 @@ class VistaSignUp(Resource):
                         "tecnical_resource": new_tecnical_resource[0]
                     }, 201
                 except Exception as e:
-                    print(e)
                     return Response(status=400)
         else:
             return Response(status=400)
@@ -94,13 +92,13 @@ class VistaSignUp(Resource):
 class VistaLogIn(Resource):
     def post(self):
         try:
-            username = request.json["username"]
+            email = request.json["email"]
             password = request.json["password"]
         except:
             return "", 400
-        if username is None or password is None:
+        if email is None or password is None:
             return "", 400
-        user = User.query.filter(User.username == username).first()
+        user = User.query.filter(User.email == email).first()
         if user is not None:
             salt = user.salt
             pw_hash = user.password
@@ -127,4 +125,4 @@ class VistaUserInfo(Resource):
         if id_user is None:
             return "", 401
         user = User.query.filter(User.id == id_user).first()
-        return {"id": id_user, "username": user.username, "userType": user.userType}, 200
+        return {"id": id_user, "email": user.email, "userType": user.userType}, 200

@@ -8,7 +8,7 @@ import hashlib
 
 from src.model.user import User, db, TecnicalResource, ProfessionalExperience, AcademicInformation, AditionalInformation
 
-def TecnicalResourceCreate(userId, user_data):
+def TecnicalResourceCreate(userId = None, user_data = None):
 
     try:
         personal_data = user_data['personalInformation']
@@ -21,7 +21,7 @@ def TecnicalResourceCreate(userId, user_data):
             lastName = personal_data.get('lastName', None),
             typeIdentification = personal_data.get('typeIdentification', None),
             identification = personal_data.get('identification', None),
-            birthDate = personal_data.get('birthDate', None),
+            age = personal_data.get('age', None),
             genre = personal_data.get('genre', None),
             phoneNumber = personal_data.get('phoneNumber', None),
             mobileNumber = personal_data.get('mobileNumber', None),
@@ -37,11 +37,8 @@ def TecnicalResourceCreate(userId, user_data):
         new_proffesional_experience = ProfessionalExperienceCreate(new_tecnical_resource.id, professional_data)
         new_aditional_info = AditionalInformationCreate(new_tecnical_resource.id, aditional_data)
 
-
         if new_academic_info[1] != 201 or new_proffesional_experience[1] != 201 or new_aditional_info[1] != 201:
             return Response(status=400)
-
-        print(new_academic_info[0])
 
         return {
             "id": new_tecnical_resource.id,
@@ -105,8 +102,54 @@ def AditionalInformationCreate(tecnical_resource_id, aditional_data):
     db.session.add(new_aditional_info)
     db.session.commit()
 
-    print(new_aditional_info)
-
     return {
         "id": new_aditional_info.id
     }, 201
+
+def TecnicalResourceDelete(tecnical_resource_id):
+    try:
+        AcademicInformationDelete(tecnical_resource_id)
+        ProfessionalExperienceDelete(tecnical_resource_id)
+        AditionalInformationDelete(tecnical_resource_id)
+
+        tecnical_resource = TecnicalResource.query.filter_by(id = tecnical_resource_id).first()
+        if tecnical_resource is None:
+            return Response(status=404)
+        db.session.delete(tecnical_resource)
+        db.session.commit()
+        return Response(status=204)
+    except Exception as e:
+        return {
+            "Error": e
+        }, 400
+
+
+def AcademicInformationDelete(tecnical_resource_id):
+    try:
+        academic_info = AcademicInformation.query.filter_by(tecnicalResourceId = tecnical_resource_id).all()
+        for academic in academic_info:
+            db.session.delete(academic)
+            db.session.commit()
+        return Response(status=204)
+    except Exception as e:
+        return Response(status=400)
+
+def ProfessionalExperienceDelete(tecnical_resource_id):
+    try:
+        proffesional_experience = ProfessionalExperience.query.filter_by(tecnicalResourceId = tecnical_resource_id).all()
+        for professional in proffesional_experience:
+            db.session.delete(professional)
+            db.session.commit()
+        return Response(status=204)
+    except Exception as e:
+        return Response(status=400)
+
+def AditionalInformationDelete(tecnical_resource_id):
+    try:
+        aditional_info = AditionalInformation.query.filter_by(tecnicalResourceId = tecnical_resource_id).all()
+        for aditional in aditional_info:
+            db.session.delete(aditional)
+            db.session.commit()
+        return Response(status=204)
+    except Exception as e:
+        return Response(status=400)
