@@ -1,2 +1,2 @@
-# abc-job-ms
-ABC-ms
+# experimentos-documentacion
+repo para documentar la planeación y persistir los experimentos.
