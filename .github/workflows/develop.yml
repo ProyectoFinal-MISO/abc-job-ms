@@ -1,0 +1,20 @@
+name: Integrar a develop
+
+on:
+  push:
+    branches: [release]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 1
+      matrix:
+        python-version: [ 3.9 ]
+    steps:
+      - uses: actions/checkout@v1
+      - name: Run tests for users
+        working-directory: ./usuarios
+        run: |        
+          pip install -r requirements.txt
+          coverage run -m --omit="*/usr/lib/*" unittest discover -s tests -v
+          coverage report --fail-under=80

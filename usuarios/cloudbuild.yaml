@@ -1,7 +1,7 @@
 steps:
   # build the container image
 - name: "gcr.io/cloud-builders/docker"
-  args: ["build", "-t", "us-central1-docker.pkg.dev/proyecto-final-miso-399322/proyecto-final-ms/users:1.0", "."]
+  args: ["build", "-t", "us-central1-docker.pkg.dev/proyecto-final-miso-399322/proyecto-final-ms/users:1.0", "./usuarios/"]
   # push container image
 - name: "gcr.io/cloud-builders/docker"
   args: ["push", "us-central1-docker.pkg.dev/proyecto-final-miso-399322/proyecto-final-ms/users:1.0"]
