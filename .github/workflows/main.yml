@@ -1,4 +1,4 @@
-name: Integrar de release a main
+name: verificar pull request
 
 on:
   pull_request:
