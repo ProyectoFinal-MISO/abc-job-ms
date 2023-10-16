@@ -51,9 +51,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: test
     steps:
-    - name: mezcla
-      uses: tukasz/direct-merge-action@master
+    - name: Merge release -> main
+      uses: devmasx/merge-branch@master
       with:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        source-branch: release
-        target-branch: main
+        type: now
+        from_branch: release
+        target_branch: main
+        github_token: ${{ secrets.GITHUB_TOKEN }}
