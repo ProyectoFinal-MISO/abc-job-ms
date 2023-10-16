@@ -29,6 +29,8 @@ spec:
                 secretKeyRef:
                   name: profinalsecrets 
                   key: uri
+            - name: USERS_PATH
+              value: http://servicio-users
           imagePullPolicy: Always
 ---
 apiVersion: cloud.google.com/v1
@@ -56,5 +58,5 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 5000
-      nodePort: 31020
+      nodePort: 31019
 ---
