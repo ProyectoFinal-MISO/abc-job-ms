@@ -4,7 +4,7 @@ on:
   push:
     branches: [develop]
 jobs:
-  test:
+  test_develop:
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 1

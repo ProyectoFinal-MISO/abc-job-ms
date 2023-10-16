@@ -4,7 +4,7 @@ on:
   pull_request:
     branches: [main]
 jobs:
-  test:
+  test_main:
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 1
