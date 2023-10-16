@@ -49,7 +49,7 @@ jobs:
   merge-to-main:
     name: merge main <- realese
     runs-on: ubuntu-latest
-    needs: pruebas
+    needs: test
     steps:
     - name: mezcla
       uses: tukasz/direct-merge-action@master
