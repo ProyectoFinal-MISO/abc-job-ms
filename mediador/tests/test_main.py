@@ -17,6 +17,6 @@ class TestUsuarios(TestCase):
 
     def test_health(self):
         solicitud_nuevo_usuario = self.client.get(
-            "/evaluations/ping",
+            "/mediator/ping",
         )
         self.assertEqual(solicitud_nuevo_usuario.status_code, 200)

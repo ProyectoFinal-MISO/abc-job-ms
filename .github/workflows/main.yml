@@ -1,10 +1,10 @@
-name: Integrar a develop
+name: verificar pull request
 
 on:
-  push:
-    branches: [develop]
+  pull_request:
+    branches: [main]
 jobs:
-  test_develop:
+  test_main:
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 1

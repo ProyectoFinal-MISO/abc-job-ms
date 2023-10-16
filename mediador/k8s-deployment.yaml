@@ -1,26 +1,26 @@
 ###################################
-# EVALUACIONES
+# MEDIADOR
 ###################################
 
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: evaluations
+  name: mediator
   labels:
-    app: evaluations
+    app: mediator
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: evaluations
+      app: mediator
   template:
     metadata:
       labels:
-        app: evaluations
+        app: mediator
     spec:
       containers:
-        - name: evaluations
-          image: us-central1-docker.pkg.dev/proyecto-final-miso-399322/proyecto-final-ms/evaluations:1.0
+        - name: mediator
+          image: us-central1-docker.pkg.dev/proyecto-final-miso-399322/proyecto-final-ms/mediator:1.0
           ports:
             - containerPort: 5000
           env:
@@ -36,27 +36,27 @@ spec:
 apiVersion: cloud.google.com/v1
 kind: BackendConfig
 metadata:
-  name: proyecto-final-evaluations-config
+  name: proyecto-final-mediator-config
 spec:
   healthCheck:
     checkIntervalSec: 30
     port: 5000
     type: HTTP
-    requestPath: /evaluations/ping
+    requestPath: /mediator/ping
 ---
 kind: Service
 apiVersion: v1
 metadata:
-  name: servicio-evaluations
+  name: servicio-mediator
   annotations:
-    cloud.google.com/backend-config: '{"default": "proyecto-final-evaluations-config"}'
+    cloud.google.com/backend-config: '{"default": "proyecto-final-mediator-config"}'
 spec:
   type: NodePort
   selector:
-    app: evaluations
+    app: mediator
   ports:
     - protocol: TCP
       port: 80
       targetPort: 5000
-      nodePort: 31019
+      nodePort: 31016
 ---
