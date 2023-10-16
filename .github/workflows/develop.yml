@@ -2,7 +2,7 @@ name: Integrar a develop
 
 on:
   push:
-    branches: [release]
+    branches: [develop]
 jobs:
   test:
     runs-on: ubuntu-latest
