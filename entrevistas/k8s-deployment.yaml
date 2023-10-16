@@ -1,0 +1,62 @@
+###################################
+# ENTREVISTAS
+###################################
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: interviews
+  labels:
+    app: interviews
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: interviews
+  template:
+    metadata:
+      labels:
+        app: interviews
+    spec:
+      containers:
+        - name: interviews
+          image: us-central1-docker.pkg.dev/proyecto-final-miso-399322/proyecto-final-ms/interviews:1.0
+          ports:
+            - containerPort: 5000
+          env:
+            - name: "DATABASE_URL"
+              valueFrom:
+                secretKeyRef:
+                  name: profinalsecrets 
+                  key: uri
+            - name: USERS_PATH
+              value: http://servicio-users
+          imagePullPolicy: Always
+---
+apiVersion: cloud.google.com/v1
+kind: BackendConfig
+metadata:
+  name: proyecto-final-interviews-config
+spec:
+  healthCheck:
+    checkIntervalSec: 30
+    port: 5000
+    type: HTTP
+    requestPath: /interviews/ping
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: servicio-interviews
+  annotations:
+    cloud.google.com/backend-config: '{"default": "proyecto-final-interviews-config"}'
+spec:
+  type: NodePort
+  selector:
+    app: interviews
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000
+      nodePort: 31017
+---
