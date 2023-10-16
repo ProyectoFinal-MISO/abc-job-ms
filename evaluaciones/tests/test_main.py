@@ -19,4 +19,4 @@ class TestUsuarios(TestCase):
         solicitud_nuevo_usuario = self.client.get(
             "/evaluations/ping",
         )
-        self.assertEqual(solicitud_nuevo_usuario.status_code, 300)
+        self.assertEqual(solicitud_nuevo_usuario.status_code, 200)
