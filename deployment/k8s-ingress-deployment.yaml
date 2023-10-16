@@ -25,3 +25,24 @@ spec:
             name: servicio-evaluations
             port: 
               number: 80
+      - pathType: Prefix
+        path: /projects
+        backend:
+          service:
+            name: servicio-projects
+            port: 
+              number: 80
+      - pathType: Prefix
+        path: /interviews
+        backend:
+          service:
+            name: servicio-interviews
+            port: 
+              number: 80
+      - pathType: Prefix
+        path: /mediator
+        backend:
+          service:
+            name: servicio-mediator
+            port: 
+              number: 80
