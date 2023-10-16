@@ -1,8 +1,8 @@
 name: Integrar de release a main
 
 on:
-  push:
-    branches: [release]
+  pull_request:
+    branches: [main]
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -46,14 +46,3 @@ jobs:
           pip install -r requirements.txt
           coverage run -m --omit="*/usr/lib/*" unittest discover -s tests -v
           coverage report --fail-under=80
-  merge-to-main:
-    name: merge main <- realese
-    runs-on: ubuntu-latest
-    needs: test
-    steps:
-    - name: Merge release -> main
-      uses: tukasz/direct-merge-action@master
-      with:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        source-branch: release
-        target-branch: main
