@@ -18,6 +18,13 @@ jobs:
           pip install -r requirements.txt
           coverage run -m --omit="*/usr/lib/*" unittest discover -s tests -v
           coverage report --fail-under=80
+      - uses: actions/checkout@v1
+      - name: Run tests for users
+        working-directory: ./evaluaciones
+        run: |        
+          pip install -r requirements.txt
+          coverage run -m --omit="*/usr/lib/*" unittest discover -s tests -v
+          coverage report --fail-under=80
   merge-to-main:
     name: merge main <- realese
     runs-on: ubuntu-latest

@@ -18,3 +18,10 @@ spec:
             name: servicio-users
             port: 
               number: 80
+      - pathType: Prefix
+        path: /evaluations
+        backend:
+          service:
+            name: servicio-evaluations
+            port: 
+              number: 80
