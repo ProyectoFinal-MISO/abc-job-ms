@@ -52,9 +52,8 @@ jobs:
     needs: test
     steps:
     - name: Merge release -> main
-      uses: devmasx/merge-branch@master
+      uses: tukasz/direct-merge-action@master
       with:
-        type: now
-        from_branch: release
-        target_branch: main
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        source-branch: release
+        target-branch: main
