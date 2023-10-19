@@ -1,5 +1,6 @@
 from flask_restful import Resource
 from modelos.modelos import db, Usuario, UsuarioSchema
+from utils.tecnical_resource import TecnicalResourceCreate
 from flask import request, Response
 import os
 from strgen import StringGenerator
@@ -22,21 +23,30 @@ class VistaSignIn(Resource):
                 salt = StringGenerator("[\l\d]{15}").render_list(1)
                 password = salt[0] + parse_json.get('password', None)
                 password = hashlib.sha256(password.encode()).hexdigest()
+                userType = parse_json.get('userType', None)
                 nuevo_usuario = Usuario(
                     username = parse_json.get('username', None),
                     email = parse_json.get('email', None),
                     password = password,
+                    userType = userType,
                     salt = salt[0]
                 )
                 db.session.add(nuevo_usuario)
                 db.session.commit()
+
+                # Llamado funciones para el guardado de la informacion del usuario segun el tipo de usuario
+                if userType == "PERSON":
+                    new_tecnical_resource = TecnicalResourceCreate(nuevo_usuario.id, parse_json)
+
                 return {
                     "id": nuevo_usuario.id,
-                    "createdAt": f"{nuevo_usuario.createdAt}"
+                    "createdAt": f"{nuevo_usuario.createdAt}",
+                    "tecnical_resource": new_tecnical_resource[0]
                 }, 201
+
         else:
             return Response(status=400)
-        
+
 class VistasLogIn(Resource):
     def post (self):
         if not request.is_json:
@@ -64,12 +74,12 @@ class VistasLogIn(Resource):
                         "expireAt":f"{expireAt}"
                     }, 200
                 else:
-                    return Response(status=404) 
+                    return Response(status=404)
             else:
-               return Response(status=404) 
+               return Response(status=404)
         else:
             return Response(status=400)
-        
+
 class VistaUsuario(Resource):
     @jwt_required()
     def get(self):
