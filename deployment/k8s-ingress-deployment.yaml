@@ -1,0 +1,48 @@
+###################################
+# INGRESS
+###################################
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: proyecto-final-ingress
+  labels:
+    name: proyecto-final-ingress
+spec:
+  rules:
+  - http:
+      paths:
+      - pathType: Prefix
+        path: /users
+        backend:
+          service:
+            name: servicio-users
+            port: 
+              number: 80
+      - pathType: Prefix
+        path: /evaluations
+        backend:
+          service:
+            name: servicio-evaluations
+            port: 
+              number: 80
+      - pathType: Prefix
+        path: /projects
+        backend:
+          service:
+            name: servicio-projects
+            port: 
+              number: 80
+      - pathType: Prefix
+        path: /interviews
+        backend:
+          service:
+            name: servicio-interviews
+            port: 
+              number: 80
+      - pathType: Prefix
+        path: /mediator
+        backend:
+          service:
+            name: servicio-mediator
+            port: 
+              number: 80

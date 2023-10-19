@@ -1,0 +1,48 @@
+name: verificar pull request
+
+on:
+  pull_request:
+    branches: [main]
+jobs:
+  test_main:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 1
+      matrix:
+        python-version: [ 3.9 ]
+    steps:
+      - uses: actions/checkout@v1
+      - name: Run tests for users
+        working-directory: ./usuarios
+        run: |        
+          pip install -r requirements.txt
+          coverage run -m --omit="*/usr/lib/*" unittest discover -s tests -v
+          coverage report --fail-under=80
+      - uses: actions/checkout@v1
+      - name: Run tests for evaluations
+        working-directory: ./evaluaciones
+        run: |        
+          pip install -r requirements.txt
+          coverage run -m --omit="*/usr/lib/*" unittest discover -s tests -v
+          coverage report --fail-under=80
+      - uses: actions/checkout@v1
+      - name: Run tests for mediator
+        working-directory: ./mediador
+        run: |        
+          pip install -r requirements.txt
+          coverage run -m --omit="*/usr/lib/*" unittest discover -s tests -v
+          coverage report --fail-under=80
+      - uses: actions/checkout@v1
+      - name: Run tests for projects
+        working-directory: ./proyectos
+        run: |        
+          pip install -r requirements.txt
+          coverage run -m --omit="*/usr/lib/*" unittest discover -s tests -v
+          coverage report --fail-under=80
+      - uses: actions/checkout@v1
+      - name: Run tests for interviews
+        working-directory: ./entrevistas
+        run: |        
+          pip install -r requirements.txt
+          coverage run -m --omit="*/usr/lib/*" unittest discover -s tests -v
+          coverage report --fail-under=80
