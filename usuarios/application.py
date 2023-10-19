@@ -6,7 +6,7 @@ from flask_restful import Api
 from flask_jwt_extended import JWTManager
 
 application = Flask(__name__)
-application.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL", "sqlite:///test.db")
+application.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL") if os.getenv("DATABASE_URL") is not None else 'postgresql://postgres:root@localhost/abc_users_2'
 application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 application.config['JWT_SECRET_KEY'] = 'secret_key'
 application.config['JWT_ACCESS_TOKEN_EXPIRES'] = 3600
@@ -42,4 +42,3 @@ def index():
 
 if __name__ == "__main__":
     application.run(host = "0.0.0.0")
-    

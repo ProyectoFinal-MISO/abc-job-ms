@@ -6,7 +6,7 @@ from flask_restful import Resource
 # from strgen import StringGenerator
 import hashlib
 
-from src.model.user import User, db, TecnicalResource, ProfessionalExperience, AcademicInformation, AditionalInformation
+from modelos.modelos import Usuario, db, TecnicalResource, ProfessionalExperience, AcademicInformation, AditionalInformation
 
 def TecnicalResourceCreate(userId = None, user_data = None):
 
