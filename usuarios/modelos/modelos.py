@@ -31,13 +31,21 @@ class TypeIdentification(enum.Enum):
 class Usuario(db.Model):
     __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(50), unique=True, nullable=False)
     email = db.Column(db.String(50), unique=True, nullable=False)
-    password = db.Column(db.LargeBinary)
+    password = db.Column(db.String(100), nullable=False)
     userType = db.Column(db.Enum(UserType))
     salt = db.Column(db.String(100))
     token = db.Column(db.String(500))
     expireAt = db.Column(db.DateTime)
     createdAt = db.Column(db.DateTime, default=datetime.now())
+
+    def __init__(self, username, email, password, userType, salt):
+        self.username = username
+        self.email = email
+        self.password = password
+        self.userType = userType
+        self.salt = salt
 
 class TecnicalResource(db.Model):
     __tablename__ = 'tecnical_resource'
@@ -97,6 +105,16 @@ class ProfessionalSector(db.Model):
         self.name = name
         self.code = code
 
+class Languages(db.Model):
+    __tablename__ = 'languages'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), unique=True, nullable=False)
+    code = db.Column(db.String(50), unique=True, nullable=False)
+
+    def __init__(self, name, code):
+        self.name = name
+        self.code = code
+
 class ProfessionalExperience(db.Model):
     __tablename__ = 'professional_experience'
     id = db.Column(db.Integer, primary_key=True)
@@ -129,38 +147,98 @@ class AditionalInformation(db.Model):
         self.transferAvailability = transferAvailability
         self.vehicule = vehicule
 
+class TecnicalResourceProgrammingLanguages(db.Model):
+    __tablename__ = 'technical_resource_programming_languages'
+    id = db.Column(db.Integer, primary_key=True)
+    tecnicalResourceId = db.Column(db.Integer, db.ForeignKey('tecnical_resource.id'))
+    name = db.Column(db.String(50), nullable=False)
+    score = db.Column(db.Integer, nullable=False)
+
+    def __init__(self, tecnicalResourceId, name, score):
+        self.tecnicalResourceId = tecnicalResourceId
+        self.name = name
+        self.score = score
+
+class TecnicalResourceLanguages(db.Model):
+    __tablename__ = 'tecnical_resource_languages'
+    id = db.Column(db.Integer, primary_key=True)
+    tecnicalResourceId = db.Column(db.Integer, db.ForeignKey('tecnical_resource.id'))
+    language = db.Column(db.Integer, db.ForeignKey('languages.id'))
+    score = db.Column(db.Integer, nullable=False)
+
+    def __init__(self, tecnicalResourceId, language, score):
+        self.tecnicalResourceId = tecnicalResourceId
+        self.language = language
+        self.score = score
+
+class TecnicalResourcePersonalSkills(db.Model):
+    __tablename__ = 'tecnical_resource_personal_skills'
+    id = db.Column(db.Integer, primary_key=True)
+    tecnicalResourceId = db.Column(db.Integer, db.ForeignKey('tecnical_resource.id'))
+    name = db.Column(db.String(50), nullable=False)
+    score = db.Column(db.Integer, nullable=False)
+
+    def __init__(self, tecnicalResourceId, name, score):
+        self.tecnicalResourceId = tecnicalResourceId
+        self.name = name
+        self.score = score
 
 class UsuarioSchema(SQLAlchemyAutoSchema):
     class Meta:
         model = Usuario
         include_relationships = True
         load_instance = True
-class TecnicalResourceShema(SQLAlchemyAutoSchema):
+
+class TecnicalResourceSchema(SQLAlchemyAutoSchema):
     class Meta:
          model = TecnicalResource
          include_relationships = False
          load_instance = True
 
-class AcademicInformationShema(SQLAlchemyAutoSchema):
+class AcademicInformationSchema(SQLAlchemyAutoSchema):
     class Meta:
          model = AcademicInformation
          include_relationships = False
          load_instance = True
 
-class ProfessionalSectorShema(SQLAlchemyAutoSchema):
+class ProfessionalSectorSchema(SQLAlchemyAutoSchema):
     class Meta:
          model = ProfessionalSector
          include_relationships = False
          load_instance = True
 
-class ProfessionalExperienceShema(SQLAlchemyAutoSchema):
+class LanguagesSchema(SQLAlchemyAutoSchema):
+    class Meta:
+         model = Languages
+         include_relationships = False
+         load_instance = True
+
+class ProfessionalExperienceSchema(SQLAlchemyAutoSchema):
     class Meta:
          model = ProfessionalExperience
          include_relationships = False
          load_instance = True
 
-class AditionalInformationShema(SQLAlchemyAutoSchema):
+class AditionalInformationSchema(SQLAlchemyAutoSchema):
     class Meta:
          model = AditionalInformation
          include_relationships = False
          load_instance = True
+
+class TecnicalResourceProgrammingLanguagesSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = TecnicalResourceProgrammingLanguages
+        include_relationships = True
+        load_instance = True
+
+class TecnicalResourceLanguagesSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = TecnicalResourceLanguages
+        include_relationships = True
+        load_instance = True
+
+class TecnicalResourcePersonalSkillsSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = TecnicalResourcePersonalSkills
+        include_relationships = True
+        load_instance = True
