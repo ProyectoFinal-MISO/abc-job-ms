@@ -1,10 +1,5 @@
-from datetime import datetime
-
-from flask import request, Response
+from flask import Response
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, get_jwt, verify_jwt_in_request
-from flask_restful import Resource
-# from strgen import StringGenerator
-import hashlib
 
 from modelos.modelos import Usuario, db, TecnicalResource, ProfessionalExperience, AcademicInformation, AditionalInformation, TecnicalResourceProgrammingLanguages, TecnicalResourceLanguages, TecnicalResourcePersonalSkills
 
@@ -34,8 +29,6 @@ def TecnicalResourceCreate(userId = None, user_data = None):
         db.session.add(new_tecnical_resource)
         db.session.commit()
 
-        print(new_tecnical_resource)
-
         new_academic_info = AcademicInformationCreate(new_tecnical_resource.id, academic_data)
         new_proffesional_experience = ProfessionalExperienceCreate(new_tecnical_resource.id, professional_data)
         new_aditional_info = AditionalInformationCreate(new_tecnical_resource.id, aditional_data)
@@ -54,7 +47,7 @@ def TecnicalResourceCreate(userId = None, user_data = None):
 
         return {
             "id": new_tecnical_resource.id,
-            "userId": f"{new_tecnical_resource.userId}",
+            "tecnucalResourceId": f"{new_tecnical_resource.userId}",
             "academicInformationIds": f"{new_academic_info[0]['ids']}",
             "professionalExperienceIds": f"{new_proffesional_experience[0]['ids']}",
             "aditionalInformationId": f"{new_aditional_info[0]['id']}",

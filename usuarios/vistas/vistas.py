@@ -1,6 +1,8 @@
 from flask_restful import Resource
-from modelos.modelos import db, Usuario, UsuarioSchema, TecnicalResource, TecnicalResourceSchema
+from modelos.modelos import db, Usuario, UsuarioSchema, TecnicalResource
 from utils.tecnical_resource import TecnicalResourceCreate
+from utils.company import CompanyCreate
+from utils.employee import EmployeeCreate
 from flask import request, Response
 import os
 from strgen import StringGenerator
@@ -45,12 +47,16 @@ class VistaSignIn(Resource):
 
             # Llamado funciones para el guardado de la informacion del usuario segun el tipo de usuario
             if userType == "PERSON":
-                new_tecnical_resource = TecnicalResourceCreate(nuevo_usuario.id, parse_json)
+                response = TecnicalResourceCreate(nuevo_usuario.id, parse_json)
+            if userType == "EMPLOYEE":
+                response = EmployeeCreate(nuevo_usuario.id, parse_json)
+            if userType == "COMPANY":
+                response = CompanyCreate(nuevo_usuario.id, parse_json)
 
             return {
                 "id": nuevo_usuario.id,
                 "createdAt": f"{nuevo_usuario.createdAt}",
-                "tecnical_resource": new_tecnical_resource[0]
+                "data": response[0]
             }, 201
 
         else:

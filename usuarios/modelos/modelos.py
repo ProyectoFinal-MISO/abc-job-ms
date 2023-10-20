@@ -219,6 +219,60 @@ class City(db.Model):
         self.code = code
         self.stateId = stateId
 
+class Employee(db.Model):
+    __tablename__ = 'employee'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False)
+    lastName = db.Column(db.String(50), nullable=False)
+    typeIdentification = db.Column(db.Enum(TypeIdentification))
+    identification = db.Column(db.String(50), unique=True, nullable=False)
+    phoneNumber = db.Column(db.String(50), nullable=False)
+    mobileNumber = db.Column(db.String(50), nullable=False)
+    city = db.Column(db.Integer, db.ForeignKey('cities.id'))
+    state = db.Column(db.Integer, db.ForeignKey('states.id'))
+    country = db.Column(db.Integer, db.ForeignKey('countries.id'))
+    address = db.Column(db.String(50), nullable=False)
+    userId = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+    def __init__(self, name, lastName, typeIdentification, identification, phoneNumber, mobileNumber, city, state, country, address, userId):
+        self.name = name
+        self.lastName = lastName
+        self.typeIdentification = typeIdentification
+        self.identification = identification
+        self.phoneNumber = phoneNumber
+        self.mobileNumber = mobileNumber
+        self.city = city
+        self.state = state
+        self.country = country
+        self.address = address
+        self.userId = userId
+
+class Company(db.Model):
+    __tablename__ = 'company'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False)
+    typeIdentification = db.Column(db.Enum(TypeIdentification))
+    identification = db.Column(db.String(50), unique=True, nullable=False)
+    phoneNumber = db.Column(db.String(50), nullable=False)
+    mobileNumber = db.Column(db.String(50), nullable=False)
+    city = db.Column(db.Integer, db.ForeignKey('cities.id'))
+    state = db.Column(db.Integer, db.ForeignKey('states.id'))
+    country = db.Column(db.Integer, db.ForeignKey('countries.id'))
+    address = db.Column(db.String(50), nullable=False)
+    userId = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+    def __init__(self, name, typeIdentification, identification, phoneNumber, mobileNumber, city, state, country, address, userId):
+        self.name = name
+        self.typeIdentification = typeIdentification
+        self.identification = identification
+        self.phoneNumber = phoneNumber
+        self.mobileNumber = mobileNumber
+        self.city = city
+        self.state = state
+        self.country = country
+        self.address = address
+        self.userId = userId
+
 class UsuarioSchema(SQLAlchemyAutoSchema):
     class Meta:
         model = Usuario
@@ -294,5 +348,17 @@ class StateSchema(SQLAlchemyAutoSchema):
 class CitySchema(SQLAlchemyAutoSchema):
     class Meta:
          model = City
+         include_relationships = False
+         load_instance = True
+
+class EmployeeSchema(SQLAlchemyAutoSchema):
+    class Meta:
+         model = Employee
+         include_relationships = False
+         load_instance = True
+
+class CompanySchema(SQLAlchemyAutoSchema):
+    class Meta:
+         model = Company
          include_relationships = False
          load_instance = True
