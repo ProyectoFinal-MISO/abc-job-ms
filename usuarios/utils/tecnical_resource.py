@@ -6,7 +6,7 @@ from flask_restful import Resource
 # from strgen import StringGenerator
 import hashlib
 
-from modelos.modelos import Usuario, db, TecnicalResource, ProfessionalExperience, AcademicInformation, AditionalInformation
+from modelos.modelos import Usuario, db, TecnicalResource, ProfessionalExperience, AcademicInformation, AditionalInformation, TecnicalResourceProgrammingLanguages, TecnicalResourceLanguages, TecnicalResourcePersonalSkills
 
 def TecnicalResourceCreate(userId = None, user_data = None):
 
@@ -33,11 +33,22 @@ def TecnicalResourceCreate(userId = None, user_data = None):
         db.session.add(new_tecnical_resource)
         db.session.commit()
 
+        print(new_tecnical_resource)
+
         new_academic_info = AcademicInformationCreate(new_tecnical_resource.id, academic_data)
         new_proffesional_experience = ProfessionalExperienceCreate(new_tecnical_resource.id, professional_data)
         new_aditional_info = AditionalInformationCreate(new_tecnical_resource.id, aditional_data)
 
-        if new_academic_info[1] != 201 or new_proffesional_experience[1] != 201 or new_aditional_info[1] != 201:
+        tr_programming_languages = user_data['programmingLanguages']
+        tr_languages = user_data['languages']
+        tr_personal_skills = user_data['personalSkills']
+
+        new_tr_programming_languages = TecnicalResourceProgrammingLanguagesCreate(new_tecnical_resource.id, tr_programming_languages)
+        new_tr_languages = TecnicalResourceLanguagesCreate(new_tecnical_resource.id, tr_languages)
+        new_tr_personal_skills = TecnicalResourcePersonalSkillsCreate(new_tecnical_resource.id, tr_personal_skills)
+
+
+        if new_academic_info[1] != 201 or new_proffesional_experience[1] != 201 or new_aditional_info[1] != 201 or new_tr_programming_languages[1] != 201 or new_tr_languages[1] != 201 or new_tr_personal_skills[1] != 201:
             return Response(status=400)
 
         return {
@@ -45,14 +56,16 @@ def TecnicalResourceCreate(userId = None, user_data = None):
             "userId": f"{new_tecnical_resource.userId}",
             "academicInformationIds": f"{new_academic_info[0]['ids']}",
             "professionalExperienceIds": f"{new_proffesional_experience[0]['ids']}",
-            "aditionalInformationId": f"{new_aditional_info[0]['id']}"
+            "aditionalInformationId": f"{new_aditional_info[0]['id']}",
+            "programmingLanguagesIds": f"{new_tr_programming_languages[0]['ids']}",
+            "languagesIds": f"{new_tr_languages[0]['ids']}",
+            "personalSkillsIds": f"{new_tr_personal_skills[0]['ids']}"
         }, 201
 
     except Exception as e:
         return {
             "Error": e
         }, 400
-
 
 def AcademicInformationCreate(tecnical_resource_id, academic_info):
     ids = []
@@ -106,6 +119,54 @@ def AditionalInformationCreate(tecnical_resource_id, aditional_data):
         "id": new_aditional_info.id
     }, 201
 
+def TecnicalResourceProgrammingLanguagesCreate(tecnical_resource_id, tr_programming_languages):
+    ids = []
+    for programming_language in tr_programming_languages:
+        new_tr_programming_languages = TecnicalResourceProgrammingLanguages(
+            tecnicalResourceId = tecnical_resource_id,
+            name = programming_language.get('name', None),
+            score = programming_language.get('score', None),
+        )
+        db.session.add(new_tr_programming_languages)
+        db.session.commit()
+        ids.append(new_tr_programming_languages.id)
+
+    return {
+        "ids": ids
+    }, 201
+
+def TecnicalResourceLanguagesCreate(tecnical_resource_id, tr_languages):
+    ids = []
+    for language in tr_languages:
+        new_tr_languages = TecnicalResourceLanguages(
+            tecnicalResourceId = tecnical_resource_id,
+            language = language.get('language', None),
+            score = language.get('score', None),
+        )
+        db.session.add(new_tr_languages)
+        db.session.commit()
+        ids.append(new_tr_languages.id)
+
+    return {
+        "ids": ids
+    }, 201
+
+def TecnicalResourcePersonalSkillsCreate(tecnical_resource_id, tr_personal_skills):
+    ids = []
+    for personal_skill in tr_personal_skills:
+        new_tr_personal_skills = TecnicalResourcePersonalSkills(
+            tecnicalResourceId = tecnical_resource_id,
+            name = personal_skill.get('name', None),
+            score = personal_skill.get('score', None),
+        )
+        db.session.add(new_tr_personal_skills)
+        db.session.commit()
+        ids.append(new_tr_personal_skills.id)
+
+    return {
+        "ids": ids
+    }, 201
+
 def TecnicalResourceDelete(tecnical_resource_id):
     try:
         AcademicInformationDelete(tecnical_resource_id)
@@ -123,7 +184,6 @@ def TecnicalResourceDelete(tecnical_resource_id):
             "Error": e
         }, 400
 
-
 def AcademicInformationDelete(tecnical_resource_id):
     try:
         academic_info = AcademicInformation.query.filter_by(tecnicalResourceId = tecnical_resource_id).all()
@@ -139,6 +199,36 @@ def ProfessionalExperienceDelete(tecnical_resource_id):
         proffesional_experience = ProfessionalExperience.query.filter_by(tecnicalResourceId = tecnical_resource_id).all()
         for professional in proffesional_experience:
             db.session.delete(professional)
+            db.session.commit()
+        return Response(status=204)
+    except Exception as e:
+        return Response(status=400)
+
+def TecnicalResourceProgrammingLanguagesDelete(tecnical_resource_id):
+    try:
+        tr_programming_languages = TecnicalResourceProgrammingLanguages.query.filter_by(tecnicalResourceId = tecnical_resource_id).all()
+        for programming_language in tr_programming_languages:
+            db.session.delete(programming_language)
+            db.session.commit()
+        return Response(status=204)
+    except Exception as e:
+        return Response(status=400)
+
+def TecnicalResourceLanguagesDelete(tecnical_resource_id):
+    try:
+        tr_languages = TecnicalResourceLanguages.query.filter_by(tecnicalResourceId = tecnical_resource_id).all()
+        for language in tr_languages:
+            db.session.delete(language)
+            db.session.commit()
+        return Response(status=204)
+    except Exception as e:
+        return Response(status=400)
+
+def TecnicalResourcePersonalSkillsDelete(tecnical_resource_id):
+    try:
+        tr_personal_skills = TecnicalResourcePersonalSkills.query.filter_by(tecnicalResourceId = tecnical_resource_id).all()
+        for personal_skill in tr_personal_skills:
+            db.session.delete(personal_skill)
             db.session.commit()
         return Response(status=204)
     except Exception as e:
