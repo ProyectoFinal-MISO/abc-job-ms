@@ -26,7 +26,8 @@ def TecnicalResourceCreate(userId = None, user_data = None):
             phoneNumber = personal_data.get('phoneNumber', None),
             mobileNumber = personal_data.get('mobileNumber', None),
             city = personal_data.get('city', None),
-            nationality = personal_data.get('nationality', None),
+            state = personal_data.get('state', None),
+            country = personal_data.get('country', None),
             address = personal_data.get('address', None),
             userId = userId
         )

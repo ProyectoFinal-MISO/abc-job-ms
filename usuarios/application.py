@@ -4,6 +4,7 @@ from modelos.modelos import db
 from vistas.vistas import VistasLogIn, VistaSignIn, VistaUsuario
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
+from modelos.populate_db import populate_database
 
 application = Flask(__name__)
 application.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL") if os.getenv("DATABASE_URL") is not None else 'postgresql://postgres:root@localhost/abc_users_2'
@@ -21,6 +22,9 @@ api = Api(application)
 api.add_resource(VistaSignIn, '/users')
 api.add_resource(VistasLogIn, '/users/auth')
 api.add_resource(VistaUsuario, '/users/me')
+
+# Alimentar base de datos con valores por defecto
+populate_database()
 
 jwt = JWTManager(application)
 
