@@ -58,12 +58,13 @@ class TecnicalResource(db.Model):
     genre = db.Column(db.Enum(Genre))
     phoneNumber = db.Column(db.String(50), nullable=False)
     mobileNumber = db.Column(db.String(50), nullable=False)
-    city = db.Column(db.String(50), nullable=False)
-    nationality = db.Column(db.String(50), nullable=False)
+    city = db.Column(db.Integer, db.ForeignKey('cities.id'))
+    state = db.Column(db.Integer, db.ForeignKey('states.id'))
+    country = db.Column(db.Integer, db.ForeignKey('countries.id'))
     address = db.Column(db.String(50), nullable=False)
     userId = db.Column(db.Integer, db.ForeignKey('user.id'))
 
-    def __init__(self, name, lastName, typeIdentification, identification, age, genre, phoneNumber, mobileNumber, city, nationality, address, userId):
+    def __init__(self, name, lastName, typeIdentification, identification, age, genre, phoneNumber, mobileNumber, city, state, country, address, userId):
         self.name = name
         self.lastName = lastName
         self.typeIdentification = typeIdentification
@@ -73,7 +74,8 @@ class TecnicalResource(db.Model):
         self.phoneNumber = phoneNumber
         self.mobileNumber = mobileNumber
         self.city = city
-        self.nationality = nationality
+        self.state = state
+        self.country = country
         self.address = address
         self.userId = userId
 
@@ -183,6 +185,40 @@ class TecnicalResourcePersonalSkills(db.Model):
         self.name = name
         self.score = score
 
+class Country(db.Model):
+    __tablename__ = 'countries'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), unique=True, nullable=False)
+    code = db.Column(db.String(50), unique=True, nullable=False)
+
+    def __init__(self, name, code):
+        self.name = name
+        self.code = code
+
+class State(db.Model):
+    __tablename__ = 'states'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), unique=True, nullable=False)
+    code = db.Column(db.String(50), unique=True, nullable=False)
+    countryId = db.Column(db.Integer, db.ForeignKey('countries.id'))
+
+    def __init__(self, name, code, countryId):
+        self.name = name
+        self.code = code
+        self. countryId = countryId
+
+class City(db.Model):
+    __tablename__ = 'cities'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), unique=True, nullable=False)
+    code = db.Column(db.String(50), unique=True, nullable=False)
+    stateId = db.Column(db.Integer, db.ForeignKey('states.id'))
+
+    def __init__(self, name, code, stateId):
+        self.name = name
+        self.code = code
+        self.stateId = stateId
+
 class UsuarioSchema(SQLAlchemyAutoSchema):
     class Meta:
         model = Usuario
@@ -242,3 +278,21 @@ class TecnicalResourcePersonalSkillsSchema(SQLAlchemyAutoSchema):
         model = TecnicalResourcePersonalSkills
         include_relationships = True
         load_instance = True
+
+class CountrySchema(SQLAlchemyAutoSchema):
+    class Meta:
+         model = Country
+         include_relationships = False
+         load_instance = True
+
+class StateSchema(SQLAlchemyAutoSchema):
+    class Meta:
+         model = State
+         include_relationships = False
+         load_instance = True
+
+class CitySchema(SQLAlchemyAutoSchema):
+    class Meta:
+         model = City
+         include_relationships = False
+         load_instance = True
