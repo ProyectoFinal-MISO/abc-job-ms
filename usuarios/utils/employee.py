@@ -33,16 +33,3 @@ def EmployeeCreate(userId = None, user_data = None):
         return {
             "Error": e
         }, 400
-
-def EmployeeDelete(employee_id):
-    try:
-        employee = Employee.query.filter_by(id = employee_id).first()
-        if employee is None:
-            return Response(status=404)
-        db.session.delete(employee)
-        db.session.commit()
-        return Response(status=204)
-    except Exception as e:
-        return {
-            "Error": e
-        }, 400

@@ -39,8 +39,9 @@ def upsert_city(name, code, stateId):
 def populate_database():
 
     languages_data = [
-        {"name": "Language 1", "code": "Language1"},
-        {"name": "Language 2", "code": "Language2"},
+        {"name": "Español", "code": "ES"},
+        {"name": "Ingles", "code": "EN"},
+        {"name": "Frances", "code": "FR"},
         # Add more countries
     ]
     for language in languages_data:
@@ -55,17 +56,21 @@ def populate_database():
         upsert_professional_sector(professional_sector["name"], professional_sector["code"])
 
     countries_data = [
-        {"name": "Country 1", "code": "Country1"},
-        {"name": "Country 2", "code": "Country2"},
+        {"name": "Colombia", "code": "COL"},
+        {"name": "Perú", "code": "PER"},
+        {"name": "Estados Unidos", "code": "EUA"},
         # Add more countries
     ]
     for country in countries_data:
         upsert_country(country["name"], country["code"])
 
     states_data = [
-        {"name": "State 1", "countryId": 1, "code": "State1"},  # Connect to Country 1
-        {"name": "State 2", "countryId": 1, "code": "State2"},  # Connect to Country 1
-        {"name": "State 3", "countryId": 2, "code": "State3"},  # Connect to Country 2
+        {"name": "Cundinamarca", "countryId": 1, "code": "CUN"},  # Connect to Country 1
+        {"name": "Antioquia", "countryId": 1, "code": "ANT"},  # Connect to Country 1
+        {"name": "Villavicencio", "countryId": 1, "code": "VLL"},  # Connect to Country 1
+        {"name": "Loreto", "countryId": 2, "code": "LOR"},  # Connect to Country 2
+        {"name": "Puno", "countryId": 2, "code": "PUN"},  # Connect to Country 2
+        {"name": "Lima", "countryId": 2, "code": "LIM"},  # Connect to Country 2
         # Add more states
     ]
     for state in states_data:

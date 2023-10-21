@@ -32,16 +32,3 @@ def CompanyCreate(userId = None, user_data = None):
         return {
             "Error": e
         }, 400
-
-def CompanyDelete(company_id):
-    try:
-        company = Company.query.filter_by(id = company_id).first()
-        if company is None:
-            return Response(status=404)
-        db.session.delete(company)
-        db.session.commit()
-        return Response(status=204)
-    except Exception as e:
-        return {
-            "Error": e
-        }, 400

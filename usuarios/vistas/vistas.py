@@ -1,6 +1,6 @@
 from flask_restful import Resource
-from modelos.modelos import db, Usuario, UsuarioSchema, TecnicalResource
-from utils.tecnical_resource import TecnicalResourceCreate
+from modelos.modelos import db, Usuario, UsuarioSchema, TechnicalResource
+from utils.technical_resource import TechnicalResourceCreate
 from utils.company import CompanyCreate
 from utils.employee import EmployeeCreate
 from flask import request, Response
@@ -23,7 +23,7 @@ class VistaSignIn(Resource):
                 return {
                     "Message": "Email or username already exists"
                 }, 412
-            tr = TecnicalResource.query.filter((TecnicalResource.identification==f"{parse_json['personalInformation'].get('identification', None)}")).count()
+            tr = TechnicalResource.query.filter((TechnicalResource.identification==f"{parse_json['personalInformation'].get('identification', None)}")).count()
             if tr > 0:
                 return {
                     "Identification": "Identification already exists"
@@ -43,11 +43,9 @@ class VistaSignIn(Resource):
             db.session.add(nuevo_usuario)
             db.session.commit()
 
-            print(nuevo_usuario.id)
-
             # Llamado funciones para el guardado de la informacion del usuario segun el tipo de usuario
             if userType == "PERSON":
-                response = TecnicalResourceCreate(nuevo_usuario.id, parse_json)
+                response = TechnicalResourceCreate(nuevo_usuario.id, parse_json)
             if userType == "EMPLOYEE":
                 response = EmployeeCreate(nuevo_usuario.id, parse_json)
             if userType == "COMPANY":

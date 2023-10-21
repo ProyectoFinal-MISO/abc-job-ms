@@ -13,7 +13,7 @@ class UserType(enum.Enum):
 
 class Genre(enum.Enum):
     MALE = 1
-    FEMALE = 1
+    FEMALE = 2
     OTHER = 3
 
 class EducationLevel(enum.Enum):
@@ -47,8 +47,8 @@ class Usuario(db.Model):
         self.userType = userType
         self.salt = salt
 
-class TecnicalResource(db.Model):
-    __tablename__ = 'tecnical_resource'
+class TechnicalResource(db.Model):
+    __tablename__ = 'technical_resource'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
     lastName = db.Column(db.String(50), nullable=False)
@@ -82,15 +82,15 @@ class TecnicalResource(db.Model):
 class AcademicInformation(db.Model):
     __tablename__ = 'academic_information'
     id = db.Column(db.Integer, primary_key=True)
-    tecnicalResourceId = db.Column(db.Integer, db.ForeignKey('tecnical_resource.id'))
+    technicalResourceId = db.Column(db.Integer, db.ForeignKey('technical_resource.id'))
     schoolName = db.Column(db.String(50), nullable=False)
     educationLevel = db.Column(db.Enum(EducationLevel))
     professionalSector = db.Column(db.Integer, db.ForeignKey('professional_sector.id'))
     startDate = db.Column(DateTime(timezone=True))
     endDate = db.Column(DateTime(timezone=True))
 
-    def __init__(self, tecnicalResourceId, schoolName, educationLevel, professionalSector, startDate, endDate):
-        self.tecnicalResourceId = tecnicalResourceId
+    def __init__(self, technicalResourceId, schoolName, educationLevel, professionalSector, startDate, endDate):
+        self.technicalResourceId = technicalResourceId
         self.schoolName = schoolName
         self.educationLevel = educationLevel
         self.professionalSector = professionalSector
@@ -120,15 +120,15 @@ class Languages(db.Model):
 class ProfessionalExperience(db.Model):
     __tablename__ = 'professional_experience'
     id = db.Column(db.Integer, primary_key=True)
-    tecnicalResourceId = db.Column(db.Integer, db.ForeignKey('tecnical_resource.id'))
+    technicalResourceId = db.Column(db.Integer, db.ForeignKey('technical_resource.id'))
     startDate = db.Column(DateTime(timezone=True))
     endDate = db.Column(DateTime(timezone=True))
     titleJob = db.Column(db.String(50), nullable=False)
     companyName = db.Column(db.String(50), nullable=False)
     details = db.Column(db.String(250), nullable=False)
 
-    def __init__(self, tecnicalResourceId, startDate, endDate, titleJob, companyName, details):
-        self.tecnicalResourceId = tecnicalResourceId
+    def __init__(self, technicalResourceId, startDate, endDate, titleJob, companyName, details):
+        self.technicalResourceId = technicalResourceId
         self.startDate = startDate
         self.endDate = endDate
         self.titleJob = titleJob
@@ -138,50 +138,50 @@ class ProfessionalExperience(db.Model):
 class AditionalInformation(db.Model):
     __tablename__ = 'aditional_information'
     id = db.Column(db.Integer, primary_key=True)
-    tecnicalResourceId = db.Column(db.Integer, db.ForeignKey('tecnical_resource.id'))
+    technicalResourceId = db.Column(db.Integer, db.ForeignKey('technical_resource.id'))
     driverLicense = db.Column(db.String(50), nullable=False)
     transferAvailability = db.Column(db.Boolean, nullable=False)
     vehicule = db.Column(db.String(50), nullable=False)
 
-    def __init__(self, tecnicalResourceId, driverLicense, transferAvailability, vehicule):
-        self.tecnicalResourceId = tecnicalResourceId
+    def __init__(self, technicalResourceId, driverLicense, transferAvailability, vehicule):
+        self.technicalResourceId = technicalResourceId
         self.driverLicense = driverLicense
         self.transferAvailability = transferAvailability
         self.vehicule = vehicule
 
-class TecnicalResourceProgrammingLanguages(db.Model):
+class TechnicalResourceProgrammingLanguages(db.Model):
     __tablename__ = 'technical_resource_programming_languages'
     id = db.Column(db.Integer, primary_key=True)
-    tecnicalResourceId = db.Column(db.Integer, db.ForeignKey('tecnical_resource.id'))
+    technicalResourceId = db.Column(db.Integer, db.ForeignKey('technical_resource.id'))
     name = db.Column(db.String(50), nullable=False)
     score = db.Column(db.Integer, nullable=False)
 
-    def __init__(self, tecnicalResourceId, name, score):
-        self.tecnicalResourceId = tecnicalResourceId
+    def __init__(self, technicalResourceId, name, score):
+        self.technicalResourceId = technicalResourceId
         self.name = name
         self.score = score
 
-class TecnicalResourceLanguages(db.Model):
-    __tablename__ = 'tecnical_resource_languages'
+class TechnicalResourceLanguages(db.Model):
+    __tablename__ = 'technical_resource_languages'
     id = db.Column(db.Integer, primary_key=True)
-    tecnicalResourceId = db.Column(db.Integer, db.ForeignKey('tecnical_resource.id'))
+    technicalResourceId = db.Column(db.Integer, db.ForeignKey('technical_resource.id'))
     language = db.Column(db.Integer, db.ForeignKey('languages.id'))
     score = db.Column(db.Integer, nullable=False)
 
-    def __init__(self, tecnicalResourceId, language, score):
-        self.tecnicalResourceId = tecnicalResourceId
+    def __init__(self, technicalResourceId, language, score):
+        self.technicalResourceId = technicalResourceId
         self.language = language
         self.score = score
 
-class TecnicalResourcePersonalSkills(db.Model):
-    __tablename__ = 'tecnical_resource_personal_skills'
+class TechnicalResourcePersonalSkills(db.Model):
+    __tablename__ = 'technical_resource_personal_skills'
     id = db.Column(db.Integer, primary_key=True)
-    tecnicalResourceId = db.Column(db.Integer, db.ForeignKey('tecnical_resource.id'))
+    technicalResourceId = db.Column(db.Integer, db.ForeignKey('technical_resource.id'))
     name = db.Column(db.String(50), nullable=False)
     score = db.Column(db.Integer, nullable=False)
 
-    def __init__(self, tecnicalResourceId, name, score):
-        self.tecnicalResourceId = tecnicalResourceId
+    def __init__(self, technicalResourceId, name, score):
+        self.technicalResourceId = technicalResourceId
         self.name = name
         self.score = score
 
@@ -279,9 +279,9 @@ class UsuarioSchema(SQLAlchemyAutoSchema):
         include_relationships = True
         load_instance = True
 
-class TecnicalResourceSchema(SQLAlchemyAutoSchema):
+class TechnicalResourceSchema(SQLAlchemyAutoSchema):
     class Meta:
-         model = TecnicalResource
+         model = TechnicalResource
          include_relationships = False
          load_instance = True
 
@@ -315,21 +315,21 @@ class AditionalInformationSchema(SQLAlchemyAutoSchema):
          include_relationships = False
          load_instance = True
 
-class TecnicalResourceProgrammingLanguagesSchema(SQLAlchemyAutoSchema):
+class TechnicalResourceProgrammingLanguagesSchema(SQLAlchemyAutoSchema):
     class Meta:
-        model = TecnicalResourceProgrammingLanguages
+        model = TechnicalResourceProgrammingLanguages
         include_relationships = True
         load_instance = True
 
-class TecnicalResourceLanguagesSchema(SQLAlchemyAutoSchema):
+class TechnicalResourceLanguagesSchema(SQLAlchemyAutoSchema):
     class Meta:
-        model = TecnicalResourceLanguages
+        model = TechnicalResourceLanguages
         include_relationships = True
         load_instance = True
 
-class TecnicalResourcePersonalSkillsSchema(SQLAlchemyAutoSchema):
+class TechnicalResourcePersonalSkillsSchema(SQLAlchemyAutoSchema):
     class Meta:
-        model = TecnicalResourcePersonalSkills
+        model = TechnicalResourcePersonalSkills
         include_relationships = True
         load_instance = True
 
