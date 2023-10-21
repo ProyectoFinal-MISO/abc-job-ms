@@ -10,6 +10,8 @@ from datetime import datetime
 usuaro_schema = UsuarioSchema()
 
 class VistaEmployee(Resource):
+
+    @jwt_required()
     def get(self, id_employee):
 
         try:
@@ -38,6 +40,7 @@ class VistaEmployee(Resource):
         else:
             return {'message': 'Employee not exist'}, 404
 
+    @jwt_required()
     def delete(self, id_employee):
 
         try:
@@ -53,6 +56,7 @@ class VistaEmployee(Resource):
         else:
             return {'message': 'Employee not exist'}, 404
 
+    @jwt_required()
     def put(self, id_employee):
 
         if not request.is_json:

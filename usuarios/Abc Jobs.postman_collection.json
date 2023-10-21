@@ -24,7 +24,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"email\": \"test5@test.dcom\",\r\n    \"username\": \"test5@test.com\",\r\n    \"userType\": \"PERSON\",\r\n    \"password\": \"test\",\r\n    \"personalInformation\": {\r\n        \"name\": \"test\",\r\n        \"lastName\" : \"test\",\r\n        \"typeIdentification\" : \"CC\",\r\n        \"identification\" :\"1223344456\",\r\n        \"age\" :30,\r\n        \"genre\" : \"MALE\",\r\n        \"phoneNumber\" :\"test2\",\r\n        \"mobileNumber\" : \"test\",\r\n        \"city\": \"1\",\r\n        \"state\": \"1\",\r\n        \"country\" :\"1\",\r\n        \"address\" : \"test\"\r\n    },\r\n    \"academicInformation\": [\r\n        {\r\n            \"schoolName\" : \"Test1\",\r\n            \"educationLevel\" : \"PROFESSIONAL\",\r\n            \"professionalSector\" : \"1\",\r\n            \"startDate\" : \"2023-10-14 14:43:24.558\",\r\n            \"endDate\" : \"2023-10-14 14:43:24.558\"\r\n        },\r\n        {\r\n            \"schoolName\" : \"Test2\",\r\n            \"educationLevel\" : \"MASTER\",\r\n            \"professionalSector\" : \"1\",\r\n            \"startDate\" : \"2023-10-14 14:43:24.558\",\r\n            \"endDate\" : \"2023-10-14 14:43:24.558\"\r\n        }\r\n    ],\r\n    \"professionalExperience\": [\r\n        {\r\n            \"startDate\" : \"2023-10-14 14:43:24.558\",\r\n            \"endDate\" : \"2023-10-14 14:43:24.558\",\r\n            \"titleJob\" : \"Test1\",\r\n            \"companyName\" : \"Test1\",\r\n            \"details\" : \"Lorem ipsum ...\"\r\n        },\r\n        {\r\n            \"startDate\" : \"2023-10-14 14:43:24.558\",\r\n            \"endDate\" : \"2023-10-14 14:43:24.558\",\r\n            \"titleJob\" : \"Test2\",\r\n            \"companyName\" : \"Test2\",\r\n            \"details\" : \"Lorem ipsum ...\"\r\n        }\r\n        \r\n    ],\r\n    \"aditionalInformation\": {\r\n        \"driverLicense\" : \"Test\",\r\n        \"transferAvailability\" : 1,\r\n        \"vehicule\" : \"Test\"\r\n    },\r\n    \"programmingLanguages\": [\r\n        {\r\n            \"name\": \"Test1\",\r\n            \"score\": 2\r\n        },\r\n        {\r\n            \"name\": \"Test2\",\r\n            \"score\": 5\r\n        }\r\n    ],\r\n    \"languages\": [\r\n        {\r\n            \"language\": \"1\",\r\n            \"score\": 5\r\n        },\r\n        {\r\n            \"language\": \"3\",\r\n            \"score\": 1\r\n        }\r\n    ],\r\n    \"personalSkills\": [\r\n        {\r\n            \"name\": \"Test1\",\r\n            \"score\": 2\r\n        },\r\n        {\r\n            \"name\": \"Test2\",\r\n            \"score\": 5\r\n        }\r\n    ]\r\n}",
+					"raw": "{\r\n    \"email\": \"test7@test.dcom\",\r\n    \"username\": \"test7@test.com\",\r\n    \"userType\": \"PERSON\",\r\n    \"password\": \"test\",\r\n    \"personalInformation\": {\r\n        \"name\": \"test\",\r\n        \"lastName\" : \"test\",\r\n        \"typeIdentification\" : \"CC\",\r\n        \"identification\" :\"12236744456\",\r\n        \"age\" :30,\r\n        \"genre\" : \"MALE\",\r\n        \"phoneNumber\" :\"test2\",\r\n        \"mobileNumber\" : \"test\",\r\n        \"city\": \"1\",\r\n        \"state\": \"1\",\r\n        \"country\" :\"1\",\r\n        \"address\" : \"test\"\r\n    },\r\n    \"academicInformation\": [\r\n        {\r\n            \"schoolName\" : \"Test1\",\r\n            \"educationLevel\" : \"PROFESSIONAL\",\r\n            \"professionalSector\" : \"1\",\r\n            \"startDate\" : \"2023-10-14 14:43:24.558\",\r\n            \"endDate\" : \"2023-10-14 14:43:24.558\"\r\n        },\r\n        {\r\n            \"schoolName\" : \"Test2\",\r\n            \"educationLevel\" : \"MASTER\",\r\n            \"professionalSector\" : \"1\",\r\n            \"startDate\" : \"2023-10-14 14:43:24.558\",\r\n            \"endDate\" : \"2023-10-14 14:43:24.558\"\r\n        }\r\n    ],\r\n    \"professionalExperience\": [\r\n        {\r\n            \"startDate\" : \"2023-10-14 14:43:24.558\",\r\n            \"endDate\" : \"2023-10-14 14:43:24.558\",\r\n            \"titleJob\" : \"Test1\",\r\n            \"companyName\" : \"Test1\",\r\n            \"details\" : \"Lorem ipsum ...\"\r\n        },\r\n        {\r\n            \"startDate\" : \"2023-10-14 14:43:24.558\",\r\n            \"endDate\" : \"2023-10-14 14:43:24.558\",\r\n            \"titleJob\" : \"Test2\",\r\n            \"companyName\" : \"Test2\",\r\n            \"details\" : \"Lorem ipsum ...\"\r\n        }\r\n        \r\n    ],\r\n    \"aditionalInformation\": {\r\n        \"driverLicense\" : \"Test\",\r\n        \"transferAvailability\" : 1,\r\n        \"vehicule\" : \"Test\"\r\n    },\r\n    \"programmingLanguages\": [\r\n        {\r\n            \"name\": \"Test1\",\r\n            \"score\": 2\r\n        },\r\n        {\r\n            \"name\": \"Test2\",\r\n            \"score\": 5\r\n        }\r\n    ],\r\n    \"languages\": [\r\n        {\r\n            \"language\": \"1\",\r\n            \"score\": 5\r\n        },\r\n        {\r\n            \"language\": \"3\",\r\n            \"score\": 1\r\n        }\r\n    ],\r\n    \"personalSkills\": [\r\n        {\r\n            \"name\": \"Test1\",\r\n            \"score\": 2\r\n        },\r\n        {\r\n            \"name\": \"Test2\",\r\n            \"score\": 5\r\n        }\r\n    ]\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -131,6 +131,49 @@
 			"response": []
 		},
 		{
+			"name": "EditUserTechnicalResource",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY5NTAwNjcwMywianRpIjoiOTFmNDlhMmItNzIzYS00ZWRkLWI3YjEtMjUwMzEwNmNkNTczIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MSwibmJmIjoxNjk1MDA2NzAzLCJleHAiOjE2OTUwMTAzMDMsImlkIjoiMSJ9.rxiWKgthMxhq4CIR37_DiLeJAkX1iKSbskt-tN9TPsM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"test5\",\r\n    \"lastName\" : \"tes5t\",\r\n    \"typeIdentification\" : \"CC\",\r\n    \"identification\" :\"12233445456\",\r\n    \"age\" :30,\r\n    \"genre\" : \"MALE\",\r\n    \"phoneNumber\" :\"test2\",\r\n    \"mobileNumber\" : \"test\",\r\n    \"city\": \"1\",\r\n    \"state\": \"1\",\r\n    \"country\" :\"1\",\r\n    \"address\" : \"test\",\r\n    \"academicInformation\": [\r\n        {\r\n            \"schoolName\" : \"Test1\",\r\n            \"educationLevel\" : \"PROFESSIONAL\",\r\n            \"professionalSector\" : \"1\",\r\n            \"startDate\" : \"2023-10-14 14:43:24.558\",\r\n            \"endDate\" : \"2023-10-14 14:43:24.558\"\r\n        },\r\n        {\r\n            \"schoolName\" : \"Test2\",\r\n            \"educationLevel\" : \"MASTER\",\r\n            \"professionalSector\" : \"1\",\r\n            \"startDate\" : \"2023-10-14 14:43:24.558\",\r\n            \"endDate\" : \"2023-10-14 14:43:24.558\"\r\n        }\r\n    ],\r\n    \"professionalExperience\": [\r\n        {\r\n            \"startDate\" : \"2023-10-14 14:43:24.558\",\r\n            \"endDate\" : \"2023-10-14 14:43:24.558\",\r\n            \"titleJob\" : \"Test1\",\r\n            \"companyName\" : \"Test1\",\r\n            \"details\" : \"Lorem ipsum ...\"\r\n        },\r\n        {\r\n            \"startDate\" : \"2023-10-14 14:43:24.558\",\r\n            \"endDate\" : \"2023-10-14 14:43:24.558\",\r\n            \"titleJob\" : \"Test2\",\r\n            \"companyName\" : \"Test2\",\r\n            \"details\" : \"Lorem ipsum ...\"\r\n        }\r\n        \r\n    ],\r\n    \"aditionalInformation\": {\r\n        \"driverLicense\" : \"Test\",\r\n        \"transferAvailability\" : 1,\r\n        \"vehicule\" : \"Test\"\r\n    },\r\n    \"programmingLanguages\": [\r\n        {\r\n            \"name\": \"Test1\",\r\n            \"score\": 2\r\n        },\r\n        {\r\n            \"name\": \"Test2\",\r\n            \"score\": 5\r\n        }\r\n    ],\r\n    \"languages\": [\r\n        {\r\n            \"language\": \"1\",\r\n            \"score\": 5\r\n        },\r\n        {\r\n            \"language\": \"3\",\r\n            \"score\": 1\r\n        }\r\n    ],\r\n    \"personalSkills\": [\r\n        {\r\n            \"name\": \"Test1\",\r\n            \"score\": 2\r\n        },\r\n        {\r\n            \"name\": \"Test2\",\r\n            \"score\": 5\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/user/technical_resource/2",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"user",
+						"technical_resource",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "EditUserEmployee",
 			"request": {
 				"auth": {
@@ -190,7 +233,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"test2\",\r\n    \"lastName\" : \"test2\",\r\n    \"typeIdentification\" : \"CC\",\r\n    \"identification\" :\"2employee1223344456\",\r\n    \"phoneNumber\" :\"test2\",\r\n    \"mobileNumber\" : \"test\",\r\n    \"city\": \"1\",\r\n    \"state\": \"1\",\r\n    \"country\" :\"1\",\r\n    \"address\" : \"test\"\r\n}",
+					"raw": "{\r\n    \"name\": \"test3\",\r\n    \"typeIdentification\" : \"CC\",\r\n    \"identification\" :\"2employee31223344456\",\r\n    \"phoneNumber\" :\"test2\",\r\n    \"mobileNumber\" : \"test\",\r\n    \"city\": \"1\",\r\n    \"state\": \"1\",\r\n    \"country\" :\"1\",\r\n    \"address\" : \"test\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -198,7 +241,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:5000/user/employee/2",
+					"raw": "http://127.0.0.1:5000/user/company/1",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -209,8 +252,54 @@
 					"port": "5000",
 					"path": [
 						"user",
-						"employee",
-						"2"
+						"company",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetUserEmployeeTechnicalResource",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY5NTAwNjcwMywianRpIjoiOTFmNDlhMmItNzIzYS00ZWRkLWI3YjEtMjUwMzEwNmNkNTczIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MSwibmJmIjoxNjk1MDA2NzAzLCJleHAiOjE2OTUwMTAzMDMsImlkIjoiMSJ9.rxiWKgthMxhq4CIR37_DiLeJAkX1iKSbskt-tN9TPsM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/user/technical_resource/1",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"user",
+						"technical_resource",
+						"1"
 					]
 				}
 			},
@@ -263,7 +352,7 @@
 			"response": []
 		},
 		{
-			"name": "GetUserCompany Copy",
+			"name": "GetUserCompany",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -290,7 +379,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:5000/user/employee/2",
+					"raw": "http://127.0.0.1:5000/user/company/1",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -301,8 +390,8 @@
 					"port": "5000",
 					"path": [
 						"user",
-						"employee",
-						"2"
+						"company",
+						"1"
 					]
 				}
 			},
@@ -352,6 +441,49 @@
 			"response": []
 		},
 		{
+			"name": "DeleteUserTechnicalResource",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY5NTAwNjcwMywianRpIjoiOTFmNDlhMmItNzIzYS00ZWRkLWI3YjEtMjUwMzEwNmNkNTczIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MSwibmJmIjoxNjk1MDA2NzAzLCJleHAiOjE2OTUwMTAzMDMsImlkIjoiMSJ9.rxiWKgthMxhq4CIR37_DiLeJAkX1iKSbskt-tN9TPsM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/user/technical_resource/1",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"user",
+						"technical_resource",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "DeleteUserCompany",
 			"request": {
 				"auth": {
@@ -376,7 +508,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:5000/user/employee/1",
+					"raw": "http://127.0.0.1:5000/user/company/1",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -387,7 +519,7 @@
 					"port": "5000",
 					"path": [
 						"user",
-						"employee",
+						"company",
 						"1"
 					]
 				}

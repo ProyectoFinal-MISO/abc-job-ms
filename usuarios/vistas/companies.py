@@ -10,6 +10,8 @@ from datetime import datetime
 usuaro_schema = UsuarioSchema()
 
 class VistaCompany(Resource):
+
+    @jwt_required()
     def get(self, id_company):
 
         try:
@@ -36,6 +38,7 @@ class VistaCompany(Resource):
         else:
             return {'message': 'Company not exist'}, 404
 
+    @jwt_required()
     def delete(self, id_company):
         try:
             id_company = int(id_company)
@@ -50,6 +53,7 @@ class VistaCompany(Resource):
         else:
             return {'message': 'Company not exist'}, 404
 
+    @jwt_required()
     def put(self, id_company):
 
             if not request.is_json:

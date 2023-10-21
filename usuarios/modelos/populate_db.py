@@ -65,21 +65,21 @@ def populate_database():
         upsert_country(country["name"], country["code"])
 
     states_data = [
-        {"name": "Cundinamarca", "countryId": 1, "code": "CUN"},  # Connect to Country 1
-        {"name": "Antioquia", "countryId": 1, "code": "ANT"},  # Connect to Country 1
-        {"name": "Villavicencio", "countryId": 1, "code": "VLL"},  # Connect to Country 1
-        {"name": "Loreto", "countryId": 2, "code": "LOR"},  # Connect to Country 2
-        {"name": "Puno", "countryId": 2, "code": "PUN"},  # Connect to Country 2
-        {"name": "Lima", "countryId": 2, "code": "LIM"},  # Connect to Country 2
+        {"name": "Cundinamarca", "countryId": 1, "code": "CUN"},
+        {"name": "Antioquia", "countryId": 1, "code": "ANT"},
+        {"name": "Meta", "countryId": 1, "code": "MET"},
+        {"name": "Loreto", "countryId": 2, "code": "LOR"},
+        {"name": "Puno", "countryId": 2, "code": "PUN"},
+        {"name": "Lima", "countryId": 2, "code": "LIM"},
         # Add more states
     ]
     for state in states_data:
         upsert_state(state["name"], state["code"], state["countryId"])
 
     cities_data = [
-        {"name": "City 1", "stateId": 1, "code": "City1"},  # Connect to State 1
-        {"name": "City 2", "stateId": 1, "code": "City2"},  # Connect to State 1
-        {"name": "City 3", "stateId": 2, "code": "City3"},  # Connect to State 2
+        {"name": "Bogotá", "stateId": 1, "code": "BOG"},
+        {"name": "Medellin", "stateId": 2, "code": "MED"},
+        {"name": "Villavicencio", "stateId": 3, "code": "VLL"},
         # Add more cities
     ]
     for city in cities_data:

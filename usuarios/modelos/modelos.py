@@ -58,11 +58,11 @@ class TechnicalResource(db.Model):
     genre = db.Column(db.Enum(Genre))
     phoneNumber = db.Column(db.String(50), nullable=False)
     mobileNumber = db.Column(db.String(50), nullable=False)
-    city = db.Column(db.Integer, db.ForeignKey('cities.id'))
-    state = db.Column(db.Integer, db.ForeignKey('states.id'))
-    country = db.Column(db.Integer, db.ForeignKey('countries.id'))
+    city = db.Column(db.Integer, db.ForeignKey('cities.id', ondelete='SET NULL'))
+    state = db.Column(db.Integer, db.ForeignKey('states.id', ondelete='SET NULL'))
+    country = db.Column(db.Integer, db.ForeignKey('countries.id', ondelete='SET NULL'))
     address = db.Column(db.String(50), nullable=False)
-    userId = db.Column(db.Integer, db.ForeignKey('user.id'))
+    userId = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='SET NULL'))
 
     def __init__(self, name, lastName, typeIdentification, identification, age, genre, phoneNumber, mobileNumber, city, state, country, address, userId):
         self.name = name
@@ -82,10 +82,10 @@ class TechnicalResource(db.Model):
 class AcademicInformation(db.Model):
     __tablename__ = 'academic_information'
     id = db.Column(db.Integer, primary_key=True)
-    technicalResourceId = db.Column(db.Integer, db.ForeignKey('technical_resource.id'))
+    technicalResourceId = db.Column(db.Integer, db.ForeignKey('technical_resource.id', ondelete='SET NULL'))
     schoolName = db.Column(db.String(50), nullable=False)
     educationLevel = db.Column(db.Enum(EducationLevel))
-    professionalSector = db.Column(db.Integer, db.ForeignKey('professional_sector.id'))
+    professionalSector = db.Column(db.Integer, db.ForeignKey('professional_sector.id', ondelete='SET NULL'))
     startDate = db.Column(DateTime(timezone=True))
     endDate = db.Column(DateTime(timezone=True))
 
@@ -120,7 +120,7 @@ class Languages(db.Model):
 class ProfessionalExperience(db.Model):
     __tablename__ = 'professional_experience'
     id = db.Column(db.Integer, primary_key=True)
-    technicalResourceId = db.Column(db.Integer, db.ForeignKey('technical_resource.id'))
+    technicalResourceId = db.Column(db.Integer, db.ForeignKey('technical_resource.id', ondelete='SET NULL'))
     startDate = db.Column(DateTime(timezone=True))
     endDate = db.Column(DateTime(timezone=True))
     titleJob = db.Column(db.String(50), nullable=False)
@@ -138,7 +138,7 @@ class ProfessionalExperience(db.Model):
 class AditionalInformation(db.Model):
     __tablename__ = 'aditional_information'
     id = db.Column(db.Integer, primary_key=True)
-    technicalResourceId = db.Column(db.Integer, db.ForeignKey('technical_resource.id'))
+    technicalResourceId = db.Column(db.Integer, db.ForeignKey('technical_resource.id', ondelete='SET NULL'))
     driverLicense = db.Column(db.String(50), nullable=False)
     transferAvailability = db.Column(db.Boolean, nullable=False)
     vehicule = db.Column(db.String(50), nullable=False)
@@ -152,7 +152,7 @@ class AditionalInformation(db.Model):
 class TechnicalResourceProgrammingLanguages(db.Model):
     __tablename__ = 'technical_resource_programming_languages'
     id = db.Column(db.Integer, primary_key=True)
-    technicalResourceId = db.Column(db.Integer, db.ForeignKey('technical_resource.id'))
+    technicalResourceId = db.Column(db.Integer, db.ForeignKey('technical_resource.id', ondelete='SET NULL'))
     name = db.Column(db.String(50), nullable=False)
     score = db.Column(db.Integer, nullable=False)
 
@@ -164,8 +164,8 @@ class TechnicalResourceProgrammingLanguages(db.Model):
 class TechnicalResourceLanguages(db.Model):
     __tablename__ = 'technical_resource_languages'
     id = db.Column(db.Integer, primary_key=True)
-    technicalResourceId = db.Column(db.Integer, db.ForeignKey('technical_resource.id'))
-    language = db.Column(db.Integer, db.ForeignKey('languages.id'))
+    technicalResourceId = db.Column(db.Integer, db.ForeignKey('technical_resource.id', ondelete='SET NULL'))
+    language = db.Column(db.Integer, db.ForeignKey('languages.id', ondelete='SET NULL'))
     score = db.Column(db.Integer, nullable=False)
 
     def __init__(self, technicalResourceId, language, score):
@@ -176,7 +176,7 @@ class TechnicalResourceLanguages(db.Model):
 class TechnicalResourcePersonalSkills(db.Model):
     __tablename__ = 'technical_resource_personal_skills'
     id = db.Column(db.Integer, primary_key=True)
-    technicalResourceId = db.Column(db.Integer, db.ForeignKey('technical_resource.id'))
+    technicalResourceId = db.Column(db.Integer, db.ForeignKey('technical_resource.id', ondelete='SET NULL'))
     name = db.Column(db.String(50), nullable=False)
     score = db.Column(db.Integer, nullable=False)
 
@@ -200,7 +200,7 @@ class State(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), unique=True, nullable=False)
     code = db.Column(db.String(50), unique=True, nullable=False)
-    countryId = db.Column(db.Integer, db.ForeignKey('countries.id'))
+    countryId = db.Column(db.Integer, db.ForeignKey('countries.id', ondelete='SET NULL'))
 
     def __init__(self, name, code, countryId):
         self.name = name
@@ -212,7 +212,7 @@ class City(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), unique=True, nullable=False)
     code = db.Column(db.String(50), unique=True, nullable=False)
-    stateId = db.Column(db.Integer, db.ForeignKey('states.id'))
+    stateId = db.Column(db.Integer, db.ForeignKey('states.id', ondelete='SET NULL'))
 
     def __init__(self, name, code, stateId):
         self.name = name
@@ -228,11 +228,11 @@ class Employee(db.Model):
     identification = db.Column(db.String(50), unique=True, nullable=False)
     phoneNumber = db.Column(db.String(50), nullable=False)
     mobileNumber = db.Column(db.String(50), nullable=False)
-    city = db.Column(db.Integer, db.ForeignKey('cities.id'))
-    state = db.Column(db.Integer, db.ForeignKey('states.id'))
-    country = db.Column(db.Integer, db.ForeignKey('countries.id'))
+    city = db.Column(db.Integer, db.ForeignKey('cities.id', ondelete='SET NULL'))
+    state = db.Column(db.Integer, db.ForeignKey('states.id', ondelete='SET NULL'))
+    country = db.Column(db.Integer, db.ForeignKey('countries.id', ondelete='SET NULL'))
     address = db.Column(db.String(50), nullable=False)
-    userId = db.Column(db.Integer, db.ForeignKey('user.id'))
+    userId = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='SET NULL'))
 
     def __init__(self, name, lastName, typeIdentification, identification, phoneNumber, mobileNumber, city, state, country, address, userId):
         self.name = name
@@ -255,11 +255,11 @@ class Company(db.Model):
     identification = db.Column(db.String(50), unique=True, nullable=False)
     phoneNumber = db.Column(db.String(50), nullable=False)
     mobileNumber = db.Column(db.String(50), nullable=False)
-    city = db.Column(db.Integer, db.ForeignKey('cities.id'))
-    state = db.Column(db.Integer, db.ForeignKey('states.id'))
-    country = db.Column(db.Integer, db.ForeignKey('countries.id'))
+    city = db.Column(db.Integer, db.ForeignKey('cities.id', ondelete='SET NULL'))
+    state = db.Column(db.Integer, db.ForeignKey('states.id', ondelete='SET NULL'))
+    country = db.Column(db.Integer, db.ForeignKey('countries.id', ondelete='SET NULL'))
     address = db.Column(db.String(50), nullable=False)
-    userId = db.Column(db.Integer, db.ForeignKey('user.id'))
+    userId = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='SET NULL'))
 
     def __init__(self, name, typeIdentification, identification, phoneNumber, mobileNumber, city, state, country, address, userId):
         self.name = name
