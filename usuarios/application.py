@@ -5,6 +5,8 @@ from vistas.vistas import VistasLogIn, VistaSignIn, VistaUsuario
 from vistas.employees import VistaEmployee
 from vistas.companies import VistaCompany
 from vistas.technical_resources import VistaTechnicalResource
+from vistas.professional_sector import VistaProfessionalSector
+from vistas.language import VistaLanguage
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
 from modelos.populate_db import populate_database
@@ -29,6 +31,9 @@ api.add_resource(VistaUsuario, '/users/me')
 api.add_resource(VistaEmployee, '/user/employee/<id_employee>')
 api.add_resource(VistaCompany, '/user/company/<id_company>')
 api.add_resource(VistaTechnicalResource, '/user/technical_resource/<id_tr>')
+
+api.add_resource(VistaProfessionalSector, '/user/professional_sector')
+api.add_resource(VistaLanguage, '/user/language')
 
 # Alimentar base de datos con valores por defecto
 populate_database()

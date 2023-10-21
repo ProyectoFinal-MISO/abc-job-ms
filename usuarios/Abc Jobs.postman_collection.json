@@ -398,6 +398,96 @@
 			"response": []
 		},
 		{
+			"name": "GetLanguages",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY5NTAwNjcwMywianRpIjoiOTFmNDlhMmItNzIzYS00ZWRkLWI3YjEtMjUwMzEwNmNkNTczIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MSwibmJmIjoxNjk1MDA2NzAzLCJleHAiOjE2OTUwMTAzMDMsImlkIjoiMSJ9.rxiWKgthMxhq4CIR37_DiLeJAkX1iKSbskt-tN9TPsM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/user/language",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"user",
+						"language"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetProfessionalSector",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY5NTAwNjcwMywianRpIjoiOTFmNDlhMmItNzIzYS00ZWRkLWI3YjEtMjUwMzEwNmNkNTczIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MSwibmJmIjoxNjk1MDA2NzAzLCJleHAiOjE2OTUwMTAzMDMsImlkIjoiMSJ9.rxiWKgthMxhq4CIR37_DiLeJAkX1iKSbskt-tN9TPsM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/user/professional_sector",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"user",
+						"professional_sector"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "DeleteUserEmployee",
 			"request": {
 				"auth": {

@@ -200,6 +200,7 @@ def TechnicalResourceAditionalInfoGet(technical_resource_id):
     return {}
 
 
+
 def AcademicInformationUpdate(technical_resource_id, academic_information):
     if academic_information:
         for ai in academic_information:
