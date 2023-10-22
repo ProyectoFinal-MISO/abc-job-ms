@@ -39,8 +39,9 @@ def upsert_city(name, code, stateId):
 def populate_database():
 
     languages_data = [
-        {"name": "Language 1", "code": "Language1"},
-        {"name": "Language 2", "code": "Language2"},
+        {"name": "Español", "code": "ES"},
+        {"name": "Ingles", "code": "EN"},
+        {"name": "Frances", "code": "FR"},
         # Add more countries
     ]
     for language in languages_data:
@@ -55,26 +56,30 @@ def populate_database():
         upsert_professional_sector(professional_sector["name"], professional_sector["code"])
 
     countries_data = [
-        {"name": "Country 1", "code": "Country1"},
-        {"name": "Country 2", "code": "Country2"},
+        {"name": "Colombia", "code": "COL"},
+        {"name": "Perú", "code": "PER"},
+        {"name": "Estados Unidos", "code": "EUA"},
         # Add more countries
     ]
     for country in countries_data:
         upsert_country(country["name"], country["code"])
 
     states_data = [
-        {"name": "State 1", "countryId": 1, "code": "State1"},  # Connect to Country 1
-        {"name": "State 2", "countryId": 1, "code": "State2"},  # Connect to Country 1
-        {"name": "State 3", "countryId": 2, "code": "State3"},  # Connect to Country 2
+        {"name": "Cundinamarca", "countryId": 1, "code": "CUN"},
+        {"name": "Antioquia", "countryId": 1, "code": "ANT"},
+        {"name": "Meta", "countryId": 1, "code": "MET"},
+        {"name": "Loreto", "countryId": 2, "code": "LOR"},
+        {"name": "Puno", "countryId": 2, "code": "PUN"},
+        {"name": "Lima", "countryId": 2, "code": "LIM"},
         # Add more states
     ]
     for state in states_data:
         upsert_state(state["name"], state["code"], state["countryId"])
 
     cities_data = [
-        {"name": "City 1", "stateId": 1, "code": "City1"},  # Connect to State 1
-        {"name": "City 2", "stateId": 1, "code": "City2"},  # Connect to State 1
-        {"name": "City 3", "stateId": 2, "code": "City3"},  # Connect to State 2
+        {"name": "Bogotá", "stateId": 1, "code": "BOG"},
+        {"name": "Medellin", "stateId": 2, "code": "MED"},
+        {"name": "Villavicencio", "stateId": 3, "code": "VLL"},
         # Add more cities
     ]
     for city in cities_data:
