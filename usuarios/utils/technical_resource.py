@@ -47,7 +47,7 @@ def TechnicalResourceCreate(userId = None, user_data = None):
 
         return {
             "id": new_technical_resource.id,
-            "tecnucalResourceId": f"{new_technical_resource.userId}",
+            "technicalResourceId": f"{new_technical_resource.userId}",
             "academicInformationIds": f"{new_academic_info[0]['ids']}",
             "professionalExperienceIds": f"{new_proffesional_experience[0]['ids']}",
             "aditionalInformationId": f"{new_aditional_info[0]['id']}",
@@ -57,6 +57,7 @@ def TechnicalResourceCreate(userId = None, user_data = None):
         }, 201
 
     except Exception as e:
+        db.session.rollback()
         return {
             "Error": e
         }, 400

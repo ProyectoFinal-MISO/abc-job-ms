@@ -97,7 +97,6 @@ class VistaUsuario(Resource):
     @jwt_required()
     def get(self):
         id = get_jwt_identity()
-        print(id)
         usuario = Usuario.query.get(id)
         return {
             "id":usuario.id,
