@@ -30,6 +30,7 @@ def EmployeeCreate(userId = None, user_data = None):
         }, 201
 
     except Exception as e:
+        db.session.rollback()
         return {
             "Error": e
         }, 400
