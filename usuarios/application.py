@@ -2,11 +2,18 @@ import os
 from flask import Flask, Response
 from modelos.modelos import db
 from vistas.vistas import VistasLogIn, VistaSignIn, VistaUsuario
+from vistas.employees import VistaEmployee
+from vistas.companies import VistaCompany
+from vistas.technical_resources import VistaTechnicalResource
+from vistas.professional_sector import VistaProfessionalSector
+from vistas.language import VistaLanguage
+from vistas.locations import VistaLocations
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
+from modelos.populate_db import populate_database
 
 application = Flask(__name__)
-application.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL", "sqlite:///test.db")
+application.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL") if os.getenv("DATABASE_URL") is not None else 'postgresql://postgres:root@localhost/abc_users_2'
 application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 application.config['JWT_SECRET_KEY'] = 'secret_key'
 application.config['JWT_ACCESS_TOKEN_EXPIRES'] = 3600
@@ -21,6 +28,17 @@ api = Api(application)
 api.add_resource(VistaSignIn, '/users')
 api.add_resource(VistasLogIn, '/users/auth')
 api.add_resource(VistaUsuario, '/users/me')
+
+api.add_resource(VistaEmployee, '/user/employee/<id_employee>')
+api.add_resource(VistaCompany, '/user/company/<id_company>')
+api.add_resource(VistaTechnicalResource, '/user/technical_resource/<id_tr>')
+
+api.add_resource(VistaProfessionalSector, '/user/professional_sector')
+api.add_resource(VistaLanguage, '/user/language')
+api.add_resource(VistaLocations, '/user/locations')
+
+# Alimentar base de datos con valores por defecto
+populate_database()
 
 jwt = JWTManager(application)
 
@@ -42,4 +60,3 @@ def index():
 
 if __name__ == "__main__":
     application.run(host = "0.0.0.0")
-    
