@@ -11,7 +11,6 @@ usuaro_schema = UsuarioSchema()
 
 class VistaLocations(Resource):
 
-    #@jwt_required()
     def get(self):
 
         co = Country.query.all()

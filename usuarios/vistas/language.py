@@ -11,7 +11,6 @@ usuaro_schema = UsuarioSchema()
 
 class VistaLanguage(Resource):
 
-    @jwt_required()
     def get(self):
 
         ai = Languages.query.all()
