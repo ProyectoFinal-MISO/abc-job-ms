@@ -11,7 +11,6 @@ usuaro_schema = UsuarioSchema()
 
 class VistaProfessionalSector(Resource):
 
-    @jwt_required()
     def get(self):
         ai = ProfessionalSector.query.all()
         response = []

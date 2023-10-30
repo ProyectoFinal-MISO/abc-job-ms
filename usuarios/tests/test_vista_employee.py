@@ -42,14 +42,14 @@ class TestEmployees(TestCase):
         db.session.commit()
 
         # Make a request to get the employee
-        response = self.client.get(f"/user/employee/{employee.id}", headers=self.headers)
+        response = self.client.get(f"/users/employee/{employee.id}", headers=self.headers)
 
         # Check that the response is correct
         self.assertEqual(response.status_code, 200)
 
     def test_get_employee_with_non_integer_id(self):
         # Make a request to get a employee with a non-integer id
-        response = self.client.get(f"/user/employee/abc", headers=self.headers)
+        response = self.client.get(f"/users/employee/abc", headers=self.headers)
 
         # Check that the response is correct
         self.assertEqual(response.status_code, 400)
@@ -57,7 +57,7 @@ class TestEmployees(TestCase):
     def test_get_nonexistent_employee(self):
 
         # Make a request to get a nonexistent employee
-        response = self.client.get(f"/user/employee/999", headers=self.headers)
+        response = self.client.get(f"/users/employee/999", headers=self.headers)
 
         # Check that the response is correct
         self.assertEqual(response.status_code, 404)
@@ -81,7 +81,7 @@ class TestEmployees(TestCase):
         db.session.commit()
 
         # Delete the employee
-        response = self.client.delete(f'/user/employee/{employee.id}', headers=self.headers)
+        response = self.client.delete(f'/users/employee/{employee.id}', headers=self.headers)
 
         # Check that the employee was deleted
         self.assertEqual(response.status_code, 200)
@@ -89,7 +89,7 @@ class TestEmployees(TestCase):
 
     def test_delete_nonexistent_employee(self):
         # Delete a nonexistent employee
-        response = self.client.delete('/user/employee/999', headers=self.headers)
+        response = self.client.delete('/users/employee/999', headers=self.headers)
 
         # Check that the response is correct
         self.assertEqual(response.status_code, 404)
@@ -97,7 +97,7 @@ class TestEmployees(TestCase):
 
     def test_delete_employee_with_noninteger_id(self):
         # Delete a employee with a non-integer ID
-        response = self.client.delete('/user/employee/abc', headers=self.headers)
+        response = self.client.delete('/users/employee/abc', headers=self.headers)
 
         # Check that the response is correct
         self.assertEqual(response.status_code, 400)
@@ -134,11 +134,11 @@ class TestEmployees(TestCase):
             'country': self.data_factory.country(),
             'address': self.data_factory.address(),
         }
-        response = self.client.put(f'/user/employee/{employee.id}', json=updated_employee, headers=self.headers)
+        response = self.client.put(f'/users/employee/{employee.id}', json=updated_employee, headers=self.headers)
         self.assertEqual(response.status_code, 200)
 
         # Check that the employee was updated
-        response = self.client.get(f'/user/employee/{employee.id}', headers=self.headers)
+        response = self.client.get(f'/users/employee/{employee.id}', headers=self.headers)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json['name'], updated_employee['name'])
         self.assertEqual(response.json['identification'], updated_employee['identification'])
@@ -164,7 +164,7 @@ class TestEmployees(TestCase):
             'address': self.data_factory.address(),
         }
         # Update a nonexistent employee
-        response = self.client.put(f'/user/employee/999', json=updated_employee, headers=self.headers)
+        response = self.client.put(f'/users/employee/999', json=updated_employee, headers=self.headers)
 
         # Check that the response is correct
         self.assertEqual(response.status_code, 404)
@@ -185,7 +185,7 @@ class TestEmployees(TestCase):
             'address': self.data_factory.address(),
         }
         # Update a nonexistent employee
-        response = self.client.put(f'/user/employee/abc', json=updated_employee, headers=self.headers)
+        response = self.client.put(f'/users/employee/abc', json=updated_employee, headers=self.headers)
 
         # Check that the response is correct
         self.assertEqual(response.status_code, 400)
@@ -205,7 +205,7 @@ class TestEmployees(TestCase):
             'address': self.data_factory.address(),
         }
         # Update a nonexistent employee
-        response = self.client.put(f'/user/employee/abc', json=updated_employee, headers=self.headers)
+        response = self.client.put(f'/users/employee/abc', json=updated_employee, headers=self.headers)
 
         # Check that the response is correct
         self.assertEqual(response.status_code, 400)
