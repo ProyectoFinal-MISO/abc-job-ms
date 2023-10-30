@@ -1,2 +1,2 @@
 # experimentos-documentacion
-repo para documentar la planeación y persistir los experimentos.
+back web de app abc jobs

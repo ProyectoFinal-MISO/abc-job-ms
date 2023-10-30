@@ -155,7 +155,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:5000/user/technical_resource/2",
+					"raw": "http://127.0.0.1:5000/users/technical_resource/2",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -198,7 +198,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:5000/user/employee/2",
+					"raw": "http://127.0.0.1:5000/users/employee/2",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -241,7 +241,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:5000/user/company/1",
+					"raw": "http://127.0.0.1:5000/users/company/1",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -287,7 +287,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:5000/user/technical_resource/1",
+					"raw": "http://127.0.0.1:5000/users/technical_resource/1",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -333,7 +333,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:5000/user/employee/2",
+					"raw": "http://127.0.0.1:5000/users/employee/2",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -379,7 +379,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:5000/user/company/1",
+					"raw": "http://127.0.0.1:5000/users/company/1",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -425,7 +425,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:5000/user/professional_sector",
+					"raw": "http://127.0.0.1:5000/users/professional_sector",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -470,7 +470,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:5000/user/language",
+					"raw": "http://127.0.0.1:5000/users/language",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -515,7 +515,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:5000/user/locations",
+					"raw": "http://127.0.0.1:5000/users/locations",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -557,7 +557,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:5000/user/employee/1",
+					"raw": "http://127.0.0.1:5000/users/employee/1",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -600,7 +600,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:5000/user/technical_resource/1",
+					"raw": "http://127.0.0.1:5000/users/technical_resource/1",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -643,7 +643,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:5000/user/company/1",
+					"raw": "http://127.0.0.1:5000/users/company/1",
 					"protocol": "http",
 					"host": [
 						"127",
