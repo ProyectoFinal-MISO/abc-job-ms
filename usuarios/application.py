@@ -29,13 +29,13 @@ api.add_resource(VistaSignIn, '/users')
 api.add_resource(VistasLogIn, '/users/auth')
 api.add_resource(VistaUsuario, '/users/me')
 
-api.add_resource(VistaEmployee, '/user/employee/<id_employee>')
-api.add_resource(VistaCompany, '/user/company/<id_company>')
-api.add_resource(VistaTechnicalResource, '/user/technical_resource/<id_tr>')
+api.add_resource(VistaEmployee, '/users/employee/<id_employee>')
+api.add_resource(VistaCompany, '/users/company/<id_company>')
+api.add_resource(VistaTechnicalResource, '/users/technical_resource/<id_tr>')
 
-api.add_resource(VistaProfessionalSector, '/user/professional_sector')
-api.add_resource(VistaLanguage, '/user/language')
-api.add_resource(VistaLocations, '/user/locations')
+api.add_resource(VistaProfessionalSector, '/users/professional_sector')
+api.add_resource(VistaLanguage, '/users/language')
+api.add_resource(VistaLocations, '/users/locations')
 
 # Alimentar base de datos con valores por defecto
 populate_database()
