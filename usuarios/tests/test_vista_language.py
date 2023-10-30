@@ -31,7 +31,7 @@ class TestCompanies(TestCase):
         db.session.commit()
 
         # Make a request to get the language
-        response = self.client.get(f"/user/language", headers=self.headers)
+        response = self.client.get(f"/users/language", headers=self.headers)
 
         # Check that the response is correct
         self.assertEqual(response.status_code, 200)

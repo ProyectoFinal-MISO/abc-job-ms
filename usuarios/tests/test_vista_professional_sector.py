@@ -31,7 +31,7 @@ class TestCompanies(TestCase):
         db.session.commit()
 
         # Make a request to get the professional_sector
-        response = self.client.get(f"/user/professional_sector", headers=self.headers)
+        response = self.client.get(f"/users/professional_sector", headers=self.headers)
 
         # Check that the response is correct
         self.assertEqual(response.status_code, 200)
