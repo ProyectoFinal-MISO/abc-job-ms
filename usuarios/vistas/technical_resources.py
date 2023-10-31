@@ -41,6 +41,7 @@ class VistaTechnicalResource(Resource):
                 'state': tr.state,
                 'country': tr.country,
                 'address': tr.address,
+                'photo': tr.photo,
                 'userId': tr.userId,
                 'academicInformation': academic_information,
                 'professionalExperience': professional_experience,
@@ -101,6 +102,7 @@ class VistaTechnicalResource(Resource):
                 tr.state = parse_json.get('state', None)
                 tr.country = parse_json.get('country', None)
                 tr.address = parse_json.get('address', None)
+                tr.photo = parse_json.get('photo', None)
 
                 AcademicInformationUpdate(id_tr, parse_json.get('academicInformation', None))
                 ProfessionalExperienceUpdate(id_tr, parse_json.get('professionalExperience', None))

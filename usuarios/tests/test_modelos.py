@@ -32,6 +32,7 @@ def new_tecnical_resource():
         state = 1,
         country=1,
         address = '123 Main St.',
+        photo = "//",
         userId=1
     )
     return tecnical_resource
@@ -152,6 +153,7 @@ def new_employee():
         state = 1,
         country=1,
         address = '123 Main St.',
+        photo = "//",
         userId=1
     )
     return employee
@@ -168,25 +170,10 @@ def new_company():
         state = 1,
         country=1,
         address = '123 Main St.',
+        photo = "//",
         userId=1
     )
     return company
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 def test_user_model(new_user):
     # Add the object to the database
@@ -216,7 +203,9 @@ def test_tecnical_resource_model(new_tecnical_resource):
                      new_tecnical_resource.state,
                      new_tecnical_resource.country,
                      new_tecnical_resource.address,
-                     new_tecnical_resource.userId)
+                     new_tecnical_resource.photo,
+                     new_tecnical_resource.userId
+                    )
 
     # Check that the retrieved object matches the original object
     assert tr.lastName == 'Doe'
@@ -225,6 +214,7 @@ def test_tecnical_resource_model(new_tecnical_resource):
     assert tr.phoneNumber == '555-555-5555'
     assert tr.mobileNumber == '555-555-5555'
     assert tr.address == '123 Main St.'
+    assert tr.photo == "//"
     assert tr.userId == 1
 
 def test_professional_experience_model(new_professional_experience):
@@ -352,6 +342,7 @@ def test_employee(new_employee):
                  new_employee.state,
                  new_employee.country,
                  new_employee.address,
+                 new_employee.photo,
                  new_employee.userId)
 
     # Check that the retrieved object matches the original object
@@ -361,6 +352,7 @@ def test_employee(new_employee):
     assert e.phoneNumber == '555-555-5555'
     assert e.mobileNumber == '555-555-5555'
     assert e.address == '123 Main St.'
+    assert e.photo == "//"
     assert e.userId == 1
 
 def test_company(new_company):
@@ -374,6 +366,7 @@ def test_company(new_company):
                  new_company.state,
                  new_company.country,
                  new_company.address,
+                 new_company.photo,
                  new_company.userId)
 
     # Check that the retrieved object matches the original object
@@ -382,6 +375,7 @@ def test_company(new_company):
     assert c.phoneNumber == '555-555-5555'
     assert c.mobileNumber == '555-555-5555'
     assert c.address == '123 Main St.'
+    assert c.photo == "//"
     assert c.userId == 1
 
 def generate_string_random(length):

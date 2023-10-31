@@ -36,7 +36,8 @@ class TestEmployees(TestCase):
             city=self.data_factory.city(),
             state=self.data_factory.state(),
             country=self.data_factory.country(),
-            address=self.data_factory.address()
+            address=self.data_factory.address(),
+            photo=self.data_factory.file_name(category='image', extension='png'),
         )
         db.session.add(employee)
         db.session.commit()
@@ -75,7 +76,8 @@ class TestEmployees(TestCase):
             city=self.data_factory.city(),
             state=self.data_factory.state(),
             country=self.data_factory.country(),
-            address=self.data_factory.address()
+            address=self.data_factory.address(),
+            photo=self.data_factory.file_name(category='image', extension='png'),
         )
         db.session.add(employee)
         db.session.commit()
@@ -116,7 +118,8 @@ class TestEmployees(TestCase):
             city=self.data_factory.city(),
             state=self.data_factory.state(),
             country=self.data_factory.country(),
-            address=self.data_factory.address()
+            address=self.data_factory.address(),
+            photo=self.data_factory.file_name(category='image', extension='png'),
         )
         db.session.add(employee)
         db.session.commit()
@@ -133,6 +136,7 @@ class TestEmployees(TestCase):
             'state': self.data_factory.state(),
             'country': self.data_factory.country(),
             'address': self.data_factory.address(),
+            'photo': self.data_factory.file_name(category='image', extension='png'),
         }
         response = self.client.put(f'/users/employee/{employee.id}', json=updated_employee, headers=self.headers)
         self.assertEqual(response.status_code, 200)
@@ -148,6 +152,7 @@ class TestEmployees(TestCase):
         self.assertEqual(response.json['state'], updated_employee['state'])
         self.assertEqual(response.json['country'], updated_employee['country'])
         self.assertEqual(response.json['address'], updated_employee['address'])
+        self.assertEqual(response.json['photo'], updated_employee['photo'])
 
     def test_update_nonexistent_employee(self):
         # Update the employee
@@ -162,6 +167,7 @@ class TestEmployees(TestCase):
             'state': self.data_factory.state(),
             'country': self.data_factory.country(),
             'address': self.data_factory.address(),
+            'photo': self.data_factory.file_name(category='image', extension='png'),
         }
         # Update a nonexistent employee
         response = self.client.put(f'/users/employee/999', json=updated_employee, headers=self.headers)
@@ -183,6 +189,7 @@ class TestEmployees(TestCase):
             'state': self.data_factory.state(),
             'country': self.data_factory.country(),
             'address': self.data_factory.address(),
+            'photo': self.data_factory.file_name(category='image', extension='png'),
         }
         # Update a nonexistent employee
         response = self.client.put(f'/users/employee/abc', json=updated_employee, headers=self.headers)
@@ -203,6 +210,7 @@ class TestEmployees(TestCase):
             'state': self.data_factory.state(),
             'country': self.data_factory.country(),
             'address': self.data_factory.address(),
+            'photo': self.data_factory.file_name(category='image', extension='png'),
         }
         # Update a nonexistent employee
         response = self.client.put(f'/users/employee/abc', json=updated_employee, headers=self.headers)

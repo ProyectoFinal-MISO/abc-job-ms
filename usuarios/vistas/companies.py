@@ -27,7 +27,8 @@ class VistaCompany(Resource):
                 'city': company.city,
                 'state': company.state,
                 'country': company.country,
-                'address': company.address
+                'address': company.address,
+                'photo': company.photo
             }, 200
         else:
             return {'message': 'Company not exist'}, 404
@@ -70,8 +71,9 @@ class VistaCompany(Resource):
                     company.state = parse_json.get('state', None)
                     company.country = parse_json.get('country', None)
                     company.address = parse_json.get('address', None)
+                    company.photo = parse_json.get('photo', None)
                     db.session.commit()
-                    return {'message': 'Employee was updated'}, 200
+                    return {'message': 'Company was updated'}, 200
                 else:
                     return {'message': 'Company not exist'}, 404
             else:

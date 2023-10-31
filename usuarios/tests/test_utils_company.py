@@ -19,7 +19,8 @@ def test_company_create():
             "city": 1,
             "state": 1,
             "country": 1,
-            "address": "Sample Address"
+            "address": "Sample Address",
+            "photo": "//"
         }
     }
 
@@ -39,7 +40,8 @@ def test_company_create_identification_exits():
             "city": 1,
             "state": 1,
             "country": 1,
-            "address": "Sample Address"
+            "address": "Sample Address",
+            "photo": "//"
         }
     }
     # Llama a la función CompanyCreate

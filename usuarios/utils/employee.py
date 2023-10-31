@@ -19,6 +19,7 @@ def EmployeeCreate(userId = None, user_data = None):
             state = personal_data.get('state', None),
             country = personal_data.get('country', None),
             address = personal_data.get('address', None),
+            photo = personal_data.get('photo', None),
             userId = userId
         )
         db.session.add(new_employee)

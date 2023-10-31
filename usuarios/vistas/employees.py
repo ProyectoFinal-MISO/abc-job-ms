@@ -29,6 +29,7 @@ class VistaEmployee(Resource):
                 'state': employee.state,
                 'country': employee.country,
                 'address': employee.address,
+                'photo': employee.photo,
                 'userId': employee.userId,
             }, 200
         else:
@@ -74,6 +75,7 @@ class VistaEmployee(Resource):
                 employee.state = parse_json.get('state', None)
                 employee.country = parse_json.get('country', None)
                 employee.address = parse_json.get('address', None)
+                employee.photo = parse_json.get('photo', None)
                 db.session.commit()
                 return {'message': 'Employee was updated'}, 200
             else:
