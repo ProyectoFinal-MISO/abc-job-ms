@@ -711,7 +711,7 @@
 			"response": []
 		},
 		{
-			"name": "GetEducartionLevels",
+			"name": "GetEducationLevels",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -738,7 +738,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:8000/users/educartion_levels",
+					"raw": "http://127.0.0.1:8000/users/education_levels",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -749,7 +749,7 @@
 					"port": "8000",
 					"path": [
 						"users",
-						"educartion_levels"
+						"education_levels"
 					]
 				}
 			},

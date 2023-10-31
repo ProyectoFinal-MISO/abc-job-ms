@@ -42,7 +42,7 @@ api.add_resource(VistaLocationCities, '/users/location/cities/<id_state>')
 
 api.add_resource(VistaTypesIdentification, '/users/types_documents')
 api.add_resource(VistaGenders, '/users/genders')
-api.add_resource(VistaEducationLevels, '/users/educartion_levels')
+api.add_resource(VistaEducationLevels, '/users/education_levels')
 api.add_resource(VistaUserTypes, '/users/user_types')
 
 
