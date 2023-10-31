@@ -54,7 +54,7 @@ class TechnicalResource(db.Model):
     lastName = db.Column(db.String(50), nullable=False)
     typeIdentification = db.Column(db.Enum(TypeIdentification))
     identification = db.Column(db.String(50), unique=True, nullable=False)
-    age = db.Column(db.Integer, nullable=False)
+    birthdate = db.Column(DateTime(timezone=True))
     genre = db.Column(db.Enum(Genre))
     phoneNumber = db.Column(db.String(50), nullable=False)
     mobileNumber = db.Column(db.String(50), nullable=False)
@@ -62,14 +62,15 @@ class TechnicalResource(db.Model):
     state = db.Column(db.Integer, db.ForeignKey('states.id', ondelete='SET NULL'))
     country = db.Column(db.Integer, db.ForeignKey('countries.id', ondelete='SET NULL'))
     address = db.Column(db.String(50), nullable=False)
+    photo = db.Column(db.String(500))
     userId = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='SET NULL'))
 
-    def __init__(self, name, lastName, typeIdentification, identification, age, genre, phoneNumber, mobileNumber, city, state, country, address, userId):
+    def __init__(self, name, lastName, typeIdentification, identification, birthdate, genre, phoneNumber, mobileNumber, city, state, country, address, photo, userId):
         self.name = name
         self.lastName = lastName
         self.typeIdentification = typeIdentification
         self.identification = identification
-        self.age = age
+        self.birthdate = birthdate
         self.genre = genre
         self.phoneNumber = phoneNumber
         self.mobileNumber = mobileNumber
@@ -77,6 +78,7 @@ class TechnicalResource(db.Model):
         self.state = state
         self.country = country
         self.address = address
+        self.photo = photo
         self.userId = userId
 
 class AcademicInformation(db.Model):
@@ -232,9 +234,10 @@ class Employee(db.Model):
     state = db.Column(db.Integer, db.ForeignKey('states.id', ondelete='SET NULL'))
     country = db.Column(db.Integer, db.ForeignKey('countries.id', ondelete='SET NULL'))
     address = db.Column(db.String(50), nullable=False)
+    photo = db.Column(db.String(500))
     userId = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='SET NULL'))
 
-    def __init__(self, name, lastName, typeIdentification, identification, phoneNumber, mobileNumber, city, state, country, address, userId):
+    def __init__(self, name, lastName, typeIdentification, identification, phoneNumber, mobileNumber, city, state, country, address, photo, userId):
         self.name = name
         self.lastName = lastName
         self.typeIdentification = typeIdentification
@@ -245,6 +248,7 @@ class Employee(db.Model):
         self.state = state
         self.country = country
         self.address = address
+        self.photo = photo
         self.userId = userId
 
 class Company(db.Model):
@@ -259,9 +263,10 @@ class Company(db.Model):
     state = db.Column(db.Integer, db.ForeignKey('states.id', ondelete='SET NULL'))
     country = db.Column(db.Integer, db.ForeignKey('countries.id', ondelete='SET NULL'))
     address = db.Column(db.String(50), nullable=False)
+    photo = db.Column(db.String(500))
     userId = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='SET NULL'))
 
-    def __init__(self, name, typeIdentification, identification, phoneNumber, mobileNumber, city, state, country, address, userId):
+    def __init__(self, name, typeIdentification, identification, phoneNumber, mobileNumber, city, state, country, address, photo, userId):
         self.name = name
         self.typeIdentification = typeIdentification
         self.identification = identification
@@ -271,6 +276,7 @@ class Company(db.Model):
         self.state = state
         self.country = country
         self.address = address
+        self.photo = photo
         self.userId = userId
 
 class UsuarioSchema(SQLAlchemyAutoSchema):

@@ -20,12 +20,14 @@ def test_employee_create():
             "city": 1,
             "state": 1,
             "country": 1,
-            "address": "Sample Address"
+            "address": "Sample Address",
+            "photo": "//"
         }
     }
 
     # Llama a la función EmployeeCreate
     response = EmployeeCreate(userId = 1, user_data = data)
+    print(response)
 
     assert response[1] == 201
 
@@ -40,7 +42,8 @@ def test_employee_create_identification_exits():
             "city": 1,
             "state": 1,
             "country": 1,
-            "address": "Sample Address"
+            "address": "Sample Address",
+            "photo": "//"
         }
     }
     # Llama a la función EmployeeCreate

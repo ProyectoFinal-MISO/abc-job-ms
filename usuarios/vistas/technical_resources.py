@@ -1,13 +1,7 @@
 from flask_restful import Resource
-from modelos.modelos import db, Usuario, UsuarioSchema, TechnicalResource, AcademicInformation, ProfessionalExperience, TechnicalResourceProgrammingLanguages, TechnicalResourceLanguages, TechnicalResourcePersonalSkills, AditionalInformation
+from modelos.modelos import db, TechnicalResource, AcademicInformation, ProfessionalExperience, TechnicalResourceProgrammingLanguages, TechnicalResourceLanguages, TechnicalResourcePersonalSkills, AditionalInformation
 from flask import request, Response
-import os
-from strgen import StringGenerator
-import hashlib
-from flask_jwt_extended import create_access_token, decode_token, jwt_required, get_jwt_identity
-from datetime import datetime
-
-usuaro_schema = UsuarioSchema()
+from flask_jwt_extended import jwt_required
 
 class VistaTechnicalResource(Resource):
 
@@ -38,7 +32,7 @@ class VistaTechnicalResource(Resource):
                 # TODO: retornar el tipo de identificacion
                 #'typeIdentification': tr.typeIdentification,
                 'identification': tr.identification,
-                'age': tr.age,
+                'birthdate': tr.birthdate,
                 # TODO: retornar el genero
                 # 'genre': tr.genre,
                 'phoneNumber': tr.phoneNumber,
@@ -47,6 +41,7 @@ class VistaTechnicalResource(Resource):
                 'state': tr.state,
                 'country': tr.country,
                 'address': tr.address,
+                'photo': tr.photo,
                 'userId': tr.userId,
                 'academicInformation': academic_information,
                 'professionalExperience': professional_experience,
@@ -99,7 +94,7 @@ class VistaTechnicalResource(Resource):
                 tr.lastName = parse_json.get('lastName', None)
                 tr.typeIdentification = parse_json.get('typeIdentification', None)
                 tr.identification = parse_json.get('identification', None)
-                tr.age = parse_json.get('age', None)
+                tr.birthdate = parse_json.get('birthdate', None)
                 tr.genre = parse_json.get('genre', None)
                 tr.phoneNumber = parse_json.get('phoneNumber', None)
                 tr.mobileNumber = parse_json.get('mobileNumber', None)
@@ -107,6 +102,7 @@ class VistaTechnicalResource(Resource):
                 tr.state = parse_json.get('state', None)
                 tr.country = parse_json.get('country', None)
                 tr.address = parse_json.get('address', None)
+                tr.photo = parse_json.get('photo', None)
 
                 AcademicInformationUpdate(id_tr, parse_json.get('academicInformation', None))
                 ProfessionalExperienceUpdate(id_tr, parse_json.get('professionalExperience', None))
