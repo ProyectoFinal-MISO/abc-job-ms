@@ -17,7 +17,7 @@ def new_technical_resource():
             "lastName": "Perez",
             "typeIdentification": TypeIdentification.CC,
             "identification":  '123456789' + generate_string_random(5),
-            "age": 30,
+            "birthdate": datetime(1993, 1, 1, tzinfo=timezone.utc),
             "genre": Genre.MALE,
             "phoneNumber": "1234567",
             "mobileNumber": "1234567890",

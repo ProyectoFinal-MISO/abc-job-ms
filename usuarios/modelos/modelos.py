@@ -54,7 +54,7 @@ class TechnicalResource(db.Model):
     lastName = db.Column(db.String(50), nullable=False)
     typeIdentification = db.Column(db.Enum(TypeIdentification))
     identification = db.Column(db.String(50), unique=True, nullable=False)
-    age = db.Column(db.Integer, nullable=False)
+    birthdate = db.Column(DateTime(timezone=True))
     genre = db.Column(db.Enum(Genre))
     phoneNumber = db.Column(db.String(50), nullable=False)
     mobileNumber = db.Column(db.String(50), nullable=False)
@@ -64,12 +64,12 @@ class TechnicalResource(db.Model):
     address = db.Column(db.String(50), nullable=False)
     userId = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='SET NULL'))
 
-    def __init__(self, name, lastName, typeIdentification, identification, age, genre, phoneNumber, mobileNumber, city, state, country, address, userId):
+    def __init__(self, name, lastName, typeIdentification, identification, birthdate, genre, phoneNumber, mobileNumber, city, state, country, address, userId):
         self.name = name
         self.lastName = lastName
         self.typeIdentification = typeIdentification
         self.identification = identification
-        self.age = age
+        self.birthdate = birthdate
         self.genre = genre
         self.phoneNumber = phoneNumber
         self.mobileNumber = mobileNumber
