@@ -7,7 +7,8 @@ from vistas.companies import VistaCompany
 from vistas.technical_resources import VistaTechnicalResource
 from vistas.professional_sector import VistaProfessionalSector
 from vistas.language import VistaLanguage
-from vistas.locations import VistaLocations
+from vistas.locations import VistaLocationCountries, VistaLocationStates, VistaLocationCities
+from vistas.combo_box_options import VistaTypesIdentification, VistaGenders, VistaEducationLevels, VistaUserTypes
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
 from modelos.populate_db import populate_database
@@ -35,7 +36,15 @@ api.add_resource(VistaTechnicalResource, '/users/technical_resource/<id_tr>')
 
 api.add_resource(VistaProfessionalSector, '/users/professional_sector')
 api.add_resource(VistaLanguage, '/users/language')
-api.add_resource(VistaLocations, '/users/locations')
+api.add_resource(VistaLocationCountries, '/users/location/countries')
+api.add_resource(VistaLocationStates, '/users/location/states/<id_country>')
+api.add_resource(VistaLocationCities, '/users/location/cities/<id_state>')
+
+api.add_resource(VistaTypesIdentification, '/users/types_documents')
+api.add_resource(VistaGenders, '/users/genders')
+api.add_resource(VistaEducationLevels, '/users/education_levels')
+api.add_resource(VistaUserTypes, '/users/user_types')
+
 
 # Alimentar base de datos con valores por defecto
 populate_database()

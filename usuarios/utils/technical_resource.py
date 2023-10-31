@@ -16,7 +16,7 @@ def TechnicalResourceCreate(userId = None, user_data = None):
             lastName = personal_data.get('lastName', None),
             typeIdentification = personal_data.get('typeIdentification', None),
             identification = personal_data.get('identification', None),
-            age = personal_data.get('age', None),
+            birthdate = personal_data.get('birthdate', None),
             genre = personal_data.get('genre', None),
             phoneNumber = personal_data.get('phoneNumber', None),
             mobileNumber = personal_data.get('mobileNumber', None),
@@ -24,6 +24,7 @@ def TechnicalResourceCreate(userId = None, user_data = None):
             state = personal_data.get('state', None),
             country = personal_data.get('country', None),
             address = personal_data.get('address', None),
+            photo = personal_data.get('photo', None),
             userId = userId
         )
         db.session.add(new_technical_resource)

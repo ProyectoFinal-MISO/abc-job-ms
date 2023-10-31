@@ -18,6 +18,7 @@ def CompanyCreate(userId = None, user_data = None):
             state = company_data.get('state', None),
             country = company_data.get('country', None),
             address = company_data.get('address', None),
+            photo = company_data.get('photo', None),
             userId = userId
         )
         db.session.add(new_company)

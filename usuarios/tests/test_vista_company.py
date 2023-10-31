@@ -35,7 +35,8 @@ class TestCompanies(TestCase):
             city=self.data_factory.city(),
             state=self.data_factory.state(),
             country=self.data_factory.country(),
-            address=self.data_factory.address()
+            address=self.data_factory.address(),
+            photo=self.data_factory.file_name(category='image', extension='png')
         )
         db.session.add(company)
         db.session.commit()
@@ -55,7 +56,8 @@ class TestCompanies(TestCase):
             'city': company.city,
             'state': company.state,
             'country': company.country,
-            'address': company.address
+            'address': company.address,
+            'photo': company.photo
         })
 
     def test_get_company_with_non_integer_id(self):
@@ -85,7 +87,8 @@ class TestCompanies(TestCase):
             city=self.data_factory.city(),
             state=self.data_factory.state(),
             country=self.data_factory.country(),
-            address=self.data_factory.address()
+            address=self.data_factory.address(),
+            photo=self.data_factory.file_name(category='image', extension='png')
         )
         db.session.add(company)
         db.session.commit()
@@ -125,7 +128,8 @@ class TestCompanies(TestCase):
             city=self.data_factory.city(),
             state=self.data_factory.state(),
             country=self.data_factory.country(),
-            address=self.data_factory.address()
+            address=self.data_factory.address(),
+            photo=self.data_factory.file_name(category='image', extension='png')
         )
         db.session.add(company)
         db.session.commit()
@@ -141,6 +145,7 @@ class TestCompanies(TestCase):
             'state': self.data_factory.state(),
             'country': self.data_factory.country(),
             'address': self.data_factory.address(),
+            'photo': self.data_factory.file_name(category='image', extension='png'),
         }
         response = self.client.put(f'/users/company/{company.id}', json=updated_company, headers=self.headers)
         self.assertEqual(response.status_code, 200)
@@ -156,6 +161,7 @@ class TestCompanies(TestCase):
         self.assertEqual(response.json['state'], updated_company['state'])
         self.assertEqual(response.json['country'], updated_company['country'])
         self.assertEqual(response.json['address'], updated_company['address'])
+        self.assertEqual(response.json['photo'], updated_company['photo'])
 
     def test_update_nonexistent_company(self):
         # Update the company
@@ -169,6 +175,7 @@ class TestCompanies(TestCase):
             'state': self.data_factory.state(),
             'country': self.data_factory.country(),
             'address': self.data_factory.address(),
+            'photo': self.data_factory.file_name(category='image', extension='png'),
         }
         # Update a nonexistent company
         response = self.client.put(f'/users/company/999', json=updated_company, headers=self.headers)
@@ -189,6 +196,7 @@ class TestCompanies(TestCase):
             'state': self.data_factory.state(),
             'country': self.data_factory.country(),
             'address': self.data_factory.address(),
+            'photo': self.data_factory.file_name(category='image', extension='png'),
         }
         # Update a nonexistent company
         response = self.client.put(f'/users/company/abc', json=updated_company, headers=self.headers)
@@ -208,6 +216,7 @@ class TestCompanies(TestCase):
             'state': self.data_factory.state(),
             'country': self.data_factory.country(),
             'address': self.data_factory.address(),
+            'photo': self.data_factory.file_name(category='image', extension='png'),
         }
         # Update a nonexistent company
         response = self.client.put(f'/users/company/abc', json=updated_company, headers=self.headers)
