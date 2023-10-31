@@ -1,45 +1,41 @@
 from flask_restful import Resource
-from modelos.modelos import db, Usuario, UsuarioSchema, Country, State, City
-from flask import request, Response
-import os
-from strgen import StringGenerator
-import hashlib
-from flask_jwt_extended import create_access_token, decode_token, jwt_required, get_jwt_identity
-from datetime import datetime
+from modelos.modelos import Country, State, City
 
-usuaro_schema = UsuarioSchema()
-
-class VistaLocations(Resource):
-
+class VistaLocationCountries(Resource):
     def get(self):
-
         co = Country.query.all()
         response = []
         if co:
             for i in co:
-                st = State.query.filter_by(countryId=i.id).all()
-                st_response = []
-                if st:
-                    for j in st:
-                        ci = City.query.filter_by(stateId=j.id).all()
-                        ci_response = []
-                        if ci:
-                            for k in ci:
-                                ci_response.append({
-                                    'id': k.id,
-                                    'name': k.name,
-                                    'code': k.code
-                                })
-                        st_response.append({
-                            'id': j.id,
-                            'name': j.name,
-                            'code': j.code,
-                            'cities': ci_response
-                        })
                 response.append({
                     'id': i.id,
                     'name': i.name,
-                    'code': i.code,
-                    'states': st_response
+                    'code': i.code
                 })
         return response, 200
+
+class VistaLocationStates(Resource):
+    def get(self, id_country):
+        st = State.query.filter_by(countryId=id_country).all()
+        st_response = []
+        if st:
+            for j in st:
+                st_response.append({
+                    'id': j.id,
+                    'name': j.name,
+                    'code': j.code
+                })
+        return st_response, 200
+
+class VistaLocationCities(Resource):
+    def get(self, id_state):
+        ci = City.query.filter_by(stateId=id_state).all()
+        ci_response = []
+        if ci:
+            for k in ci:
+                ci_response.append({
+                    'id': k.id,
+                    'name': k.name,
+                    'code': k.code
+                })
+        return ci_response, 200
