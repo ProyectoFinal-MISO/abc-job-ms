@@ -2,7 +2,9 @@ from flask_restful import Resource
 from modelos.modelos import db, TechnicalResource, AcademicInformation, ProfessionalExperience, TechnicalResourceProgrammingLanguages, TechnicalResourceLanguages, TechnicalResourcePersonalSkills, AditionalInformation
 from flask import request, Response
 from flask_jwt_extended import jwt_required
+from enum import Enum
 
+import json
 class VistaTechnicalResource(Resource):
 
     @jwt_required()
@@ -29,12 +31,10 @@ class VistaTechnicalResource(Resource):
                 'personalInformation': {
                     'name': tr.name,
                     'lastName': tr.lastName,
-                    # TODO: retornar el tipo de identificacion
-                    #'typeIdentification': tr.typeIdentification,
+                    'typeIdentification': json.dumps(tr.typeIdentification, default=enum_serializer),
                     'identification': tr.identification,
                     'birthdate': tr.birthdate.isoformat(),
-                    # TODO: retornar el genero
-                    # 'genre': tr.genre,
+                    'genre': json.dumps(tr.genre, default=enum_serializer),
                     'phoneNumber': tr.phoneNumber,
                     'mobileNumber': tr.mobileNumber,
                     'city': tr.city,
@@ -127,7 +127,7 @@ def AcademicInformationGet(technical_resource_id):
             response.append({
                 'id': i.id,
                 'schoolName': i.schoolName,
-                'educationLevel': i.educationLevel,
+                'educationLevel': json.dumps(i.educationLevel, default=enum_serializer),
                 'professionalSector': i.professionalSector,
                 'startDate': i.startDate.isoformat(),
                 'endDate': i.endDate.isoformat(),
@@ -379,3 +379,9 @@ def AditionalInformationDelete(technical_resource_id):
         return Response(status=204)
     except Exception as e:
         return Response(status=400)
+
+def enum_serializer(obj):
+    print(obj)
+    if isinstance(obj, Enum):
+        return obj.name
+    raise TypeError(f"Object of type {type(obj)} is not JSON serializable")
