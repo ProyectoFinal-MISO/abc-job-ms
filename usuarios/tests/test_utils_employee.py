@@ -27,7 +27,6 @@ def test_employee_create():
 
     # Llama a la función EmployeeCreate
     response = EmployeeCreate(userId = 1, user_data = data)
-    print(response)
 
     assert response[1] == 201
 
