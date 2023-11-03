@@ -26,22 +26,24 @@ class VistaTechnicalResource(Resource):
 
             return {
                 'id': tr.id,
-                'name': tr.name,
-                'lastName': tr.lastName,
-                # TODO: retornar el tipo de identificacion
-                #'typeIdentification': tr.typeIdentification,
-                'identification': tr.identification,
-                'birthdate': tr.birthdate.isoformat(),
-                # TODO: retornar el genero
-                # 'genre': tr.genre,
-                'phoneNumber': tr.phoneNumber,
-                'mobileNumber': tr.mobileNumber,
-                'city': tr.city,
-                'state': tr.state,
-                'country': tr.country,
-                'address': tr.address,
-                'photo': tr.photo,
-                'userId': tr.userId,
+                'personalInformation': {
+                    'name': tr.name,
+                    'lastName': tr.lastName,
+                    # TODO: retornar el tipo de identificacion
+                    #'typeIdentification': tr.typeIdentification,
+                    'identification': tr.identification,
+                    'birthdate': tr.birthdate.isoformat(),
+                    # TODO: retornar el genero
+                    # 'genre': tr.genre,
+                    'phoneNumber': tr.phoneNumber,
+                    'mobileNumber': tr.mobileNumber,
+                    'city': tr.city,
+                    'state': tr.state,
+                    'country': tr.country,
+                    'address': tr.address,
+                    'photo': tr.photo,
+                    'userId': tr.userId,
+                },
                 'academicInformation': academic_information,
                 'professionalExperience': professional_experience,
                 'aditionalInformation': aditional_information,
