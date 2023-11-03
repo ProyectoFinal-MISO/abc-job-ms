@@ -15,7 +15,7 @@ def new_technical_resource():
             "lastName": "Perez",
             "typeIdentification": TypeIdentification.CC,
             "identification":  '123456789' + generate_string_random(5),
-            "birthdate": datetime(1993, 1, 1, tzinfo=timezone.utc),
+            "birthdate": datetime('1993-10-31 12:30:45', '%Y-%m-%d %H:%M:%S'),
             "genre": Genre.MALE,
             "phoneNumber": "1234567",
             "mobileNumber": "1234567890",
@@ -30,16 +30,16 @@ def new_technical_resource():
                 "schoolName": "Universidad Nacional",
                 "educationLevel": EducationLevel.MASTER,
                 "professionalSector": 1,
-                "startDate": datetime(2010, 1, 1, tzinfo=timezone.utc),
-                "endDate": datetime(2012, 1, 1, tzinfo=timezone.utc)
+                "startDate": datetime('2010-10-31 12:30:45', '%Y-%m-%d %H:%M:%S'),
+                "endDate": datetime('2012-10-31 12:30:45', '%Y-%m-%d %H:%M:%S'),
             }
         ],
         "professionalExperience" : [
             {
                 "companyName": "ABC",
                 "titleJob": "Desarrollador",
-                "startDate": datetime(2010, 1, 1, tzinfo=timezone.utc),
-                "endDate": datetime(2012, 1, 1, tzinfo=timezone.utc),
+                "startDate": datetime('2010-10-31 12:30:45', '%Y-%m-%d %H:%M:%S'),
+                "endDate": datetime('2012-10-31 12:30:45', '%Y-%m-%d %H:%M:%S'),
                 "details": "Desarrollador de software"
             }
         ],
