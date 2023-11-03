@@ -24,7 +24,6 @@ class VistaTechnicalResource(Resource):
             languages = LanguagesGet(tr.id)
             personal_skills = PersonalSkillsGet(tr.id)
 
-
             return {
                 'id': tr.id,
                 'name': tr.name,
@@ -32,7 +31,7 @@ class VistaTechnicalResource(Resource):
                 # TODO: retornar el tipo de identificacion
                 #'typeIdentification': tr.typeIdentification,
                 'identification': tr.identification,
-                'birthdate': tr.birthdate,
+                'birthdate': tr.birthdate.isoformat(),
                 # TODO: retornar el genero
                 # 'genre': tr.genre,
                 'phoneNumber': tr.phoneNumber,
