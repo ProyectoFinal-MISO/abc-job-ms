@@ -1,4 +1,5 @@
 from flask import Response
+from datetime import datetime
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, get_jwt, verify_jwt_in_request
 
 from modelos.modelos import Usuario, db, TechnicalResource, ProfessionalExperience, AcademicInformation, AditionalInformation, TechnicalResourceProgrammingLanguages, TechnicalResourceLanguages, TechnicalResourcePersonalSkills
@@ -16,7 +17,7 @@ def TechnicalResourceCreate(userId = None, user_data = None):
             lastName = personal_data.get('lastName', None),
             typeIdentification = personal_data.get('typeIdentification', None),
             identification = personal_data.get('identification', None),
-            birthdate = personal_data.get('birthdate', None),
+            birthdate = datetime.strptime(personal_data.get('birthdate', None), '%Y-%m-%d %H:%M:%S'),
             genre = personal_data.get('genre', None),
             phoneNumber = personal_data.get('phoneNumber', None),
             mobileNumber = personal_data.get('mobileNumber', None),
@@ -41,7 +42,6 @@ def TechnicalResourceCreate(userId = None, user_data = None):
         new_tr_programming_languages = TechnicalResourceProgrammingLanguagesCreate(new_technical_resource.id, tr_programming_languages)
         new_tr_languages = TechnicalResourceLanguagesCreate(new_technical_resource.id, tr_languages)
         new_tr_personal_skills = TechnicalResourcePersonalSkillsCreate(new_technical_resource.id, tr_personal_skills)
-
 
         if new_academic_info[1] != 201 or new_proffesional_experience[1] != 201 or new_aditional_info[1] != 201 or new_tr_programming_languages[1] != 201 or new_tr_languages[1] != 201 or new_tr_personal_skills[1] != 201:
             return Response(status=400)
@@ -71,8 +71,8 @@ def AcademicInformationCreate(technical_resource_id, academic_info):
             schoolName = academic.get('schoolName', None),
             educationLevel = academic.get('educationLevel', None),
             professionalSector = academic.get('professionalSector', None),
-            startDate = academic.get('startDate', None),
-            endDate = academic.get('endDate', None),
+            startDate = datetime.strptime(academic.get('startDate', None), '%Y-%m-%d %H:%M:%S'),
+            endDate = datetime.strptime(academic.get('endDate', None), '%Y-%m-%d %H:%M:%S'),
         )
         db.session.add(new_academic_info)
         db.session.commit()
@@ -87,8 +87,8 @@ def ProfessionalExperienceCreate(technical_resource_id, professional_data):
     for professional in professional_data:
         new_proffesional_experience = ProfessionalExperience(
             technicalResourceId = technical_resource_id,
-            startDate = professional.get('startDate', None),
-            endDate = professional.get('endDate', None),
+            startDate = datetime.strptime(professional.get('startDate', None), '%Y-%m-%d %H:%M:%S'),
+            endDate = datetime.strptime(professional.get('endDate', None), '%Y-%m-%d %H:%M:%S'),
             titleJob = professional.get('titleJob', None),
             companyName = professional.get('companyName', None),
             details = professional.get('details', None),
