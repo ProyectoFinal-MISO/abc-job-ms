@@ -2,6 +2,9 @@ from flask_restful import Resource
 from modelos.modelos import db, Company
 from flask import request, Response
 from flask_jwt_extended import jwt_required
+from enum import Enum
+
+import json
 
 class VistaCompany(Resource):
 
@@ -13,22 +16,23 @@ class VistaCompany(Resource):
         except ValueError:
             return {'message': 'Company id is not integer'}, 400
 
-        company = Company.query.filter_by(id=id_company).first()
+        company = Company.query.filter_by(userId=id_company).first()
         if company:
             return {
                 'id': company.id,
                 'userId': company.userId,
-                'name': company.name,
-                # TODO: retornar el tipo de identificacion
-                # 'typeIdentification': company.typeIdentification,
-                'identification': company.identification,
-                'phoneNumber': company.phoneNumber,
-                'mobileNumber': company.mobileNumber,
-                'city': company.city,
-                'state': company.state,
-                'country': company.country,
-                'address': company.address,
-                'photo': company.photo
+                'personalInformation': {
+                    'name': company.name,
+                    'typeIdentification':  json.dumps(company.typeIdentification, default=enum_serializer),
+                    'identification': company.identification,
+                    'phoneNumber': company.phoneNumber,
+                    'mobileNumber': company.mobileNumber,
+                    'city': company.city,
+                    'state': company.state,
+                    'country': company.country,
+                    'address': company.address,
+                    'photo': company.photo
+                }
             }, 200
         else:
             return {'message': 'Company not exist'}, 404
@@ -40,7 +44,7 @@ class VistaCompany(Resource):
         except ValueError:
             return {'message': 'Company id is not integer'}, 400
 
-        company = Company.query.filter_by(id=id_company).first()
+        company = Company.query.filter_by(userId=id_company).first()
         if company:
             db.session.delete(company)
             db.session.commit()
@@ -60,7 +64,7 @@ class VistaCompany(Resource):
                 except ValueError:
                     return {'message': 'Company id is not integer'}, 400
 
-                company = Company.query.filter_by(id=id_company).first()
+                company = Company.query.filter_by(userId=id_company).first()
                 if company:
                     company.name = parse_json.get('name', None)
                     company.typeIdentification = parse_json.get('typeIdentification', None)
@@ -79,4 +83,7 @@ class VistaCompany(Resource):
             else:
                 return {'message': 'Field is missing'}, 400
 
-
+def enum_serializer(obj):
+    if isinstance(obj, Enum):
+        return obj.name
+    raise TypeError(f"Object of type {type(obj)} is not JSON serializable")
