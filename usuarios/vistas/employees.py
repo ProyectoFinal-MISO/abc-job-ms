@@ -2,6 +2,9 @@ from flask_restful import Resource
 from modelos.modelos import db, Employee
 from flask import request, Response
 from flask_jwt_extended import jwt_required
+from enum import Enum
+
+import json
 
 class VistaEmployee(Resource):
 
@@ -13,24 +16,25 @@ class VistaEmployee(Resource):
         except ValueError:
             return {'message': 'Employee id is not integer'}, 400
 
-        employee = Employee.query.filter_by(id=id_employee).first()
+        employee = Employee.query.filter_by(userId=id_employee).first()
 
         if employee:
             return {
                 'id': employee.id,
-                'name': employee.name,
-                'lastName': employee.lastName,
-                # TODO: retornar el tipo de identificacion
-                #'typeIdentification': employee.typeIdentification,
-                'identification': employee.identification,
-                'phoneNumber': employee.phoneNumber,
-                'mobileNumber': employee.mobileNumber,
-                'city': employee.city,
-                'state': employee.state,
-                'country': employee.country,
-                'address': employee.address,
-                'photo': employee.photo,
                 'userId': employee.userId,
+                'personalInformation': {
+                    'name': employee.name,
+                    'lastName': employee.lastName,
+                    'typeIdentification':  json.dumps(employee.typeIdentification, default=enum_serializer),
+                    'identification': employee.identification,
+                    'phoneNumber': employee.phoneNumber,
+                    'mobileNumber': employee.mobileNumber,
+                    'city': employee.city,
+                    'state': employee.state,
+                    'country': employee.country,
+                    'address': employee.address,
+                    'photo': employee.photo
+                }
             }, 200
         else:
             return {'message': 'Employee not exist'}, 404
@@ -43,7 +47,7 @@ class VistaEmployee(Resource):
         except ValueError:
             return {'message': 'Employee id is not integer'}, 400
 
-        employee = Employee.query.filter_by(id=id_employee).first()
+        employee = Employee.query.filter_by(userId=id_employee).first()
         if employee:
             db.session.delete(employee)
             db.session.commit()
@@ -63,7 +67,7 @@ class VistaEmployee(Resource):
             except ValueError:
                 return {'message': 'Employee id is not integer'}, 400
 
-            employee = Employee.query.filter_by(id=id_employee).first()
+            employee = Employee.query.filter_by(userId=id_employee).first()
             if employee:
                 employee.name = parse_json.get('name', None)
                 employee.lastName = parse_json.get('lastName', None)
@@ -83,4 +87,7 @@ class VistaEmployee(Resource):
         else:
             return {'message': 'Field is missing'}, 400
 
-
+def enum_serializer(obj):
+    if isinstance(obj, Enum):
+        return obj.name
+    raise TypeError(f"Object of type {type(obj)} is not JSON serializable")
