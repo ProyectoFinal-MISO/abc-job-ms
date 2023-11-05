@@ -2,7 +2,9 @@ from flask_restful import Resource
 from modelos.modelos import db, TechnicalResource, AcademicInformation, ProfessionalExperience, TechnicalResourceProgrammingLanguages, TechnicalResourceLanguages, TechnicalResourcePersonalSkills, AditionalInformation
 from flask import request, Response
 from flask_jwt_extended import jwt_required
+from enum import Enum
 
+import json
 class VistaTechnicalResource(Resource):
 
     @jwt_required()
@@ -12,7 +14,7 @@ class VistaTechnicalResource(Resource):
         except ValueError:
             return {'message': 'Technical resource id is not integer'}, 400
 
-        tr = TechnicalResource.query.filter_by(id=id_tr).first()
+        tr = TechnicalResource.query.filter_by(userId=id_tr).first()
 
         if tr:
             # Se consulta tablas adicionales para completar la informacion del recurso tecnico
@@ -24,25 +26,24 @@ class VistaTechnicalResource(Resource):
             languages = LanguagesGet(tr.id)
             personal_skills = PersonalSkillsGet(tr.id)
 
-
             return {
                 'id': tr.id,
-                'name': tr.name,
-                'lastName': tr.lastName,
-                # TODO: retornar el tipo de identificacion
-                #'typeIdentification': tr.typeIdentification,
-                'identification': tr.identification,
-                'birthdate': tr.birthdate,
-                # TODO: retornar el genero
-                # 'genre': tr.genre,
-                'phoneNumber': tr.phoneNumber,
-                'mobileNumber': tr.mobileNumber,
-                'city': tr.city,
-                'state': tr.state,
-                'country': tr.country,
-                'address': tr.address,
-                'photo': tr.photo,
                 'userId': tr.userId,
+                'personalInformation': {
+                    'name': tr.name,
+                    'lastName': tr.lastName,
+                    'typeIdentification': json.dumps(tr.typeIdentification, default=enum_serializer),
+                    'identification': tr.identification,
+                    'birthdate': tr.birthdate.isoformat(),
+                    'genre': json.dumps(tr.genre, default=enum_serializer),
+                    'phoneNumber': tr.phoneNumber,
+                    'mobileNumber': tr.mobileNumber,
+                    'city': tr.city,
+                    'state': tr.state,
+                    'country': tr.country,
+                    'address': tr.address,
+                    'photo': tr.photo
+                },
                 'academicInformation': academic_information,
                 'professionalExperience': professional_experience,
                 'aditionalInformation': aditional_information,
@@ -60,7 +61,7 @@ class VistaTechnicalResource(Resource):
         except ValueError:
             return {'message': 'Technical resource id is not integer'}, 400
 
-        tr = TechnicalResource.query.filter_by(id=id_tr).first()
+        tr = TechnicalResource.query.filter_by(userId=id_tr).first()
         if tr:
 
             AcademicInformationDelete(id_tr)
@@ -88,7 +89,7 @@ class VistaTechnicalResource(Resource):
             except ValueError:
                 return {'message': 'Technical resource id is not integer'}, 400
 
-            tr = TechnicalResource.query.filter_by(id=id_tr).first()
+            tr = TechnicalResource.query.filter_by(userId=id_tr).first()
             if tr:
                 tr.name = parse_json.get('name', None)
                 tr.lastName = parse_json.get('lastName', None)
@@ -126,7 +127,7 @@ def AcademicInformationGet(technical_resource_id):
             response.append({
                 'id': i.id,
                 'schoolName': i.schoolName,
-                'educationLevel': i.educationLevel,
+                'educationLevel': json.dumps(i.educationLevel, default=enum_serializer),
                 'professionalSector': i.professionalSector,
                 'startDate': i.startDate.isoformat(),
                 'endDate': i.endDate.isoformat(),
@@ -201,7 +202,7 @@ def AcademicInformationUpdate(technical_resource_id, academic_information):
     if academic_information:
         for ai in academic_information:
             if ai.get('id', None):
-                academic = AcademicInformation.query.filter_by(id=ai['id']).first()
+                academic = AcademicInformation.query.filter_by(userIdai['id']).first()
                 if academic:
                     academic.schoolName = ai.get('schoolName', None)
                     academic.educationLevel = ai.get('educationLevel', None)
@@ -225,7 +226,7 @@ def ProfessionalExperienceUpdate(technical_resource_id, professional_experience)
     if professional_experience:
         for pe in professional_experience:
             if pe.get('id', None):
-                professional = ProfessionalExperience.query.filter_by(id=pe['id']).first()
+                professional = ProfessionalExperience.query.filter_by(userIdpe['id']).first()
                 if professional:
                     professional.titleJob = pe.get('titleJob', None)
                     professional.companyName = pe.get('companyName', None)
@@ -267,7 +268,7 @@ def ProgrammingLanguagesUpdate(technical_resource_id, programming_languages):
     if programming_languages:
         for pl in programming_languages:
             if pl.get('id', None):
-                programming_language = TechnicalResourceProgrammingLanguages.query.filter_by(id=pl['id']).first()
+                programming_language = TechnicalResourceProgrammingLanguages.query.filter_by(userIdpl['id']).first()
                 if programming_language:
                     programming_language.name = pl.get('name', None)
                     programming_language.score = pl.get('score', None)
@@ -285,7 +286,7 @@ def LanguagesUpdate(technical_resource_id, languages):
     if languages:
         for l in languages:
             if l.get('id', None):
-                language = TechnicalResourceLanguages.query.filter_by(id=l['id']).first()
+                language = TechnicalResourceLanguages.query.filter_by(userIdl['id']).first()
                 if language:
                     language.language = l.get('language', None)
                     language.score = l.get('score', None)
@@ -303,7 +304,7 @@ def PersonalSkillsUpdate(technical_resource_id, personal_skills):
     if personal_skills:
         for ps in personal_skills:
             if ps.get('id', None):
-                personal_skill = TechnicalResourcePersonalSkills.query.filter_by(id=ps['id']).first()
+                personal_skill = TechnicalResourcePersonalSkills.query.filter_by(userIdps['id']).first()
                 if personal_skill:
                     personal_skill.name = ps.get('name', None)
                     personal_skill.score = ps.get('score', None)
@@ -378,3 +379,8 @@ def AditionalInformationDelete(technical_resource_id):
         return Response(status=204)
     except Exception as e:
         return Response(status=400)
+
+def enum_serializer(obj):
+    if isinstance(obj, Enum):
+        return obj.name
+    raise TypeError(f"Object of type {type(obj)} is not JSON serializable")
