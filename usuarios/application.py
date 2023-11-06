@@ -1,7 +1,7 @@
 import os
 from flask import Flask, Response
 from modelos.modelos import db
-from vistas.vistas import VistasLogIn, VistaSignIn, VistaUsuario
+from vistas.vistas import VistasLogIn, VistaSignIn, VistaUsuario, VistaUsuarioSesion
 from vistas.employees import VistaEmployee
 from vistas.companies import VistaCompany
 from vistas.technical_resources import VistaTechnicalResource
@@ -44,7 +44,7 @@ api.add_resource(VistaTypesIdentification, '/users/types_documents')
 api.add_resource(VistaGenders, '/users/genders')
 api.add_resource(VistaEducationLevels, '/users/education_levels')
 api.add_resource(VistaUserTypes, '/users/user_types')
-
+api.add_resource(VistaUsuarioSesion, '/users/user_session')
 
 # Alimentar base de datos con valores por defecto
 populate_database()
