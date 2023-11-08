@@ -1,13 +1,14 @@
 from flask_restful import Resource
-from modelos.modelos import db, Usuario, TechnicalResource
+from modelos.modelos import db, Usuario, TechnicalResource, Company, Employee, UserType
 from utils.technical_resource import TechnicalResourceCreate
 from utils.company import CompanyCreate
 from utils.employee import EmployeeCreate
-from flask import request, Response
+from flask import request, Response, jsonify
 from strgen import StringGenerator
 import hashlib
 from flask_jwt_extended import create_access_token, decode_token, jwt_required, get_jwt_identity
 from datetime import datetime
+import json
 
 class VistaSignIn(Resource):
     def post(self):
@@ -100,3 +101,48 @@ class VistaUsuario(Resource):
             "username":f"{usuario.username}",
             "email":f"{usuario.email}"
         }, 200
+    
+class VistaUsuarioSesion(Resource):
+    @jwt_required()
+    def get(self):
+        id = get_jwt_identity()
+        usuario = Usuario.query.get(id)
+        if usuario:            
+            if usuario.userType == UserType.PERSON:
+                obj = TechnicalResource.query.filter_by(userId=id).first()
+                if obj:
+                    return {
+                        'id': obj.id,
+                        'userId': obj.userId,
+                        'userType': usuario.userType.name,
+                        'name': obj.name,
+                        'username': usuario.username
+                    }, 200
+                else:
+                    return {'message': 'technical resource not exist'}, 404
+            elif usuario.userType == UserType.COMPANY:
+                obj = Company.query.filter_by(userId=id).first()
+                if obj:
+                    return {
+                        'id': obj.id,
+                        'userId': obj.userId,
+                        'userType': usuario.userType.name,
+                        'name': obj.name,
+                        'username': usuario.username
+                    }, 200
+                else:
+                    return {'message': 'company not exist'}, 404
+            else:
+                obj = Employee.query.filter_by(userId=id).first()
+                if obj:
+                    return {
+                        'id': obj.id,
+                        'userId': obj.userId,
+                        'userType': usuario.userType.name,
+                        'name': obj.name,
+                        'username': usuario.username
+                    }, 200 
+                else:
+                    return {'message': 'employee not exist'}, 404
+        else:
+            return {'message': 'User not exist'}, 404
