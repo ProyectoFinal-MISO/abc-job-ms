@@ -1,5 +1,6 @@
 from flask_restful import Resource
-from modelos.modelos import db, TechnicalResource, AcademicInformation, ProfessionalExperience, TechnicalResourceProgrammingLanguages, TechnicalResourceLanguages, TechnicalResourcePersonalSkills, AditionalInformation
+from modelos.modelos import db, TechnicalResource, AcademicInformation, ProfessionalExperience, TechnicalResourceProgrammingLanguages, TechnicalResourceLanguages, TechnicalResourcePersonalSkills, AditionalInformation, Country, State, City
+from utils.utils import enum_serializer, location_user
 from flask import request, Response
 from flask_jwt_extended import jwt_required
 from enum import Enum
@@ -25,6 +26,7 @@ class VistaTechnicalResource(Resource):
             programming_languages = ProgrammingLanguagesGet(tr.id)
             languages = LanguagesGet(tr.id)
             personal_skills = PersonalSkillsGet(tr.id)
+            location = location_user(tr)
 
             return {
                 'id': tr.id,
@@ -50,6 +52,7 @@ class VistaTechnicalResource(Resource):
                 'programmingLanguages': programming_languages,
                 'languages': languages,
                 'personalSkills': personal_skills,
+                'location': location,
             }, 200
         else:
             return {'message': 'Technical resource not exist'}, 404
@@ -379,8 +382,3 @@ def AditionalInformationDelete(technical_resource_id):
         return Response(status=204)
     except Exception as e:
         return Response(status=400)
-
-def enum_serializer(obj):
-    if isinstance(obj, Enum):
-        return obj.name
-    raise TypeError(f"Object of type {type(obj)} is not JSON serializable")
