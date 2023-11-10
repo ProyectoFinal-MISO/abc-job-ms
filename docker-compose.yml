@@ -1,0 +1,134 @@
+version: '3.8'
+services:
+  users:
+    build: ./usuarios
+    volumes:
+      - ./usuarios:/usuarios
+    ports:
+      - "5000:5000"
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@users_db:5432/monitor_users
+    networks:
+      - net_services
+      - net_users
+    depends_on:
+      - users_db
+    hostname: users
+  users_db:
+    image: postgres:14.6
+    environment:
+      POSTGRES_DB: monitor_users
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    networks:
+      - net_users
+    hostname: users_db
+  evaluations:
+    build: ./evaluaciones
+    volumes:
+      - ./evaluaciones:/evaluaciones
+    ports:
+      - "5001:5000"
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@evaluations_db:5432/monitor_evaluations
+      USERS_PATH: http://users:5000
+    networks:
+      - net_services
+      - net_evaluations
+    depends_on:
+      - evaluations_db
+    hostname: evaluations
+  evaluations_db:
+    image: postgres:14.6
+    environment:
+      POSTGRES_DB: monitor_evaluations
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    networks:
+      - net_evaluations
+    hostname: evaluations_db
+  projects:
+    build: ./proyectos
+    volumes:
+      - ./proyectos:/proyectos
+    ports:
+      - "5002:5000"
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@projects_db:5432/monitor_projects
+      USERS_PATH: http://users:5000
+    networks:
+      - net_services
+      - net_projects
+    depends_on:
+      - projects_db
+    hostname: projects
+  projects_db:
+    image: postgres:14.6
+    environment:
+      POSTGRES_DB: monitor_projects
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    networks:
+      - net_projects
+    hostname: projects_db
+  interviews:
+    build: ./entrevistas
+    volumes:
+      - ./entrevistas:/entrevistas
+    ports:
+      - "5003:5000"
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@interviews_db:5432/monitor_interviews
+      USERS_PATH: http://users:5000
+    networks:
+      - net_services
+      - net_interviews
+    depends_on:
+      - interviews_db
+    hostname: interviews
+  interviews_db:
+    image: postgres:14.6
+    environment:
+      POSTGRES_DB: monitor_interviews
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    networks:
+      - net_interviews
+    hostname: interviews_db
+  mediator:
+    build: ./mediador
+    volumes:
+      - ./mediador:/mediador
+    ports:
+      - "5004:5000"
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@mediator_db:5432/monitor_mediator
+      USERS_PATH: http://users:5000
+    networks:
+      - net_services
+      - net_mediator
+    depends_on:
+      - mediator_db
+    hostname: mediator
+  mediator_db:
+    image: postgres:14.6
+    environment:
+      POSTGRES_DB: monitor_mediator
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    networks:
+      - net_mediator
+    hostname: mediator_db
+networks:
+  net_evaluations:
+    driver: bridge
+  net_interviews:
+    driver: bridge
+  net_mediator:
+    driver: bridge
+  net_projects:
+    driver: bridge
+  net_services:
+    driver: bridge
+  net_users:
+    driver: bridge
