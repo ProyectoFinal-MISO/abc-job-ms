@@ -15,7 +15,7 @@ from vistas.employees import VistaEmployee
 class TestEmployees(TestCase):
 
     def setUp(self):
-        token = create_access_token(identity='JWT_SECRET_KEY')
+        token = create_access_token(identity='JWT_SECRET_KEY_TEST')
         self.headers = {'Authorization': 'Bearer ' + token}
         self.data_factory = Faker()
         self.client = application.test_client()
@@ -209,9 +209,3 @@ class TestEmployees(TestCase):
         # Check that the response is correct
         self.assertEqual(response.status_code, 400)
         self.assertEqual(response.json['message'], 'Field is missing')
-
-def generate_string_random(length):
-    import string
-    import random
-    letters = string.ascii_lowercase
-    return ''.join(random.choice(letters) for i in range(length))

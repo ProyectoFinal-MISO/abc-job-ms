@@ -85,9 +85,3 @@ class VistaCompany(Resource):
                     return {'message': 'Company not exist'}, 404
             else:
                 return {'message': 'Field is missing'}, 400
-
-def enum_serializer(obj):
-    if isinstance(obj, Enum):
-        return obj.name
-    raise TypeError(f"Object of type {type(obj)} is not JSON serializable")
-

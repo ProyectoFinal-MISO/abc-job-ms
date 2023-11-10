@@ -5,6 +5,7 @@ from sqlalchemy.orm import sessionmaker
 
 from modelos.modelos import TypeIdentification, TechnicalResource, Genre, EducationLevel
 from application import application as app
+from utils.utils import generate_string_random
 
 from utils.technical_resource import TechnicalResourceCreate
 
@@ -43,7 +44,7 @@ def new_technical_resource():
                 "details": "Desarrollador de software"
             }
         ],
-        "aditionalInformation" : {
+        "additionalInformation" : {
             "driverLicense": "abcdef",
             "transferAvailability": True,
             "vehicule": "abcdef"
@@ -79,11 +80,4 @@ def test_technical_resource_create_identification_exits():
     response = TechnicalResourceCreate(userId = 1, user_data = technical_resource)
     response_2 = TechnicalResourceCreate(userId = 1, user_data = technical_resource)
 
-    assert response_2[1] == 400
-
-
-def generate_string_random(length):
-    import string
-    import random
-    letters = string.ascii_lowercase
-    return ''.join(random.choice(letters) for i in range(length))
+    assert response_2[1] == 412

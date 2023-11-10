@@ -22,7 +22,9 @@ class VistaSignIn(Resource):
                     "Message": "Email or username already exists"
                 }, 412
             tr = TechnicalResource.query.filter((TechnicalResource.identification==f"{parse_json['personalInformation'].get('identification', None)}")).count()
-            if tr > 0:
+            c = Company.query.filter((Company.identification==f"{parse_json['personalInformation'].get('identification', None)}")).count()
+            e = Employee.query.filter((Employee.identification==f"{parse_json['personalInformation'].get('identification', None)}")).count()
+            if tr > 0 or c > 0 or e > 0:
                 return {
                     "Identification": "Identification already exists"
                 }, 412
@@ -63,8 +65,8 @@ class VistasLogIn(Resource):
         if not request.is_json:
             return Response(status=400)
         parse_json = request.get_json()
-        if parse_json.get('username', None) and parse_json.get('password', None):
-            usuario = Usuario.query.filter_by(username=parse_json.get('username', None)).all()
+        if parse_json.get('username', None) and parse_json.get('password', None) and parse_json.get('userType', None):
+            usuario = Usuario.query.filter_by(username=parse_json.get('username', None), userType=parse_json.get('userType', None)).all()
             if usuario:
                 salt = usuario[0].salt
                 password = salt + parse_json.get('password', None)
@@ -101,13 +103,13 @@ class VistaUsuario(Resource):
             "username":f"{usuario.username}",
             "email":f"{usuario.email}"
         }, 200
-    
+
 class VistaUsuarioSesion(Resource):
     @jwt_required()
     def get(self):
         id = get_jwt_identity()
         usuario = Usuario.query.get(id)
-        if usuario:            
+        if usuario:
             if usuario.userType == UserType.PERSON:
                 obj = TechnicalResource.query.filter_by(userId=id).first()
                 if obj:
@@ -141,7 +143,7 @@ class VistaUsuarioSesion(Resource):
                         'userType': usuario.userType.name,
                         'name': obj.name,
                         'username': usuario.username
-                    }, 200 
+                    }, 200
                 else:
                     return {'message': 'employee not exist'}, 404
         else:

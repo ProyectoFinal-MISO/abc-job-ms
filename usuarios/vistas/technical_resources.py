@@ -1,5 +1,5 @@
 from flask_restful import Resource
-from modelos.modelos import db, TechnicalResource, AcademicInformation, ProfessionalExperience, TechnicalResourceProgrammingLanguages, TechnicalResourceLanguages, TechnicalResourcePersonalSkills, AditionalInformation, Country, State, City
+from modelos.modelos import db, TechnicalResource, AcademicInformation, ProfessionalExperience, TechnicalResourceProgrammingLanguages, TechnicalResourceLanguages, TechnicalResourcePersonalSkills, AditionalInformation
 from utils.utils import enum_serializer, location_user
 from flask import request, Response
 from flask_jwt_extended import jwt_required
@@ -22,7 +22,7 @@ class VistaTechnicalResource(Resource):
 
             academic_information = AcademicInformationGet(tr.id)
             professional_experience = ProfessionalExperienceGet(tr.id)
-            aditional_information = TechnicalResourceAditionalInfoGet(tr.id)
+            aditional_information = AdditionalInfoGet(tr.id)
             programming_languages = ProgrammingLanguagesGet(tr.id)
             languages = LanguagesGet(tr.id)
             personal_skills = PersonalSkillsGet(tr.id)
@@ -69,7 +69,7 @@ class VistaTechnicalResource(Resource):
 
             AcademicInformationDelete(id_tr)
             ProfessionalExperienceDelete(id_tr)
-            AditionalInformationDelete(id_tr)
+            AdditionalInformationDelete(id_tr)
             ProgrammingLanguagesDelete(id_tr)
             LanguagesDelete(id_tr)
             PersonalSkillsDelete(id_tr)
@@ -110,7 +110,7 @@ class VistaTechnicalResource(Resource):
 
                 AcademicInformationUpdate(id_tr, parse_json.get('academicInformation', None))
                 ProfessionalExperienceUpdate(id_tr, parse_json.get('professionalExperience', None))
-                AditionalInformationUpdate(id_tr, parse_json.get('aditionalInformation', None))
+                AdditionalInformationUpdate(id_tr, parse_json.get('aditionalInformation', None))
                 ProgrammingLanguagesUpdate(id_tr, parse_json.get('programmingLanguages', None))
                 LanguagesUpdate(id_tr, parse_json.get('languages', None))
                 PersonalSkillsUpdate(id_tr, parse_json.get('personalSkills', None))
@@ -188,7 +188,7 @@ def PersonalSkillsGet(technical_resource_id):
             })
     return response
 
-def TechnicalResourceAditionalInfoGet(technical_resource_id):
+def AdditionalInfoGet(technical_resource_id):
     ai = AditionalInformation.query.filter_by(technicalResourceId=technical_resource_id).first()
     if ai:
         return {
@@ -249,7 +249,7 @@ def ProfessionalExperienceUpdate(technical_resource_id, professional_experience)
                 db.session.add(professional)
                 db.session.commit()
 
-def AditionalInformationUpdate(technical_resource_id, aditional_information):
+def AdditionalInformationUpdate(technical_resource_id, aditional_information):
     if aditional_information:
         aditional = AditionalInformation.query.filter_by(technicalResourceId=technical_resource_id).first()
         if aditional:
@@ -373,7 +373,7 @@ def PersonalSkillsDelete(technical_resource_id):
     except Exception as e:
         return Response(status=400)
 
-def AditionalInformationDelete(technical_resource_id):
+def AdditionalInformationDelete(technical_resource_id):
     try:
         aditional_info = AditionalInformation.query.filter_by(technicalResourceId = technical_resource_id).all()
         for aditional in aditional_info:
