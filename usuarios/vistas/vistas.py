@@ -19,12 +19,12 @@ class VistaSignIn(Resource):
             usuarios = Usuario.query.filter((Usuario.username==f"{parse_json.get('username', None)}") | (Usuario.email==f"{parse_json.get('email', None)}")).count()
             if usuarios > 0:
                 return {
-                    "Message": "Email or username already exists"
+                    "mensaje": "Email or username already exists"
                 }, 412
             tr = TechnicalResource.query.filter((TechnicalResource.identification==f"{parse_json['personalInformation'].get('identification', None)}")).count()
             if tr > 0:
                 return {
-                    "Identification": "Identification already exists"
+                    "mensaje": "Identification already exists"
                 }, 412
 
             salt = StringGenerator("[\l\d]{15}").render_list(1)
@@ -60,6 +60,9 @@ class VistaSignIn(Resource):
 
 class VistasLogIn(Resource):
     def post (self):
+        error_message = {"mensaje":"Wrong email or password"}
+        response = jsonify(error_message)
+        response.status_code = 404
         if not request.is_json:
             return Response(status=400)
         parse_json = request.get_json()
@@ -85,9 +88,9 @@ class VistasLogIn(Resource):
                         "expireAt":f"{expireAt}"
                     }, 200
                 else:
-                    return Response(status=404)
+                    return response
             else:
-               return Response(status=404)
+               return response
         else:
             return Response(status=400)
 
@@ -119,7 +122,7 @@ class VistaUsuarioSesion(Resource):
                         'username': usuario.username
                     }, 200
                 else:
-                    return {'message': 'technical resource not exist'}, 404
+                    return {'mensaje': 'technical resource not exist'}, 404
             elif usuario.userType == UserType.COMPANY:
                 obj = Company.query.filter_by(userId=id).first()
                 if obj:
@@ -131,7 +134,7 @@ class VistaUsuarioSesion(Resource):
                         'username': usuario.username
                     }, 200
                 else:
-                    return {'message': 'company not exist'}, 404
+                    return {'mensaje': 'company not exist'}, 404
             else:
                 obj = Employee.query.filter_by(userId=id).first()
                 if obj:
@@ -143,6 +146,6 @@ class VistaUsuarioSesion(Resource):
                         'username': usuario.username
                     }, 200 
                 else:
-                    return {'message': 'employee not exist'}, 404
+                    return {'mensaje': 'employee not exist'}, 404
         else:
-            return {'message': 'User not exist'}, 404
+            return {'mensaje': 'User not exist'}, 404

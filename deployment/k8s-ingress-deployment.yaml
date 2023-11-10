@@ -8,6 +8,10 @@ metadata:
   labels:
     name: proyecto-final-ingress
 spec:
+  tls:
+  - hosts:
+    - ingress.local    
+    secretName: tls-secret
   rules:
   - http:
       paths:
