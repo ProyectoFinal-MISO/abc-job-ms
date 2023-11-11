@@ -78,9 +78,7 @@ def AcademicInformationCreate(technical_resource_id, academic_info):
         db.session.commit()
         ids.append(new_academic_info.id)
 
-    return {
-        "ids": ids
-    }, 201
+    return {"ids": ids}, 201
 
 def ProfessionalExperienceCreate(technical_resource_id, professional_data):
     ids = []
@@ -97,9 +95,7 @@ def ProfessionalExperienceCreate(technical_resource_id, professional_data):
         db.session.commit()
         ids.append(new_proffesional_experience.id)
 
-    return {
-        "ids": ids
-    }, 201
+    return {"ids": ids}, 201
 
 def AditionalInformationCreate(technical_resource_id, aditional_data):
     new_aditional_info = AditionalInformation(
@@ -111,9 +107,7 @@ def AditionalInformationCreate(technical_resource_id, aditional_data):
     db.session.add(new_aditional_info)
     db.session.commit()
 
-    return {
-        "id": new_aditional_info.id
-    }, 201
+    return {"id": new_aditional_info.id}, 201
 
 def TechnicalResourceProgrammingLanguagesCreate(technical_resource_id, tr_programming_languages):
     ids = []
@@ -127,9 +121,7 @@ def TechnicalResourceProgrammingLanguagesCreate(technical_resource_id, tr_progra
         db.session.commit()
         ids.append(new_tr_programming_languages.id)
 
-    return {
-        "ids": ids
-    }, 201
+    return {"ids": ids}, 201
 
 def TechnicalResourceLanguagesCreate(technical_resource_id, tr_languages):
     ids = []
@@ -143,9 +135,7 @@ def TechnicalResourceLanguagesCreate(technical_resource_id, tr_languages):
         db.session.commit()
         ids.append(new_tr_languages.id)
 
-    return {
-        "ids": ids
-    }, 201
+    return {"ids": ids}, 201
 
 def TechnicalResourcePersonalSkillsCreate(technical_resource_id, tr_personal_skills):
     ids = []
@@ -159,6 +149,4 @@ def TechnicalResourcePersonalSkillsCreate(technical_resource_id, tr_personal_ski
         db.session.commit()
         ids.append(new_tr_personal_skills.id)
 
-    return {
-        "ids": ids
-    }, 201
+    return {"ids": ids}, 201

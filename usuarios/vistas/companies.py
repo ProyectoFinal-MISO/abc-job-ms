@@ -14,7 +14,7 @@ class VistaCompany(Resource):
         try:
             id_company = int(id_company)
         except ValueError:
-            return {'message': 'Company id is not integer'}, 400
+            return {'mensaje': 'Company id is not integer'}, 400
 
         company = Company.query.filter_by(userId=id_company).first()
         if company:
@@ -35,22 +35,22 @@ class VistaCompany(Resource):
                 }
             }, 200
         else:
-            return {'message': 'Company not exist'}, 404
+            return {'mensaje': 'Company not exist'}, 404
 
     @jwt_required()
     def delete(self, id_company):
         try:
             id_company = int(id_company)
         except ValueError:
-            return {'message': 'Company id is not integer'}, 400
+            return {'mensaje': 'Company id is not integer'}, 400
 
         company = Company.query.filter_by(userId=id_company).first()
         if company:
             db.session.delete(company)
             db.session.commit()
-            return {'message': 'Company deleted'}, 200
+            return {'mensaje': 'Company deleted'}, 200
         else:
-            return {'message': 'Company not exist'}, 404
+            return {'mensaje': 'Company not exist'}, 404
 
     @jwt_required()
     def put(self, id_company):
@@ -62,7 +62,7 @@ class VistaCompany(Resource):
                 try:
                     id_company = int(id_company)
                 except ValueError:
-                    return {'message': 'Company id is not integer'}, 400
+                    return {'mensaje': 'Company id is not integer'}, 400
 
                 company = Company.query.filter_by(userId=id_company).first()
                 if company:
@@ -77,11 +77,11 @@ class VistaCompany(Resource):
                     company.address = parse_json.get('address', None)
                     company.photo = parse_json.get('photo', None)
                     db.session.commit()
-                    return {'message': 'Company was updated'}, 200
+                    return {'mensaje': 'Company was updated'}, 200
                 else:
-                    return {'message': 'Company not exist'}, 404
+                    return {'mensaje': 'Company not exist'}, 404
             else:
-                return {'message': 'Field is missing'}, 400
+                return {'mensaje': 'Field is missing'}, 400
 
 def enum_serializer(obj):
     if isinstance(obj, Enum):

@@ -18,14 +18,10 @@ class VistaSignIn(Resource):
         if parse_json.get('username', None) and parse_json.get('email', None) and parse_json.get('password', None):
             usuarios = Usuario.query.filter((Usuario.username==f"{parse_json.get('username', None)}") | (Usuario.email==f"{parse_json.get('email', None)}")).count()
             if usuarios > 0:
-                return {
-                    "mensaje": "Email or username already exists"
-                }, 412
+                return {"mensaje": "Email or username already exists"}, 412
             tr = TechnicalResource.query.filter((TechnicalResource.identification==f"{parse_json['personalInformation'].get('identification', None)}")).count()
             if tr > 0:
-                return {
-                    "mensaje": "Identification already exists"
-                }, 412
+                return {"mensaje": "Identification already exists"}, 412
 
             salt = StringGenerator("[\l\d]{15}").render_list(1)
             password = salt[0] + parse_json.get('password', None)
@@ -104,13 +100,13 @@ class VistaUsuario(Resource):
             "username":f"{usuario.username}",
             "email":f"{usuario.email}"
         }, 200
-    
+
 class VistaUsuarioSesion(Resource):
     @jwt_required()
     def get(self):
         id = get_jwt_identity()
         usuario = Usuario.query.get(id)
-        if usuario:            
+        if usuario:
             if usuario.userType == UserType.PERSON:
                 obj = TechnicalResource.query.filter_by(userId=id).first()
                 if obj:
@@ -144,7 +140,7 @@ class VistaUsuarioSesion(Resource):
                         'userType': usuario.userType.name,
                         'name': obj.name,
                         'username': usuario.username
-                    }, 200 
+                    }, 200
                 else:
                     return {'mensaje': 'employee not exist'}, 404
         else:
