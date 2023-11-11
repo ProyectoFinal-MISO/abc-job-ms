@@ -11,11 +11,12 @@ from application import application
 from modelos.modelos import db, TypeIdentification, ProfessionalSector
 from vistas.professional_sector import VistaProfessionalSector
 
+from utils.utils import generate_string_random
 
 class TestCompanies(TestCase):
 
     def setUp(self):
-        token = create_access_token(identity='JWT_SECRET_KEY')
+        token = create_access_token(identity='JWT_SECRET_KEY_TEST')
         self.headers = {'Authorization': 'Bearer ' + token}
         self.data_factory = Faker()
         self.client = application.test_client()
@@ -35,9 +36,3 @@ class TestCompanies(TestCase):
 
         # Check that the response is correct
         self.assertEqual(response.status_code, 200)
-
-def generate_string_random(length):
-    import string
-    import random
-    letters = string.ascii_lowercase
-    return ''.join(random.choice(letters) for i in range(length))
