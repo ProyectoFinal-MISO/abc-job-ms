@@ -59,7 +59,7 @@ class VistaEmployee(Resource):
     def put(self, id_employee):
 
         if not request.is_json:
-            return Response(status=400)
+            return {"mensaje": "Error format body"}, 400
         parse_json = request.get_json()
         if parse_json.get('name', None) and parse_json.get('lastName', None) and parse_json.get('typeIdentification', None) and parse_json.get('identification', None) and parse_json.get('phoneNumber', None) and parse_json.get('mobileNumber', None) and parse_json.get('city', None) and parse_json.get('state', None) and parse_json.get('country', None) and parse_json.get('address', None):
             try:

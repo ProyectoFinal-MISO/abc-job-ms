@@ -2,6 +2,10 @@ import os
 from flask import Flask, Response
 from modelos.modelos import db
 from modelos.populate_db import populate_database
+from vistas.vistas_project import VistaProjectCreate, VistaProject, VistaProjectList, VistaProjectListByCompanyId
+from vistas.vistas_team import VistaTeamProject, VistaTeamProjectList, VistaTeamProjectByProjectId
+from vistas.vistas_applicant import VistaApplicantsVacancyProject, VistaApplicantsVacancyProjectList, VistaApplicantsVacancyProjectByVacancyId
+from vistas.vistas_vacancy import VistaVacancyProject
 
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
@@ -19,6 +23,20 @@ db.init_app(application)
 db.create_all()
 
 api = Api(application)
+api.add_resource(VistaProjectCreate, '/projects')
+api.add_resource(VistaProject, '/projects/<int:id_project>')
+api.add_resource(VistaProjectList, '/projects/list')
+api.add_resource(VistaProjectListByCompanyId, '/projects/company/<int:id_company>')
+
+api.add_resource(VistaTeamProject, '/teams')
+api.add_resource(VistaTeamProjectList, '/teams/list')
+api.add_resource(VistaTeamProjectByProjectId, '/teams/<int:id_project>')
+
+api.add_resource(VistaApplicantsVacancyProject, '/applicants')
+api.add_resource(VistaApplicantsVacancyProjectList, '/applicants/list')
+api.add_resource(VistaApplicantsVacancyProjectByVacancyId, '/applicants/<int:id_vacancy>')
+
+api.add_resource(VistaVacancyProject, '/vacancies')
 
 jwt = JWTManager(application)
 

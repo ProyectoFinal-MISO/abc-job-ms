@@ -44,7 +44,7 @@ def TechnicalResourceCreate(userId = None, user_data = None):
         new_tr_personal_skills = TechnicalResourcePersonalSkillsCreate(new_technical_resource.id, tr_personal_skills)
 
         if new_academic_info[1] != 201 or new_proffesional_experience[1] != 201 or new_aditional_info[1] != 201 or new_tr_programming_languages[1] != 201 or new_tr_languages[1] != 201 or new_tr_personal_skills[1] != 201:
-            return Response(status=400)
+            return {"mensaje": "Error created technical resource"}, 400
 
         return {
             "id": new_technical_resource.id,

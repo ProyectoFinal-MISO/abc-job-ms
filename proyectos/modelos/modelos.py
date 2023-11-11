@@ -17,8 +17,8 @@ class Project(db.Model):
         self.companyId = companyId
         self.details = details
 
-class TechinalSkillsProject(db.Model):
-    __tablename__ = 'techinal_skills_project'
+class TechnicalSkillsProject(db.Model):
+    __tablename__ = 'technical_skills_project'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), unique=True, nullable=False)
     projectId = db.Column(db.Integer, db.ForeignKey('project.id', ondelete='SET NULL'))
@@ -67,10 +67,10 @@ vacancy_role_association = db.Table(
     db.Column('role_id', db.Integer, db.ForeignKey('role.id'))
 )
 
-vacancy_techinal_skills_association = db.Table(
-    'vacancy_techinal_skills_project_id',
+vacancy_technical_skills_association = db.Table(
+    'vacancy_technical_skills_project_id',
     db.Column('vacancy_project_id', db.Integer, db.ForeignKey('vacancy_project.id')),
-    db.Column('techinal_skills_project_id', db.Integer, db.ForeignKey('techinal_skills_project.id'))
+    db.Column('technical_skills_project_id', db.Integer, db.ForeignKey('technical_skills_project.id'))
 )
 
 vacancy_soft_skills_association = db.Table(
@@ -87,17 +87,17 @@ class VacancyProject(db.Model):
     places = db.Column(db.Integer, nullable=False)
     roles = db.relationship('Role', secondary=vacancy_role_association,
                                      backref=db.backref('vacancy_project', lazy='dynamic'))
-    techinalSkills = db.relationship('TechinalSkillsProject', secondary=vacancy_techinal_skills_association,
+    technicalSkills = db.relationship('TechnicalSkillsProject', secondary=vacancy_technical_skills_association,
                                      backref=db.backref('vacancy_project', lazy='dynamic'))
     softSkills = db.relationship('SoftSkillsProject', secondary=vacancy_soft_skills_association,
                                      backref=db.backref('vacancy_project', lazy='dynamic'))
 
-    def __init__(self, name, details, places, roles, techinalSkills, softSkills):
+    def __init__(self, name, details, places, roles, technicalSkills, softSkills):
         self.name = name
         self.details = details
         self.places = places
         self.roles = roles
-        self.techinalSkills = techinalSkills
+        self.technicalSkills = technicalSkills
         self.softSkills = softSkills
 
 class ApplicantsVacancyProject(db.Model):
@@ -116,9 +116,9 @@ class ProjectSchema(SQLAlchemyAutoSchema):
         include_relationships = True
         load_instance = True
 
-class TechinalSkillsProjectSchema(SQLAlchemyAutoSchema):
+class TechnicalSkillsProjectSchema(SQLAlchemyAutoSchema):
     class Meta:
-        model = TechinalSkillsProject
+        model = TechnicalSkillsProject
         include_relationships = True
         load_instance = True
 

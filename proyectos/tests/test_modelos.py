@@ -3,7 +3,7 @@ from datetime import datetime, timezone
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from modelos.modelos import db, Project, TechinalSkillsProject, SoftSkillsProject, Role, TeamProject, VacancyProject, ApplicantsVacancyProject
+from modelos.modelos import db, Project, TechnicalSkillsProject, SoftSkillsProject, Role, TeamProject, VacancyProject, ApplicantsVacancyProject
 from application import application as app
 
 @pytest.fixture(scope = 'module')
@@ -16,12 +16,12 @@ def new_project():
     return project
 
 @pytest.fixture(scope = 'module')
-def new_techinal_skills_project():
-    techinal_skills_project = TechinalSkillsProject(
+def new_technical_skills_project():
+    technical_skills_project = TechnicalSkillsProject(
         name = 'Python',
         projectId = 1
     )
-    return techinal_skills_project
+    return technical_skills_project
 
 @pytest.fixture(scope = 'module')
 def new_soft_skills_project():
@@ -56,7 +56,7 @@ def new_vacancy_project():
         details = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
         places = 5,
         roles = [1, 2, 3],
-        techinalSkills = [1, 2, 3],
+        technicalSkills = [1, 2, 3],
         softSkills = [1, 2, 3]
     )
     return vacancy_project
@@ -80,10 +80,10 @@ def test_project_model(new_project):
     assert p.companyId == 1
     assert p.details == 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
 
-def test_techinal_skills_project_model(new_techinal_skills_project):
+def test_technical_skills_project_model(new_technical_skills_project):
     # Add the object to the database
-    tsp = TechinalSkillsProject(new_techinal_skills_project.name,
-                                new_techinal_skills_project.projectId)
+    tsp = TechnicalSkillsProject(new_technical_skills_project.name,
+                                new_technical_skills_project.projectId)
 
     # Check that the retrieved object matches the original object
     assert tsp.name == 'Python'
@@ -126,7 +126,7 @@ def test_team_project_model(new_team_project):
 #                         new_vacancy_project.details,
 #                         new_vacancy_project.places,
 #                         new_vacancy_project.roles,
-#                         new_vacancy_project.techinalSkills,
+#                         new_vacancy_project.technicalSkills,
 #                         new_vacancy_project.softSkills)
 
 #     # Check that the retrieved object matches the original object
@@ -134,7 +134,7 @@ def test_team_project_model(new_team_project):
 #     assert vp.details == 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
 #     assert vp.places == 5
 #     assert vp.roles == [1, 2, 3]
-#     assert vp.techinalSkills == [1, 2, 3]
+#     assert vp.technicalSkills == [1, 2, 3]
 #     assert vp.softSkills == [1, 2, 3]
 
 def test_applicants_vacancy_project_model(new_applicants_vacancy_project):
