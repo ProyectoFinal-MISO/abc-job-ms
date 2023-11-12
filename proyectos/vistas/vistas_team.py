@@ -84,9 +84,6 @@ class VistaTeamProject(Resource):
             if team:
                 team.name = parse_json.get('name', None)
                 team.projectId = parse_json.get('projectId', None)
-                team.userId = parse_json.get('userId', None)
-                team.isIntern = parse_json.get('isIntern', None)
-                team.role = parse_json.get('role', None)
                 db.session.commit()
                 return {'mensaje': 'Team was updated'}, 200
             else:

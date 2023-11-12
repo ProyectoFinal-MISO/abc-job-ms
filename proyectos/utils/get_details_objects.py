@@ -9,6 +9,16 @@ def get_roles_details(array_roles):
       })
   return roles
 
+def get_role_detail(role_id):
+    role = Role.query.filter_by(id=role_id).first()
+    if role:
+        return {
+            'id': role.id,
+            'name': role.name
+        }
+    else:
+        return {'mensaje': 'Role not exist'}, 404
+
 def get_technical_skills_details(array_technical_skills):
   technical_skills = []
   for item in TechnicalSkillsProject.query.filter(TechnicalSkillsProject.id.in_(array_technical_skills)).all():

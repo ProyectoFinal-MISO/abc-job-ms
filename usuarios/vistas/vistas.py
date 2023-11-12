@@ -54,7 +54,7 @@ class VistaSignIn(Resource):
             }, 201
 
         else:
-            return Response(status=400)
+            return {'mensaje': 'Field is missing'}, 400
 
 class VistasLogIn(Resource):
     def post (self):
@@ -90,7 +90,7 @@ class VistasLogIn(Resource):
             else:
                return response
         else:
-            return Response(status=400)
+            return {'mensaje': 'Field is missing'}, 400
 
 class VistaUsuario(Resource):
     @jwt_required()
