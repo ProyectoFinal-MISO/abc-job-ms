@@ -5,7 +5,7 @@ from modelos.populate_db import populate_database
 from vistas.vistas_project import VistaProjectCreate, VistaProject, VistaProjectList, VistaProjectListByCompanyId
 from vistas.vistas_team import VistaTeamProjectCreate, VistaTeamProject, VistaTeamProjectList, VistaTeamProjectByProjectId
 from vistas.vistas_member_team import VistaMembersTeamProjectCreate, VistaMembersTeamProject, VistaMembersTeamProjectList, VistaMembersTeamProjectByTeamId
-from vistas.vistas_applicant import VistaApplicantsVacancyProject, VistaApplicantsVacancyProjectList, VistaApplicantsVacancyProjectByVacancyId
+from vistas.vistas_applicant import VistaApplicantsVacancyProjectCreate, VistaApplicantsVacancyProject, VistaApplicantsVacancyProjectList, VistaApplicantsVacancyProjectByVacancyId
 from vistas.vistas_vacancy import VistaVacancyProjectCreate, VistaVacancyProject
 
 from flask_restful import Api
@@ -39,10 +39,10 @@ api.add_resource(VistaMembersTeamProject, '/members/<int:id_member>')
 api.add_resource(VistaMembersTeamProjectList, '/members/list')
 api.add_resource(VistaMembersTeamProjectByTeamId, '/members/team/<int:id_team>')
 
-#api.add_resource(VistaApplicantsVacancyProjectCreate, '/applicants')
+api.add_resource(VistaApplicantsVacancyProjectCreate, '/applicants')
 api.add_resource(VistaApplicantsVacancyProject, '/applicants/<int:id_applicant>')
 api.add_resource(VistaApplicantsVacancyProjectList, '/applicants/list')
-api.add_resource(VistaApplicantsVacancyProjectByVacancyId, '/applicants/<int:id_vacancy>')
+api.add_resource(VistaApplicantsVacancyProjectByVacancyId, '/applicants/vacancy/<int:id_vacancy>')
 
 api.add_resource(VistaVacancyProjectCreate, '/vacancies')
 api.add_resource(VistaVacancyProject, '/vacancies/<int:id_vacancy>')

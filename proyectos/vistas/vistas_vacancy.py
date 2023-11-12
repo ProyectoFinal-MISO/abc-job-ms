@@ -1,9 +1,7 @@
 from flask_restful import Resource
 from modelos.modelos import db, VacancyProject, Project, Role, TechnicalSkills, SoftSkills, vacancy_role_association
 from utils.get_details_objects import get_roles_details, get_technical_skills_details, get_soft_skills_details
-from flask import request, Response
-
-import json
+from flask import request
 
 class VistaVacancyProjectCreate(Resource):
     def post(self):
@@ -71,18 +69,18 @@ class VistaVacancyProject(Resource):
             return {'mensaje': 'Vacancy id is not integer'}, 400
         vacancy = VacancyProject.query.filter_by(id=id_vacancy).first()
         if vacancy:
-            # roles = get_roles_details(vacancy.roles)
-            # technical_skills = get_technical_skills_details(vacancy.technicalSkills)
-            # soft_skills = get_soft_skills_details(vacancy.softSkills)
+            roles = [role.name for role in vacancy.roles]
+            technical_skills = [technical_skill.name for technical_skill in vacancy.technicalSkills]
+            soft_skills = [soft_skill.name for soft_skill in vacancy.softSkills]
             return {
                 'id': vacancy.id,
                 'name': vacancy.name,
                 'projectId': vacancy.projectId,
                 'details': vacancy.details,
                 'places': vacancy.places,
-                'roles': json.dumps(vacancy.roles, default=enum_serializer),,
-                'technicalSkills': vacancy.technicalSkills,
-                'softSkills': vacancy.softSkills
+                'roles': roles,
+                'technicalSkills': technical_skills,
+                'softSkills': soft_skills
             }, 200
         else:
             return {'mensaje': 'Vacancy not exist'}, 404
@@ -98,7 +96,7 @@ class VistaVacancyProject(Resource):
             db.session.commit()
             return {'mensaje': 'Vacancy deleted'}, 200
         else:
-            return {'mensaje': 'Vacancy not exist'}, 204
+            return {'mensaje': 'Vacancy not exist'}, 404
 
     def put(self, id_vacancy):
         try:
@@ -147,8 +145,9 @@ class VistaVacancyProject(Resource):
                 db.session.commit()
                 return {'mensaje': 'Vacancy was updated'}, 200
             else:
-                return {'mensaje': 'Vacancy not exist'}, 204
+                return {'mensaje': 'Vacancy not exist'}, 404
         except Exception as e:
+            print(e)
             db.session.rollback()
             return {
                 "Error": e

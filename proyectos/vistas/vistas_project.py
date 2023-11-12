@@ -113,9 +113,10 @@ class VistaProjectListByCompanyId(Resource):
             id_company = int(id_company)
         except ValueError:
             return {'mensaje': 'Company id is not integer'}, 400
-        company = Company.query.filter_by(id=id_company).first()
-        if not company:
-            return {'mensaje': 'Company not exist'}, 404
+        # @todo: usar Mediador.Company
+        # company = Company.query.filter_by(id=id_company).first()
+        # if not company:
+        #     return {'mensaje': 'Company not exist'}, 404
         projects = Project.query.filter_by(companyId=id_company).all()
         if projects:
             projects_list = []

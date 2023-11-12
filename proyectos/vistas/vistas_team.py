@@ -61,7 +61,7 @@ class VistaTeamProject(Resource):
             db.session.commit()
             return {'mensaje': 'Team deleted'}, 200
         else:
-            return {'mensaje': 'Team not exist'}, 204
+            return {'mensaje': 'Team not exist'}, 404
 
     def put(self, id_team):
         try:
@@ -87,7 +87,7 @@ class VistaTeamProject(Resource):
                 db.session.commit()
                 return {'mensaje': 'Team was updated'}, 200
             else:
-                return {'mensaje': 'Team not exist'}, 204
+                return {'mensaje': 'Team not exist'}, 404
         except Exception as e:
             db.session.rollback()
             return {
