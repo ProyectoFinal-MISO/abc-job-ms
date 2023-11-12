@@ -1,7 +1,6 @@
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
-from sqlalchemy import DateTime, func
 
 db = SQLAlchemy()
 
@@ -17,25 +16,21 @@ class Project(db.Model):
         self.companyId = companyId
         self.details = details
 
-class TechnicalSkillsProject(db.Model):
-    __tablename__ = 'technical_skills_project'
+class TechnicalSkills(db.Model):
+    __tablename__ = 'technical_skills'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), unique=True, nullable=False)
-    projectId = db.Column(db.Integer, db.ForeignKey('project.id', ondelete='SET NULL'))
 
-    def __init__(self, name, projectId):
+    def __init__(self, name):
         self.name = name
-        self.projectId = projectId
 
-class SoftSkillsProject(db.Model):
-    __tablename__ = 'soft_skills_project'
+class SoftSkills(db.Model):
+    __tablename__ = 'soft_skills'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), unique=True, nullable=False)
-    projectId = db.Column(db.Integer, db.ForeignKey('project.id', ondelete='SET NULL'))
 
-    def __init__(self, name, projectId):
+    def __init__(self, name):
         self.name = name
-        self.projectId = projectId
 
 class Role(db.Model):
     __tablename__ = 'role'
@@ -76,32 +71,34 @@ vacancy_role_association = db.Table(
 )
 
 vacancy_technical_skills_association = db.Table(
-    'vacancy_technical_skills_project_id',
+    'vacancy_technical_skills_id',
     db.Column('vacancy_project_id', db.Integer, db.ForeignKey('vacancy_project.id')),
-    db.Column('technical_skills_project_id', db.Integer, db.ForeignKey('technical_skills_project.id'))
+    db.Column('technical_skills_id', db.Integer, db.ForeignKey('technical_skills.id'))
 )
 
 vacancy_soft_skills_association = db.Table(
-    'vacancy_soft_skills_project_id',
+    'vacancy_soft_skills_id',
     db.Column('vacancy_project_id', db.Integer, db.ForeignKey('vacancy_project.id')),
-    db.Column('soft_skills_project_id', db.Integer, db.ForeignKey('soft_skills_project.id'))
+    db.Column('soft_skills_id', db.Integer, db.ForeignKey('soft_skills.id'))
 )
 
 class VacancyProject(db.Model):
     __tablename__ = 'vacancy_project'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), unique=True, nullable=False)
+    projectId = db.Column(db.Integer, db.ForeignKey('project.id', ondelete='SET NULL'))
     details = db.Column(db.String(250), nullable=False)
     places = db.Column(db.Integer, nullable=False)
     roles = db.relationship('Role', secondary=vacancy_role_association,
                                      backref=db.backref('vacancy_project', lazy='dynamic'))
-    technicalSkills = db.relationship('TechnicalSkillsProject', secondary=vacancy_technical_skills_association,
+    technicalSkills = db.relationship('TechnicalSkills', secondary=vacancy_technical_skills_association,
                                      backref=db.backref('vacancy_project', lazy='dynamic'))
-    softSkills = db.relationship('SoftSkillsProject', secondary=vacancy_soft_skills_association,
+    softSkills = db.relationship('SoftSkills', secondary=vacancy_soft_skills_association,
                                      backref=db.backref('vacancy_project', lazy='dynamic'))
 
-    def __init__(self, name, details, places, roles, technicalSkills, softSkills):
+    def __init__(self, name, projectId, details, places, roles, technicalSkills, softSkills):
         self.name = name
+        self.projectId = projectId
         self.details = details
         self.places = places
         self.roles = roles
@@ -124,15 +121,15 @@ class ProjectSchema(SQLAlchemyAutoSchema):
         include_relationships = True
         load_instance = True
 
-class TechnicalSkillsProjectSchema(SQLAlchemyAutoSchema):
+class TechnicalSkillsSchema(SQLAlchemyAutoSchema):
     class Meta:
-        model = TechnicalSkillsProject
+        model = TechnicalSkills
         include_relationships = True
         load_instance = True
 
-class SoftSkillsProjectSchema(SQLAlchemyAutoSchema):
+class SoftSkillsSchema(SQLAlchemyAutoSchema):
     class Meta:
-        model = SoftSkillsProject
+        model = SoftSkills
         include_relationships = True
         load_instance = True
 
