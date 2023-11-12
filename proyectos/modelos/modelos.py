@@ -50,13 +50,21 @@ class TeamProject(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), unique=True, nullable=False)
     projectId = db.Column(db.Integer, db.ForeignKey('project.id', ondelete='SET NULL'))
+
+    def __init__(self, name, projectId):
+        self.name = name
+        self.projectId = projectId
+
+class MembersTeamProject(db.Model):
+    __tablename__ = 'member_team_project'
+    id = db.Column(db.Integer, primary_key=True)
+    teamId = db.Column(db.Integer, db.ForeignKey('team_project.id', ondelete='SET NULL'))
     userId = db.Column(db.Integer, nullable=False)
     isIntern = db.Column(db.Boolean, nullable=False)
     role = db.Column(db.Integer, db.ForeignKey('role.id', ondelete='SET NULL'))
 
-    def __init__(self, name, projectId, userId, isIntern, role):
-        self.name = name
-        self.projectId = projectId
+    def __init__(self, teamId, userId, isIntern, role):
+        self.teamId = teamId
         self.userId = userId
         self.isIntern = isIntern
         self.role = role
@@ -137,6 +145,12 @@ class RoleSchema(SQLAlchemyAutoSchema):
 class TeamProjectSchema(SQLAlchemyAutoSchema):
     class Meta:
         model = TeamProject
+        include_relationships = True
+        load_instance = True
+
+class MembersTeamProjectSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = MembersTeamProject
         include_relationships = True
         load_instance = True
 
