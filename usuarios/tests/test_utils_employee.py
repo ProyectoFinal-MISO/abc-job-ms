@@ -6,6 +6,7 @@ from sqlalchemy.orm import sessionmaker
 from modelos.modelos import TypeIdentification, Employee
 from application import application as app
 
+from utils.utils import generate_string_random
 from utils.employee import EmployeeCreate
 
 def test_employee_create():
@@ -50,9 +51,3 @@ def test_employee_create_identification_exits():
     response_2 = EmployeeCreate(userId = 1, user_data = data)
 
     assert response_2[1] == 400
-
-def generate_string_random(length):
-    import string
-    import random
-    letters = string.ascii_lowercase
-    return ''.join(random.choice(letters) for i in range(length))

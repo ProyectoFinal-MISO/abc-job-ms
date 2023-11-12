@@ -15,7 +15,7 @@ from vistas.companies import VistaCompany
 class TestCompanies(TestCase):
 
     def setUp(self):
-        token = create_access_token(identity='JWT_SECRET_KEY')
+        token = create_access_token(identity='JWT_SECRET_KEY_TEST')
         self.headers = {'Authorization': 'Bearer ' + token}
         self.data_factory = Faker()
         self.client = application.test_client()

@@ -1,5 +1,6 @@
 from flask_restful import Resource
 from modelos.modelos import db, Company
+from utils.utils import enum_serializer, location_user
 from flask import request, Response
 from flask_jwt_extended import jwt_required
 from enum import Enum
@@ -18,6 +19,7 @@ class VistaCompany(Resource):
 
         company = Company.query.filter_by(userId=id_company).first()
         if company:
+            location = location_user(company)
             return {
                 'id': company.id,
                 'userId': company.userId,
@@ -32,7 +34,8 @@ class VistaCompany(Resource):
                     'country': company.country,
                     'address': company.address,
                     'photo': company.photo
-                }
+                },
+                'location': location,
             }, 200
         else:
             return {'mensaje': 'Company not exist'}, 404
@@ -81,9 +84,4 @@ class VistaCompany(Resource):
                 else:
                     return {'mensaje': 'Company not exist'}, 404
             else:
-                return {'mensaje': 'Field is missing'}, 400
-
-def enum_serializer(obj):
-    if isinstance(obj, Enum):
-        return obj.name
-    raise TypeError(f"Object of type {type(obj)} is not JSON serializable")
+                return {'message': 'Field is missing'}, 400

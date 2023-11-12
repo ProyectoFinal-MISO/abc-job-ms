@@ -64,8 +64,8 @@ class VistasLogIn(Resource):
         if not request.is_json:
             return {"mensaje": "Error format body"}, 400
         parse_json = request.get_json()
-        if parse_json.get('username', None) and parse_json.get('password', None):
-            usuario = Usuario.query.filter_by(username=parse_json.get('username', None)).all()
+        if parse_json.get('username', None) and parse_json.get('password', None) and parse_json.get('userType', None):
+            usuario = Usuario.query.filter_by(username=parse_json.get('username', None), userType=parse_json.get('userType', None)).all()
             if usuario:
                 salt = usuario[0].salt
                 password = salt + parse_json.get('password', None)
