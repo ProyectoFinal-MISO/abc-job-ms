@@ -1,4 +1,4 @@
-from modelos.modelos import db, Role
+from modelos.modelos import db, Role, TechnicalSkills, SoftSkills
 
 def upsert_role(name):
     role = Role.query.filter_by(name=name).first()
@@ -7,18 +7,19 @@ def upsert_role(name):
         db.session.add(role)
         db.session.commit()
 
-    # PROJECT_MANAGER = 1
-    # PRODUCT_OWNER = 2
-    # SCRUM_MASTER = 3
-    # DEVELOPMENT_BACK = 4
-    # DEVELOPMENT_FRONT = 5
-    # ARCHITECT = 6
-    # UIUX_DESIGNER = 7
-    # QUALITY_ASSURANCE = 8
-    # BUSINESS_ANALYST = 9
-    # SYSTEM_ANALYST = 10
-    # DEVOPS_ENGINEER = 11
-    # TECHNICAL_WRITER = 12
+def upsert_technical_skill(name):
+    technical_skill = TechnicalSkills.query.filter_by(name=name).first()
+    if not technical_skill:
+        technical_skill = TechnicalSkills(name=name)
+        db.session.add(technical_skill)
+        db.session.commit()
+
+def upsert_soft_skill(name):
+    soft_skill = SoftSkills.query.filter_by(name=name).first()
+    if not soft_skill:
+        soft_skill = SoftSkills(name=name)
+        db.session.add(soft_skill)
+        db.session.commit()
 
 def populate_database():
 
@@ -39,3 +40,38 @@ def populate_database():
     ]
     for role in roles_data:
         upsert_role(role["name"])
+
+    technical_skills_data = [
+        {"name": "Java"},
+        {"name": "Python"},
+        {"name": "C#"},
+        {"name": "C++"},
+        {"name": "JavaScript"},
+        {"name": "PHP"},
+        {"name": "Ruby"},
+        {"name": "Swift"},
+        {"name": "Kotlin"},
+        {"name": "Go"},
+        {"name": "Scala"},
+        {"name": "Rust"},
+        {"name": "TypeScript"},
+        {"name": "SQL"},
+        {"name": "NoSQL"},
+    ]
+    for technical_skill in technical_skills_data:
+        upsert_technical_skill(technical_skill["name"])
+
+    soft_skills_data = [
+        {"name": "Escuchar"},
+        {"name": "Comunicación"},
+        {"name": "Trabajo en equipo"},
+        {"name": "Pensamiento crítico"},
+        {"name": "Resolución de problemas"},
+        {"name": "Flexibilidad"},
+        {"name": "Creatividad"},
+        {"name": "Empatía"},
+        {"name": "Liderazgo"},
+        {"name": "Gestión del tiempo"},
+    ]
+    for soft_skill in soft_skills_data:
+        upsert_soft_skill(soft_skill["name"])

@@ -1,4 +1,4 @@
-from modelos.modelos import db, Role, TechnicalSkillsProject, SoftSkillsProject, MembersTeamProject, TeamProject
+from modelos.modelos import db, Role, TechnicalSkills, SoftSkills, MembersTeamProject, TeamProject
 
 def get_roles_details(array_roles):
   roles = []
@@ -21,7 +21,7 @@ def get_role_detail(role_id):
 
 def get_technical_skills_details(array_technical_skills):
   technical_skills = []
-  for item in TechnicalSkillsProject.query.filter(TechnicalSkillsProject.id.in_(array_technical_skills)).all():
+  for item in TechnicalSkills.query.filter(TechnicalSkills.id.in_(array_technical_skills)).all():
       technical_skills.append({
           'id': item.id,
           'name': item.name
@@ -30,7 +30,7 @@ def get_technical_skills_details(array_technical_skills):
 
 def get_soft_skills_details(array_soft_skills):
   soft_skills = []
-  for item in SoftSkillsProject.query.filter(SoftSkillsProject.id.in_(array_soft_skills)).all():
+  for item in SoftSkills.query.filter(SoftSkills.id.in_(array_soft_skills)).all():
       soft_skills.append({
           'id': item.id,
           'name': item.name

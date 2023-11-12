@@ -3,7 +3,8 @@ from datetime import datetime, timezone
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from modelos.modelos import db, Project, TechnicalSkillsProject, SoftSkillsProject, Role, TeamProject, VacancyProject, ApplicantsVacancyProject
+from modelos.modelos import db, Project, TechnicalSkills, SoftSkills, Role, TeamProject, VacancyProject, ApplicantsVacancyProject
+
 from application import application as app
 
 @pytest.fixture(scope = 'module')
@@ -16,20 +17,18 @@ def new_project():
     return project
 
 @pytest.fixture(scope = 'module')
-def new_technical_skills_project():
-    technical_skills_project = TechnicalSkillsProject(
-        name = 'Python',
-        projectId = 1
+def new_technical_skills():
+    technical_skills = TechnicalSkills(
+        name = 'Python'
     )
-    return technical_skills_project
+    return technical_skills
 
 @pytest.fixture(scope = 'module')
-def new_soft_skills_project():
-    soft_skills_project = SoftSkillsProject(
-        name = 'Escuchar',
-        projectId = 1
+def new_soft_skills():
+    soft_skills = SoftSkills(
+        name = 'Escuchar'
     )
-    return soft_skills_project
+    return soft_skills
 
 @pytest.fixture(scope = 'module')
 def new_role():
@@ -80,19 +79,19 @@ def test_project_model(new_project):
     assert p.companyId == 1
     assert p.details == 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
 
-def test_technical_skills_project_model(new_technical_skills_project):
+def test_technical_skills_model(new_technical_skills):
     # Add the object to the database
-    tsp = TechnicalSkillsProject(new_technical_skills_project.name,
-                                new_technical_skills_project.projectId)
+    tsp = TechnicalSkills(new_technical_skills.name,
+                                new_technical_skills.projectId)
 
     # Check that the retrieved object matches the original object
     assert tsp.name == 'Python'
     assert tsp.projectId == 1
 
-def test_soft_skills_project_model(new_soft_skills_project):
+def test_soft_skills_model(new_soft_skills):
     # Add the object to the database
-    ssp = SoftSkillsProject(new_soft_skills_project.name,
-                            new_soft_skills_project.projectId)
+    ssp = SoftSkills(new_soft_skills.name,
+                            new_soft_skills.projectId)
 
     # Check that the retrieved object matches the original object
     assert ssp.name == 'Escuchar'
