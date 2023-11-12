@@ -31,12 +31,14 @@ class VistaSignIn(Resource):
             password = salt[0] + parse_json.get('password', None)
             password = hashlib.sha256(password.encode()).hexdigest()
             userType = parse_json.get('userType', None)
+            photo = parse_json.get('photo', None)
             nuevo_usuario = Usuario(
                 username = parse_json.get('username', None),
                 email = parse_json.get('email', None),
                 password = password,
                 userType = userType,
-                salt = salt[0]
+                salt = salt[0],
+                photo=photo
             )
             db.session.add(nuevo_usuario)
             db.session.commit()
@@ -102,7 +104,9 @@ class VistaUsuario(Resource):
         return {
             "id":usuario.id,
             "username":f"{usuario.username}",
-            "email":f"{usuario.email}"
+            "email":f"{usuario.email}",
+            "userType":f"{usuario.userType}",
+            "photo":f"{usuario.photo}"
         }, 200
     
 class VistaUsuarioSesion(Resource):

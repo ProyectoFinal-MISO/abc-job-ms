@@ -13,7 +13,8 @@ def new_user():
         username='test',
         password=b'password',
         userType=UserType.PERSON,
-        salt = 'salt'
+        salt = 'salt',
+        photo="64616684646sdas"
     )
     return user
 
@@ -181,7 +182,8 @@ def test_user_model(new_user):
             new_user.username,
             new_user.password,
             new_user.userType,
-            new_user.salt
+            new_user.salt,
+            new_user.photo
             )
 
     # Check that the retrieved object matches the original object

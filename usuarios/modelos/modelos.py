@@ -35,17 +35,19 @@ class Usuario(db.Model):
     email = db.Column(db.String(50), unique=True, nullable=False)
     password = db.Column(db.String(100), nullable=False)
     userType = db.Column(db.Enum(UserType))
+    photo = db.Column(db.UnicodeText)
     salt = db.Column(db.String(100))
     token = db.Column(db.String(500))
     expireAt = db.Column(db.DateTime)
     createdAt = db.Column(db.DateTime, default=datetime.now())
 
-    def __init__(self, username, email, password, userType, salt):
+    def __init__(self, username, email, password, userType, salt, photo):
         self.username = username
         self.email = email
         self.password = password
         self.userType = userType
         self.salt = salt
+        self.photo = photo
 
 class TechnicalResource(db.Model):
     __tablename__ = 'technical_resource'
