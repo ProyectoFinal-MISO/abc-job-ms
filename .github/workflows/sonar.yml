@@ -22,7 +22,7 @@ jobs:
         working-directory: ./
         run: |
           cd usuarios
-          ls
+          pwd
           cat coverage.xml
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
