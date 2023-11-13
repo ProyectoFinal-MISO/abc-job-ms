@@ -20,7 +20,7 @@ jobs:
         working-directory: ./usuarios
         run: |
           pip install -r requirements.txt
-          pytest --cov=. --cov-repost=xml -v -s --cov-fail-under=80
+          pytest --cov=. --cov-report=xml -v -s --cov-fail-under=80
       - uses: actions/checkout@v1
       - name: Run tests for evaluations
         working-directory: ./evaluaciones
