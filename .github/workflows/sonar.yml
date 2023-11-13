@@ -18,6 +18,10 @@ jobs:
         run: |
           pip install -r requirements.txt
           pytest --cov=. --cov-report=xml -v -s --cov-fail-under=80
+      - name: Run query
+        working-directory: ./
+        run: |
+          ls
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
