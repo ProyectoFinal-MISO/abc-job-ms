@@ -21,7 +21,9 @@ jobs:
       - name: Run query
         working-directory: ./
         run: |
+          cd usurios
           ls
+          cat coverage.xml
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
