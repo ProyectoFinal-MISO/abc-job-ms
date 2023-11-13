@@ -20,13 +20,14 @@ jobs:
         working-directory: ./usuarios
         run: |
           pip install -r requirements.txt
-          pytest --cov=. -v -s --cov-fail-under=80
+          pytest --cov=. --cov-repost=xml -v -s --cov-fail-under=80
       - uses: actions/checkout@v1
       - name: Run tests for evaluations
         working-directory: ./evaluaciones
         run: |
           pip install -r requirements.txt
           coverage run -m --omit="*/usr/lib/*" unittest discover -s tests -v
+          coverage xml
           coverage report --fail-under=80
       - uses: actions/checkout@v1
       - name: Run tests for mediator
@@ -34,6 +35,7 @@ jobs:
         run: |
           pip install -r requirements.txt
           coverage run -m --omit="*/usr/lib/*" unittest discover -s tests -v
+          coverage xml
           coverage report --fail-under=80
       - uses: actions/checkout@v1
       - name: Run tests for projects
@@ -41,6 +43,7 @@ jobs:
         run: |
           pip install -r requirements.txt
           coverage run -m --omit="*/usr/lib/*" unittest discover -s tests -v
+          coverage xml
           coverage report --fail-under=80
       - uses: actions/checkout@v1
       - name: Run tests for interviews
@@ -48,6 +51,7 @@ jobs:
         run: |
           pip install -r requirements.txt
           coverage run -m --omit="*/usr/lib/*" unittest discover -s tests -v
+          coverage xml
           coverage report --fail-under=80      
       - uses: actions/checkout@v3
         with:
