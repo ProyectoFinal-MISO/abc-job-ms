@@ -11,6 +11,7 @@ from vistas.locations import VistaLocationCountries, VistaLocationStates, VistaL
 from vistas.combo_box_options import VistaTypesIdentification, VistaGenders, VistaEducationLevels, VistaUserTypes
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
+from flask_cors import CORS
 from modelos.populate_db import populate_database
 
 application = Flask(__name__)
@@ -18,6 +19,7 @@ application.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL", "sqlit
 application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 application.config['JWT_SECRET_KEY'] = 'secret_key'
 application.config['JWT_ACCESS_TOKEN_EXPIRES'] = 3600
+CORS(application)
 
 app_context = application.app_context()
 app_context.push()
