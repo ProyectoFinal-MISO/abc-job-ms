@@ -14,7 +14,7 @@ jobs:
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
       - name: Run tests
-        working-directory: ./usuarios
+        working-directory: ./
         run: |
           pip install -r usuarios/requirements.txt
           pytest --cov=./usuarios --cov-report=xml -v -s --cov-fail-under=80
