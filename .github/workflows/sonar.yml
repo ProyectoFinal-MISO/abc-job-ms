@@ -21,7 +21,7 @@ jobs:
       - name: Run query
         working-directory: ./
         run: |
-          cd usurios
+          cd usuarios
           ls
           cat coverage.xml
       - name: SonarCloud Scan
