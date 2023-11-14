@@ -58,14 +58,11 @@ class VistaSignIn(Resource):
 
 class VistasLogIn(Resource):
     def post (self):
-        error_message = {"mensaje":"Wrong email or password"}
-        response = jsonify(error_message)
-        response.status_code = 404
         if not request.is_json:
             return {"mensaje": "Error format body"}, 400
         parse_json = request.get_json()
         if parse_json.get('username', None) and parse_json.get('password', None) and parse_json.get('userType', None):
-            usuario = Usuario.query.filter_by(username=parse_json.get('username', None), userType=parse_json.get('userType', None)).all()
+            usuario = Usuario.query.filter_by(username=parse_json.get('username', None)).all()
             if usuario:
                 salt = usuario[0].salt
                 password = salt + parse_json.get('password', None)
@@ -86,9 +83,9 @@ class VistasLogIn(Resource):
                         "expireAt":f"{expireAt}"
                     }, 200
                 else:
-                    return response
+                    return {'mensaje': 'Wrong password'}, 404
             else:
-               return response
+               return {'mensaje': 'User not exist'}, 404
         else:
             return {'mensaje': 'Field is missing'}, 400
 
