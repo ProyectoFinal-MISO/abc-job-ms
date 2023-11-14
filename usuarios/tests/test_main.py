@@ -24,8 +24,7 @@ def new_technical_resource():
             "city": "Bogota",
             "state": "Bogota",
             "country": "Colombia",
-            "address": "Calle 123",
-            "photo": "//"
+            "address": "Calle 123"
         },
         "academicInformation" : [
             {
@@ -80,7 +79,6 @@ class TestUsuarios(TestCase):
                     username = "dacperezce",
                     email = "daniel@gmail.com",
                     userType=UserType.PERSON,
-                    photo="oanodnaosdoansodnaosn",
                     password = "88d5f5ecc3187752b6ed943cb37760a6edb941cd0baf7e47247560f18358db2a",
                     salt = "jS6MzFJiV8AZHvD"
                 )

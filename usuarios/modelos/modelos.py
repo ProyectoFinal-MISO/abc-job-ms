@@ -35,19 +35,17 @@ class Usuario(db.Model):
     email = db.Column(db.String(50), unique=True, nullable=False)
     password = db.Column(db.String(100), nullable=False)
     userType = db.Column(db.Enum(UserType))
-    photo = db.Column(db.UnicodeText)
     salt = db.Column(db.String(100))
     token = db.Column(db.String(500))
     expireAt = db.Column(db.DateTime)
     createdAt = db.Column(db.DateTime, default=datetime.now())
 
-    def __init__(self, username, email, password, userType, salt, photo):
+    def __init__(self, username, email, password, userType, salt):
         self.username = username
         self.email = email
         self.password = password
         self.userType = userType
         self.salt = salt
-        self.photo = photo
 
 class TechnicalResource(db.Model):
     __tablename__ = 'technical_resource'
@@ -64,7 +62,7 @@ class TechnicalResource(db.Model):
     state = db.Column(db.Integer, db.ForeignKey('states.id', ondelete='SET NULL'))
     country = db.Column(db.Integer, db.ForeignKey('countries.id', ondelete='SET NULL'))
     address = db.Column(db.String(50), nullable=False)
-    photo = db.Column(db.String(500))
+    photo = db.Column(db.Text)
     userId = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='SET NULL'))
 
     def __init__(self, name, lastName, typeIdentification, identification, birthdate, genre, phoneNumber, mobileNumber, city, state, country, address, photo, userId):
@@ -236,7 +234,7 @@ class Employee(db.Model):
     state = db.Column(db.Integer, db.ForeignKey('states.id', ondelete='SET NULL'))
     country = db.Column(db.Integer, db.ForeignKey('countries.id', ondelete='SET NULL'))
     address = db.Column(db.String(50), nullable=False)
-    photo = db.Column(db.String(500))
+    photo = db.Column(db.Text)
     userId = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='SET NULL'))
 
     def __init__(self, name, lastName, typeIdentification, identification, phoneNumber, mobileNumber, city, state, country, address, photo, userId):
@@ -265,7 +263,7 @@ class Company(db.Model):
     state = db.Column(db.Integer, db.ForeignKey('states.id', ondelete='SET NULL'))
     country = db.Column(db.Integer, db.ForeignKey('countries.id', ondelete='SET NULL'))
     address = db.Column(db.String(50), nullable=False)
-    photo = db.Column(db.String(500))
+    photo = db.Column(db.Text)
     userId = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='SET NULL'))
 
     def __init__(self, name, typeIdentification, identification, phoneNumber, mobileNumber, city, state, country, address, photo, userId):

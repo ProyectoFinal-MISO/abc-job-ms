@@ -8,18 +8,39 @@ def EmployeeCreate(userId = None, user_data = None):
     try:
         personal_data = user_data['personalInformation']
 
+        name = personal_data.get('name', None)
+        lastName = personal_data.get('lastName', None)
+        typeIdentification = personal_data.get('typeIdentification', None)
+        identification = personal_data.get('identification', None)
+        phoneNumber = personal_data.get('phoneNumber', None)
+        mobileNumber = personal_data.get('mobileNumber', None)
+        city = personal_data.get('city', None)
+        state = personal_data.get('state', None),
+        country = personal_data.get('country', None)
+        address = personal_data.get('address', None)
+        photo = personal_data.get('photo', None)
+
+        if (not name) or (not lastName) or (not typeIdentification) or (not identification) or (not phoneNumber) or (not mobileNumber) or (not city) or (not state) or (not country) or (not address):
+            return {"mensaje": f"Missing parameter"}, 400
+
+        if identification:
+            employies = Employee.query.filter_by(identification=identification).all()
+            if len(employies):
+                return {"mensaje": f"Alredy exist a employee with the identification {identification}"}, 412
+
+
         new_employee = Employee(
-            name = personal_data.get('name', None),
-            lastName = personal_data.get('lastName', None),
-            typeIdentification = personal_data.get('typeIdentification', None),
-            identification = personal_data.get('identification', None),
-            phoneNumber = personal_data.get('phoneNumber', None),
-            mobileNumber = personal_data.get('mobileNumber', None),
-            city = personal_data.get('city', None),
-            state = personal_data.get('state', None),
-            country = personal_data.get('country', None),
-            address = personal_data.get('address', None),
-            photo = personal_data.get('photo', None),
+            name = name,
+            lastName = lastName,
+            typeIdentification = typeIdentification,
+            identification = identification,
+            phoneNumber = phoneNumber,
+            mobileNumber = mobileNumber,
+            city = city,
+            state = state,
+            country = country,
+            address = address,
+            photo = photo,
             userId = userId
         )
         db.session.add(new_employee)
@@ -33,5 +54,5 @@ def EmployeeCreate(userId = None, user_data = None):
     except Exception as e:
         db.session.rollback()
         return {
-            "Error": e
-        }, 400
+            "mensaje": f"{e}"
+        }, 500

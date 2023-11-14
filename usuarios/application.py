@@ -39,8 +39,8 @@ api.add_resource(VistaTechnicalResource, '/users/technical_resource/<id_tr>')
 api.add_resource(VistaProfessionalSector, '/users/professional_sector')
 api.add_resource(VistaLanguage, '/users/language')
 api.add_resource(VistaLocationCountries, '/users/location/countries')
-api.add_resource(VistaLocationStates, '/users/location/states/<id_country>')
-api.add_resource(VistaLocationCities, '/users/location/cities/<id_state>')
+api.add_resource(VistaLocationStates, '/users/location/states/<int:id_country>')
+api.add_resource(VistaLocationCities, '/users/location/cities/<int:id_state>')
 
 api.add_resource(VistaTypesIdentification, '/users/types_documents')
 api.add_resource(VistaGenders, '/users/genders')
@@ -55,7 +55,7 @@ jwt = JWTManager(application)
 
 @jwt.unauthorized_loader
 def missing_token(callback):
-    return Response(status=400)
+    return Response(status=401)
 
 @jwt.expired_token_loader
 def missing_token(jwt_header, jwt_payload):

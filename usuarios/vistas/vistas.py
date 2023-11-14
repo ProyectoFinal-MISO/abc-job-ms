@@ -31,26 +31,26 @@ class VistaSignIn(Resource):
             password = salt[0] + parse_json.get('password', None)
             password = hashlib.sha256(password.encode()).hexdigest()
             userType = parse_json.get('userType', None)
-            photo = parse_json.get('photo', None)
             nuevo_usuario = Usuario(
                 username = parse_json.get('username', None),
                 email = parse_json.get('email', None),
                 password = password,
                 userType = userType,
-                salt = salt[0],
-                photo=photo
+                salt = salt[0]
             )
             db.session.add(nuevo_usuario)
             db.session.commit()
-
             # Llamado funciones para el guardado de la informacion del usuario segun el tipo de usuario
             if userType == "PERSON":
                 response = TechnicalResourceCreate(nuevo_usuario.id, parse_json)
             if userType == "EMPLOYEE":
                 response = EmployeeCreate(nuevo_usuario.id, parse_json)
+                if response[1] != 201:
+                    db.session.delete(nuevo_usuario)
+                    db.session.commit()
+                    return response[0], response[1]
             if userType == "COMPANY":
                 response = CompanyCreate(nuevo_usuario.id, parse_json)
-
             return {
                 "id": nuevo_usuario.id,
                 "createdAt": f"{nuevo_usuario.createdAt}",
@@ -105,8 +105,7 @@ class VistaUsuario(Resource):
             "id":usuario.id,
             "username":f"{usuario.username}",
             "email":f"{usuario.email}",
-            "userType":f"{usuario.userType}",
-            "photo":f"{usuario.photo}"
+            "userType":f"{usuario.userType}"
         }, 200
     
 class VistaUsuarioSesion(Resource):
