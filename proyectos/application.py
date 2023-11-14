@@ -13,7 +13,7 @@ from flask_jwt_extended import JWTManager
 from flask_cors import CORS
 
 application = Flask(__name__)
-application.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL") if os.getenv("DATABASE_URL") is not None else 'postgresql://postgres:root@localhost/abc_proyectos_3'
+application.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL", "sqlite:///test.db")
 application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 CORS(application)
 
