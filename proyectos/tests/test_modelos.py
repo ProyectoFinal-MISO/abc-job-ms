@@ -3,7 +3,7 @@ from datetime import datetime, timezone
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from modelos.modelos import db, Project, TechnicalSkills, SoftSkills, Role, TeamProject, VacancyProject, ApplicantsVacancyProject
+from modelos.modelos import db, Project, TechnicalSkills, SoftSkills, Role, TeamProject, MembersTeamProject, VacancyProject, ApplicantsVacancyProject
 
 from application import application as app
 
@@ -41,22 +41,39 @@ def new_role():
 def new_team_project():
     team_project = TeamProject(
         name = 'John Doe',
-        projectId = 1,
-        userId = 1,
-        isIntern = False,
-        role = 1
+        projectId = 1
     )
     return team_project
 
 @pytest.fixture(scope = 'module')
+def new_member_team_project():
+    member_team_project = MembersTeamProject(
+        teamId = 1,
+        userId = 1,
+        isIntern = False,
+        role = 1
+    )
+    return member_team_project
+
+@pytest.fixture(scope = 'module')
 def new_vacancy_project():
+    role = Role(
+        name = 'Project Manager'
+    )
+    technical_skills = TechnicalSkills(
+        name = 'Python'
+    )
+    soft_skills = SoftSkills(
+        name = 'Escuchar'
+    )
     vacancy_project = VacancyProject(
         name = 'Project Manager',
+        projectId = 1,
         details = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
         places = 5,
-        roles = [1, 2, 3],
-        technicalSkills = [1, 2, 3],
-        softSkills = [1, 2, 3]
+        roles = [role],
+        technicalSkills = [technical_skills],
+        softSkills = [soft_skills]
     )
     return vacancy_project
 
@@ -81,21 +98,17 @@ def test_project_model(new_project):
 
 def test_technical_skills_model(new_technical_skills):
     # Add the object to the database
-    tsp = TechnicalSkills(new_technical_skills.name,
-                                new_technical_skills.projectId)
+    tsp = TechnicalSkills(new_technical_skills.name)
 
     # Check that the retrieved object matches the original object
     assert tsp.name == 'Python'
-    assert tsp.projectId == 1
 
 def test_soft_skills_model(new_soft_skills):
     # Add the object to the database
-    ssp = SoftSkills(new_soft_skills.name,
-                            new_soft_skills.projectId)
+    ssp = SoftSkills(new_soft_skills.name)
 
     # Check that the retrieved object matches the original object
     assert ssp.name == 'Escuchar'
-    assert ssp.projectId == 1
 
 def test_role_model(new_role):
     # Add the object to the database
@@ -107,34 +120,40 @@ def test_role_model(new_role):
 def test_team_project_model(new_team_project):
     # Add the object to the database
     tp = TeamProject(new_team_project.name,
-                     new_team_project.projectId,
-                     new_team_project.userId,
-                     new_team_project.isIntern,
-                     new_team_project.role)
+                     new_team_project.projectId)
 
     # Check that the retrieved object matches the original object
     assert tp.name == 'John Doe'
     assert tp.projectId == 1
-    assert tp.userId == 1
-    assert tp.isIntern == False
-    assert tp.role == 1
 
-# def test_vacancy_project_model(new_vacancy_project):
-#     # Add the object to the database
-#     vp = VacancyProject(new_vacancy_project.name,
-#                         new_vacancy_project.details,
-#                         new_vacancy_project.places,
-#                         new_vacancy_project.roles,
-#                         new_vacancy_project.technicalSkills,
-#                         new_vacancy_project.softSkills)
+def test_member_team_project_model(new_member_team_project):
+    # Add the object to the database
+    mtp = MembersTeamProject(new_member_team_project.teamId,
+                             new_member_team_project.userId,
+                             new_member_team_project.isIntern,
+                             new_member_team_project.role)
 
-#     # Check that the retrieved object matches the original object
-#     assert vp.name == 'Project Manager'
-#     assert vp.details == 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
-#     assert vp.places == 5
-#     assert vp.roles == [1, 2, 3]
-#     assert vp.technicalSkills == [1, 2, 3]
-#     assert vp.softSkills == [1, 2, 3]
+    # Check that the retrieved object matches the original object
+    assert mtp.teamId == 1
+    assert mtp.userId == 1
+    assert mtp.isIntern == False
+    assert mtp.role == 1
+
+def test_vacancy_project_model(new_vacancy_project):
+    # Add the object to the database
+    vp = VacancyProject(new_vacancy_project.name,
+                        new_vacancy_project.projectId,
+                        new_vacancy_project.details,
+                        new_vacancy_project.places,
+                        new_vacancy_project.roles,
+                        new_vacancy_project.technicalSkills,
+                        new_vacancy_project.softSkills)
+
+    # Check that the retrieved object matches the original object
+    assert vp.name == 'Project Manager'
+    assert vp.projectId == 1
+    assert vp.details == 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+    assert vp.places == 5
 
 def test_applicants_vacancy_project_model(new_applicants_vacancy_project):
     # Add the object to the database
