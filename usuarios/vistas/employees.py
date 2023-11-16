@@ -87,4 +87,4 @@ class VistaEmployee(Resource):
             else:
                 return {'mensaje': 'Employee not exist'}, 404
         else:
-            return {'message': 'Field is missing'}, 400
+            return {'mensaje': 'Field is missing'}, 400
