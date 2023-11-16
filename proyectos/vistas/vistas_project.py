@@ -129,4 +129,4 @@ class VistaProjectListByCompanyId(Resource):
                 })
             return projects_list, 200
         else:
-            return {'mensaje': 'Projects not exist'}, 204
+            return {'mensaje': 'Projects not exist'}, 404

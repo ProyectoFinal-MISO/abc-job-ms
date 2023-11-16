@@ -1,5 +1,5 @@
 from modelos.modelos import db, Role, TechnicalSkills, SoftSkills, MembersTeamProject, TeamProject
-from utils.get_details_objects import get_roles_details, get_technical_skills_details, get_soft_skills_details, get_teams_project, get_members_team
+from utils.get_details_objects import get_role_detail, get_roles_details, get_technical_skills_details, get_soft_skills_details, get_teams_project, get_members_team
 from utils.utils import generate_string_random
 
 def test_get_roles_details():

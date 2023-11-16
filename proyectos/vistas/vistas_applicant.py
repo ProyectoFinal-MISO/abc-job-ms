@@ -68,10 +68,9 @@ class VistaApplicantsVacancyProject(Resource):
             vacancy = VacancyProject.query.filter_by(id=applicant.vacancyId).first()
             if vacancy:
                 vacancy.places = vacancy.places + 1
-                db.session.commit()
             db.session.delete(applicant)
             db.session.commit()
-            return {'mensaje': 'Applicant deleted'}, 200
+            return {'mensaje': 'Applicant deleted'}, 204
         else:
             return {'mensaje': 'Applicant not exist'}, 404
 
@@ -139,4 +138,4 @@ class VistaApplicantsVacancyProjectByVacancyId(Resource):
                 ]
             }, 200
         else:
-            return {'mensaje': 'Applicants not exist'}, 204
+            return {'mensaje': 'Applicants not exist'}, 404
