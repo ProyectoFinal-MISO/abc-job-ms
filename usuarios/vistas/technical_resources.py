@@ -13,7 +13,7 @@ class VistaTechnicalResource(Resource):
         try:
             id_tr = int(id_tr)
         except ValueError:
-            return {'message': 'Technical resource id is not integer'}, 400
+            return {'mensaje': 'Technical resource id is not integer'}, 400
 
         tr = TechnicalResource.query.filter_by(userId=id_tr).first()
 
@@ -55,14 +55,14 @@ class VistaTechnicalResource(Resource):
                 'location': location,
             }, 200
         else:
-            return {'message': 'Technical resource not exist'}, 404
+            return {'mensaje': 'Technical resource not exist'}, 404
 
     @jwt_required()
     def delete(self, id_tr):
         try:
             id_tr = int(id_tr)
         except ValueError:
-            return {'message': 'Technical resource id is not integer'}, 400
+            return {'mensaje': 'Technical resource id is not integer'}, 400
 
         tr = TechnicalResource.query.filter_by(userId=id_tr).first()
         if tr:
@@ -76,21 +76,21 @@ class VistaTechnicalResource(Resource):
 
             db.session.delete(tr)
             db.session.commit()
-            return {'message': 'Technical resource deleted'}, 200
+            return {'mensaje': 'Technical resource deleted'}, 200
         else:
-            return {'message': 'Technical resource not exist'}, 404
+            return {'mensaje': 'Technical resource not exist'}, 404
 
     @jwt_required()
     def put(self, id_tr):
 
         if not request.is_json:
-            return Response(status=400)
+            return {"mensaje": "Error format body"}, 400
         parse_json = request.get_json()
         if parse_json.get('name', None) and parse_json.get('lastName', None) and parse_json.get('typeIdentification', None) and parse_json.get('identification', None) and parse_json.get('phoneNumber', None) and parse_json.get('mobileNumber', None) and parse_json.get('city', None) and parse_json.get('state', None) and parse_json.get('country', None) and parse_json.get('address', None):
             try:
                 id_tr = int(id_tr)
             except ValueError:
-                return {'message': 'Technical resource id is not integer'}, 400
+                return {'mensaje': 'Technical resource id is not integer'}, 400
 
             tr = TechnicalResource.query.filter_by(userId=id_tr).first()
             if tr:
@@ -116,11 +116,11 @@ class VistaTechnicalResource(Resource):
                 PersonalSkillsUpdate(id_tr, parse_json.get('personalSkills', None))
 
                 db.session.commit()
-                return {'message': 'Technical resource was updated'}, 200
+                return {'mensaje': 'Technical resource was updated'}, 200
             else:
-                return {'message': 'Technical resource not exist'}, 404
+                return {'mensaje': 'Technical resource not exist'}, 404
         else:
-            return {'message': 'Field is missing'}, 400
+            return {'mensaje': 'Field is missing'}, 400
 
 def AcademicInformationGet(technical_resource_id):
     ai = AcademicInformation.query.filter_by(technicalResourceId=technical_resource_id).all()

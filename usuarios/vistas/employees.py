@@ -14,7 +14,7 @@ class VistaEmployee(Resource):
         try:
             id_employee = int(id_employee)
         except ValueError:
-            return {'message': 'Employee id is not integer'}, 400
+            return {'mensaje': 'Employee id is not integer'}, 400
 
         employee = Employee.query.filter_by(userId=id_employee).first()
 
@@ -39,7 +39,7 @@ class VistaEmployee(Resource):
                 'location': location,
             }, 200
         else:
-            return {'message': 'Employee not exist'}, 404
+            return {'mensaje': 'Employee not exist'}, 404
 
     @jwt_required()
     def delete(self, id_employee):
@@ -47,27 +47,27 @@ class VistaEmployee(Resource):
         try:
             id_employee = int(id_employee)
         except ValueError:
-            return {'message': 'Employee id is not integer'}, 400
+            return {'mensaje': 'Employee id is not integer'}, 400
 
         employee = Employee.query.filter_by(userId=id_employee).first()
         if employee:
             db.session.delete(employee)
             db.session.commit()
-            return {'message': 'Employee deleted'}, 200
+            return {'mensaje': 'Employee deleted'}, 200
         else:
-            return {'message': 'Employee not exist'}, 404
+            return {'mensaje': 'Employee not exist'}, 404
 
     @jwt_required()
     def put(self, id_employee):
 
         if not request.is_json:
-            return Response(status=400)
+            return {"mensaje": "Error format body"}, 400
         parse_json = request.get_json()
         if parse_json.get('name', None) and parse_json.get('lastName', None) and parse_json.get('typeIdentification', None) and parse_json.get('identification', None) and parse_json.get('phoneNumber', None) and parse_json.get('mobileNumber', None) and parse_json.get('city', None) and parse_json.get('state', None) and parse_json.get('country', None) and parse_json.get('address', None):
             try:
                 id_employee = int(id_employee)
             except ValueError:
-                return {'message': 'Employee id is not integer'}, 400
+                return {'mensaje': 'Employee id is not integer'}, 400
 
             employee = Employee.query.filter_by(userId=id_employee).first()
             if employee:
@@ -83,8 +83,8 @@ class VistaEmployee(Resource):
                 employee.address = parse_json.get('address', None)
                 employee.photo = parse_json.get('photo', None)
                 db.session.commit()
-                return {'message': 'Employee was updated'}, 200
+                return {'mensaje': 'Employee was updated'}, 200
             else:
-                return {'message': 'Employee not exist'}, 404
+                return {'mensaje': 'Employee not exist'}, 404
         else:
             return {'message': 'Field is missing'}, 400

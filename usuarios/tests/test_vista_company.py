@@ -85,7 +85,7 @@ class TestCompanies(TestCase):
 
         # Check that the company was deleted
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json['message'], 'Company deleted')
+        self.assertEqual(response.json['mensaje'], 'Company deleted')
 
     def test_delete_nonexistent_company(self):
         # Delete a nonexistent company
@@ -93,7 +93,7 @@ class TestCompanies(TestCase):
 
         # Check that the response is correct
         self.assertEqual(response.status_code, 404)
-        self.assertEqual(response.json['message'], 'Company not exist')
+        self.assertEqual(response.json['mensaje'], 'Company not exist')
 
     def test_delete_company_with_noninteger_id(self):
         # Delete a company with a non-integer ID
@@ -101,7 +101,7 @@ class TestCompanies(TestCase):
 
         # Check that the response is correct
         self.assertEqual(response.status_code, 400)
-        self.assertEqual(response.json['message'], 'Company id is not integer')
+        self.assertEqual(response.json['mensaje'], 'Company id is not integer')
 
     def test_put_company(self):
         # Create a company to update
@@ -160,7 +160,7 @@ class TestCompanies(TestCase):
 
         # Check that the response is correct
         self.assertEqual(response.status_code, 404)
-        self.assertEqual(response.json['message'], 'Company not exist')
+        self.assertEqual(response.json['mensaje'], 'Company not exist')
 
     def test_update_company_with_noninteger_id(self):
         # Update the company
@@ -181,7 +181,7 @@ class TestCompanies(TestCase):
 
         # Check that the response is correct
         self.assertEqual(response.status_code, 400)
-        self.assertEqual(response.json['message'], 'Company id is not integer')
+        self.assertEqual(response.json['mensaje'], 'Company id is not integer')
 
     def test_update_company_with_field_missing(self):
         # Update the company
@@ -201,7 +201,7 @@ class TestCompanies(TestCase):
 
         # Check that the response is correct
         self.assertEqual(response.status_code, 400)
-        self.assertEqual(response.json['message'], 'Field is missing')
+        self.assertEqual(response.json['mensaje'], 'Field is missing')
 
 def generate_string_random(length):
     import string

@@ -1,6 +1,7 @@
 import os
 from flask import Flask, Response
 from modelos.modelos import db
+from modelos.populate_db import populate_database
 from vistas.vistas import VistasLogIn, VistaSignIn, VistaUsuario, VistaUsuarioSesion
 from vistas.employees import VistaEmployee
 from vistas.companies import VistaCompany
@@ -12,7 +13,6 @@ from vistas.combo_box_options import VistaTypesIdentification, VistaGenders, Vis
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
-from modelos.populate_db import populate_database
 
 application = Flask(__name__)
 application.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL", "sqlite:///test.db")
@@ -31,6 +31,7 @@ api = Api(application)
 api.add_resource(VistaSignIn, '/users')
 api.add_resource(VistasLogIn, '/users/auth')
 api.add_resource(VistaUsuario, '/users/me')
+api.add_resource(VistaUsuarioSesion, '/users/user_session')
 
 api.add_resource(VistaEmployee, '/users/employee/<id_employee>')
 api.add_resource(VistaCompany, '/users/company/<id_company>')
@@ -46,7 +47,6 @@ api.add_resource(VistaTypesIdentification, '/users/types_documents')
 api.add_resource(VistaGenders, '/users/genders')
 api.add_resource(VistaEducationLevels, '/users/education_levels')
 api.add_resource(VistaUserTypes, '/users/user_types')
-api.add_resource(VistaUsuarioSesion, '/users/user_session')
 
 # Alimentar base de datos con valores por defecto
 populate_database()
