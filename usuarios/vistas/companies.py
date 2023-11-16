@@ -84,4 +84,4 @@ class VistaCompany(Resource):
                 else:
                     return {'mensaje': 'Company not exist'}, 404
             else:
-                return {'message': 'Field is missing'}, 400
+                return {'mensaje': 'Field is missing'}, 400

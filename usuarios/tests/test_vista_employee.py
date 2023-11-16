@@ -208,4 +208,4 @@ class TestEmployees(TestCase):
 
         # Check that the response is correct
         self.assertEqual(response.status_code, 400)
-        self.assertEqual(response.json['message'], 'Field is missing')
+        self.assertEqual(response.json['mensaje'], 'Field is missing')
