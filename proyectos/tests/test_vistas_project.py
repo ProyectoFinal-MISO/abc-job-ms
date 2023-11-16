@@ -72,70 +72,12 @@ class TestVistaProjectCreate(TestCase):
         self.assertEqual(response.status_code, 400)
         self.assertIn("mensaje", response.json)
 
-class TestVistaProjectCreate(TestCase):
+class TestVistaProject(TestCase):
 
     def setUp(self):
         self.headers = {}
         self.client = application.test_client()
         application.app_context().push()
-
-    def test_create_project(self):
-        # Create a fake project
-        project_data = {
-            "name": "Project1" + str(generate_string_random(5)),
-            "companyId": 1,
-            "details": "Details1"
-        }
-
-        # Make a request to create the project
-        response = self.client.post("/projects", headers=self.headers, json=project_data)
-
-        # Check that the response is correct
-        self.assertEqual(response.status_code, 201)
-        self.assertIn("id", response.json)
-        self.assertIsInstance(response.json["id"], int)
-
-        # Check that the project was created in the database
-        project = Project.query.filter_by(name=project_data["name"]).first()
-        self.assertIsNotNone(project)
-        self.assertEqual(project.companyId, project_data["companyId"])
-        self.assertEqual(project.details, project_data["details"])
-
-    def test_create_project_missing_fields(self):
-        # Create a fake project with missing fields
-        project_data = {
-            "name": "Project1" + str(generate_string_random(5)),
-            "companyId": 1
-        }
-
-        # Make a request to create the project
-        response = self.client.post("/projects", headers=self.headers, json=project_data)
-
-        # Check that the response is correct
-        self.assertEqual(response.status_code, 400)
-        self.assertIn("mensaje", response.json)
-
-    def test_create_project_duplicate_name(self):
-        # Create a fake project with a duplicate name
-        project_data = {
-            "name": "Project1" + str(generate_string_random(5)),
-            "companyId": 1,
-            "details": "Details1"
-        }
-        project = Project(
-            name=project_data["name"],
-            companyId=project_data["companyId"],
-            details=project_data["details"]
-        )
-        db.session.add(project)
-        db.session.commit()
-
-        # Make a request to create the project
-        response = self.client.post("/projects", headers=self.headers, json=project_data)
-
-        # Check that the response is correct
-        self.assertEqual(response.status_code, 400)
-        self.assertIn("mensaje", response.json)
 
     def test_get_project(self):
         # Create a fake project
