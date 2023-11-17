@@ -9,17 +9,13 @@ from modelos.modelos import db, ApplicantsVacancyProject, VacancyProject
 from vistas.vistas_applicant import VistaApplicantsVacancyProjectCreate
 from utils.utils import generate_string_random
 
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy.ext.declarative import declarative_base
-
 class TestVistaApplicantsVacancyProjectCreate(TestCase):
 
     def setUp(self):
-        self.app = application.test_client()
-        self.headers = {
-
-        }
+        token = create_access_token(identity='JWT_SECRET_KEY_TEST')
+        self.headers = {'Authorization': 'Bearer ' + token}
+        self.client = application.test_client()
+        application.app_context().push()
 
     def test_create_applicant(self):
         # Create a fake vacancy
@@ -41,7 +37,7 @@ class TestVistaApplicantsVacancyProjectCreate(TestCase):
             'vacancyId': vacancy.id,
             'userId': 1
         }
-        response = self.app.post('/applicants', headers=self.headers, json=data)
+        response = self.client.post('/applicants', headers=self.headers, json=data)
 
         # Check that the response is correct
         self.assertEqual(response.status_code, 201)
@@ -59,7 +55,7 @@ class TestVistaApplicantsVacancyProjectCreate(TestCase):
         data = {
             'vacancyId': 1,
         }
-        response = self.app.post('/applicants', headers=self.headers, json=data)
+        response = self.client.post('/applicants', headers=self.headers, json=data)
 
         # Check that the response is correct
         self.assertEqual(response.status_code, 400)
@@ -87,7 +83,7 @@ class TestVistaApplicantsVacancyProjectCreate(TestCase):
             'vacancyId': applicant.vacancyId,
             'userId': applicant.userId
         }
-        response = self.app.post('/applicants', headers=self.headers, json=data)
+        response = self.client.post('/applicants', headers=self.headers, json=data)
 
         # Check that the response is correct
         self.assertEqual(response.status_code, 400)
@@ -120,7 +116,7 @@ class TestVistaApplicantsVacancyProjectCreate(TestCase):
             'vacancyId': vacancy.id,
             'userId': 1
         }
-        response = self.app.post('/applicants', headers=self.headers, json=data)
+        response = self.client.post('/applicants', headers=self.headers, json=data)
 
         # Check that the response is correct
         self.assertEqual(response.status_code, 400)
@@ -138,10 +134,10 @@ class TestVistaApplicantsVacancyProjectCreate(TestCase):
 class TestVistaApplicantsVacancyProject(TestCase):
 
     def setUp(self):
-        self.app = application.test_client()
-        self.headers = {
-
-        }
+        token = create_access_token(identity='JWT_SECRET_KEY_TEST')
+        self.headers = {'Authorization': 'Bearer ' + token}
+        self.client = application.test_client()
+        application.app_context().push()
 
     def test_get_applicant(self):
         # Create a fake applicant
@@ -153,7 +149,7 @@ class TestVistaApplicantsVacancyProject(TestCase):
         db.session.commit()
 
         # Make a request to get the applicant
-        response = self.app.get(f'/applicants/{applicant.id}', headers=self.headers)
+        response = self.client.get(f'/applicants/{applicant.id}', headers=self.headers)
 
         # Check that the response is correct
         self.assertEqual(response.status_code, 200)
@@ -165,7 +161,7 @@ class TestVistaApplicantsVacancyProject(TestCase):
 
     def test_get_nonexistent_applicant(self):
         # Make a request to get a nonexistent applicant
-        response = self.app.get('/applicants/999', headers=self.headers)
+        response = self.client.get('/applicants/999', headers=self.headers)
 
         # Check that the response is correct
         self.assertEqual(response.status_code, 404)
@@ -173,7 +169,7 @@ class TestVistaApplicantsVacancyProject(TestCase):
 
     def test_delete_nonexistent_applicant(self):
         # Make a request to delete a nonexistent applicant
-        response = self.app.delete('/applicants/999', headers=self.headers)
+        response = self.client.delete('/applicants/999', headers=self.headers)
 
         # Check that the response is correct
         self.assertEqual(response.status_code, 404)
@@ -207,7 +203,7 @@ class TestVistaApplicantsVacancyProject(TestCase):
             'vacancyId': vacancy.id,
             'userId': 2
         }
-        response = self.app.put(f'/applicants/{applicant.id}', headers=self.headers, json=data)
+        response = self.client.put(f'/applicants/{applicant.id}', headers=self.headers, json=data)
 
         # Check that the response is correct
         self.assertEqual(response.status_code, 200)
@@ -224,7 +220,7 @@ class TestVistaApplicantsVacancyProject(TestCase):
 
     def test_update_nonexistent_applicant(self):
         # Make a request to update a nonexistent applicant
-        response = self.app.put('/applicants/999', headers=self.headers)
+        response = self.client.put('/applicants/999', headers=self.headers)
 
         # Check that the response is correct
         self.assertIn('mensaje', response.json)
@@ -243,7 +239,7 @@ class TestVistaApplicantsVacancyProject(TestCase):
             'vacancyId': None,
             'userId': None
         }
-        response = self.app.put(f'/applicants/{applicant.id}', headers=self.headers, json=data)
+        response = self.client.put(f'/applicants/{applicant.id}', headers=self.headers, json=data)
 
         # Check that the response is correct
         self.assertEqual(response.status_code, 400)
@@ -282,7 +278,7 @@ class TestVistaApplicantsVacancyProject(TestCase):
             'vacancyId': vacancy.id,
             'userId': 2
         }
-        response = self.app.put(f'/applicants/{applicant.id}', headers=self.headers, json=data)
+        response = self.client.put(f'/applicants/{applicant.id}', headers=self.headers, json=data)
 
         # Check that the response is correct
         self.assertEqual(response.status_code, 400)
@@ -300,10 +296,10 @@ class TestVistaApplicantsVacancyProject(TestCase):
 class TestVistaApplicantsVacancyProjectList(TestCase):
 
     def setUp(self):
-        self.app = application.test_client()
-        self.headers = {
-
-        }
+        token = create_access_token(identity='JWT_SECRET_KEY_TEST')
+        self.headers = {'Authorization': 'Bearer ' + token}
+        self.client = application.test_client()
+        application.app_context().push()
 
     def test_get_all_applicants(self):
         # Create some fake applicants
@@ -319,7 +315,7 @@ class TestVistaApplicantsVacancyProjectList(TestCase):
         db.session.commit()
 
         # Make a request to get all applicants
-        response = self.app.get('/applicants/list', headers=self.headers)
+        response = self.client.get('/applicants/list', headers=self.headers)
 
         # Check that the response is correct
         self.assertEqual(response.status_code, 200)
@@ -328,7 +324,7 @@ class TestVistaApplicantsVacancyProjectList(TestCase):
     def test_get_all_applicants_empty(self):
         ApplicantsVacancyProject.query.delete()
         # Make a request to get all applicants when there are none
-        response = self.app.get('/applicants/list', headers=self.headers)
+        response = self.client.get('/applicants/list', headers=self.headers)
 
         # Check that the response is correct
         self.assertEqual(response.status_code, 404)
@@ -337,10 +333,10 @@ class TestVistaApplicantsVacancyProjectList(TestCase):
 class TestVistaApplicantsVacancyProjectByVacancyId(TestCase):
 
     def setUp(self):
-        self.app = application.test_client()
-        self.headers = {
-
-        }
+        token = create_access_token(identity='JWT_SECRET_KEY_TEST')
+        self.headers = {'Authorization': 'Bearer ' + token}
+        self.client = application.test_client()
+        application.app_context().push()
 
     def test_get_applicants_by_vacancy_id(self):
         # Create a fake vacancy
@@ -366,7 +362,7 @@ class TestVistaApplicantsVacancyProjectByVacancyId(TestCase):
         db.session.commit()
 
         # Make a request to get the applicants for the vacancy
-        response = self.app.get(f'/applicants/vacancy/{vacancy.id}', headers=self.headers)
+        response = self.client.get(f'/applicants/vacancy/{vacancy.id}', headers=self.headers)
 
         # Check that the response is correct
         self.assertEqual(response.status_code, 200)
@@ -382,7 +378,7 @@ class TestVistaApplicantsVacancyProjectByVacancyId(TestCase):
 
     def test_get_applicants_by_nonexistent_vacancy_id(self):
         # Make a request to get applicants for a nonexistent vacancy
-        response = self.app.get('/applicants/vacancy/999', headers=self.headers)
+        response = self.client.get('/applicants/vacancy/999', headers=self.headers)
 
         # Check that the response is correct
         self.assertEqual(response.status_code, 404)
