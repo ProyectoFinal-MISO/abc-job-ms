@@ -1,10 +1,6 @@
 from flask_restful import Resource
 from modelos.modelos import db, ApplicantsVacancyProject, VacancyProject
-from flask import request, Response
-from flask_jwt_extended import jwt_required
-from enum import Enum
-
-import json
+from flask import request
 
 class VistaApplicantsVacancyProjectCreate(Resource):
     def post(self):
@@ -40,7 +36,6 @@ class VistaApplicantsVacancyProjectCreate(Resource):
             return {
                 "Error": e
             }, 400
-
 
 class VistaApplicantsVacancyProject(Resource):
     def get(self, id_applicant):

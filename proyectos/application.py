@@ -15,6 +15,8 @@ from flask_cors import CORS
 application = Flask(__name__)
 application.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL", "sqlite:///test.db")
 application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+application.config['JWT_SECRET_KEY'] = 'secret_key'
+application.config['JWT_ACCESS_TOKEN_EXPIRES'] = 3600
 CORS(application)
 
 app_context = application.app_context()
