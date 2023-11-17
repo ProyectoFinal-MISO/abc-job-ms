@@ -49,6 +49,9 @@ api.add_resource(VistaApplicantsVacancyProjectByVacancyId, '/applicants/vacancy/
 api.add_resource(VistaVacancyProjectCreate, '/vacancies')
 api.add_resource(VistaVacancyProject, '/vacancies/<int:id_vacancy>')
 
+# Alimentar base de datos con valores por defecto
+populate_database()
+
 jwt = JWTManager(application)
 
 @application.route("/projects/ping")

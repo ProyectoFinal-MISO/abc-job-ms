@@ -2,6 +2,8 @@ import json
 from unittest import TestCase
 from unittest.mock import patch
 
+from flask_jwt_extended import create_access_token
+
 from application import application
 from modelos.modelos import db, Project
 
@@ -10,7 +12,8 @@ from utils.utils import generate_string_random
 class TestVistaProjectCreate(TestCase):
 
     def setUp(self):
-        self.headers = {}
+        token = create_access_token(identity='JWT_SECRET_KEY_TEST')
+        self.headers = {'Authorization': 'Bearer ' + token}
         self.client = application.test_client()
         application.app_context().push()
 
@@ -75,7 +78,8 @@ class TestVistaProjectCreate(TestCase):
 class TestVistaProject(TestCase):
 
     def setUp(self):
-        self.headers = {}
+        token = create_access_token(identity='JWT_SECRET_KEY_TEST')
+        self.headers = {'Authorization': 'Bearer ' + token}
         self.client = application.test_client()
         application.app_context().push()
 
@@ -270,7 +274,10 @@ class TestVistaProject(TestCase):
         self.assertIn("mensaje", response.json)
 
 class TestVistaProjectList(TestCase):
+
     def setUp(self):
+        token = create_access_token(identity='JWT_SECRET_KEY_TEST')
+        self.headers = {'Authorization': 'Bearer ' + token}
         self.client = application.test_client()
         application.app_context().push()
 
@@ -288,7 +295,10 @@ class TestVistaProjectList(TestCase):
         self.assertEqual(response.status_code, 200)
 
 class TestVistaProjectListByCompanyId(TestCase):
+
     def setUp(self):
+        token = create_access_token(identity='JWT_SECRET_KEY_TEST')
+        self.headers = {'Authorization': 'Bearer ' + token}
         self.client = application.test_client()
         application.app_context().push()
 

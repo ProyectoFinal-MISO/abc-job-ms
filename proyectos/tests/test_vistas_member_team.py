@@ -2,6 +2,8 @@ import json
 from unittest import TestCase
 from unittest.mock import patch
 
+from flask_jwt_extended import create_access_token
+
 from application import application
 from modelos.modelos import db, MembersTeamProject, Role, TeamProject
 from vistas.vistas_member_team import VistaMembersTeamProjectCreate
@@ -12,7 +14,8 @@ from utils.get_details_objects import get_role_detail
 class TestVistaMembersTeamProjectCreate(TestCase):
 
     def setUp(self):
-        self.headers = {}
+        token = create_access_token(identity='JWT_SECRET_KEY_TEST')
+        self.headers = {'Authorization': 'Bearer ' + token}
         self.client = application.test_client()
         application.app_context().push()
 
@@ -48,11 +51,10 @@ class TestVistaMembersTeamProjectCreate(TestCase):
 class TestVistaMembersTeamProject(TestCase):
 
     def setUp(self):
-        self.headers = {}
+        token = create_access_token(identity='JWT_SECRET_KEY_TEST')
+        self.headers = {'Authorization': 'Bearer ' + token}
         self.client = application.test_client()
         application.app_context().push()
-        application.config['TESTING'] = True
-        application.config['POOL_SIZE'] = 20
 
     def test_get_member(self):
         # Create a fake member
@@ -261,7 +263,8 @@ class TestVistaMembersTeamProject(TestCase):
 class TestVistaMembersTeamProjectList(TestCase):
 
     def setUp(self):
-        self.headers = {}
+        token = create_access_token(identity='JWT_SECRET_KEY_TEST')
+        self.headers = {'Authorization': 'Bearer ' + token}
         self.client = application.test_client()
         application.app_context().push()
 
@@ -296,7 +299,8 @@ class TestVistaMembersTeamProjectList(TestCase):
 class TestVistaMembersTeamProjectByTeamId(TestCase):
 
     def setUp(self):
-        self.headers = {}
+        token = create_access_token(identity='JWT_SECRET_KEY_TEST')
+        self.headers = {'Authorization': 'Bearer ' + token}
         self.client = application.test_client()
         application.app_context().push()
 

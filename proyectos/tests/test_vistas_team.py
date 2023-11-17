@@ -13,7 +13,8 @@ from utils.utils import generate_string_random
 class TestVistaTeamProjectCreate(TestCase):
 
     def setUp(self):
-        self.headers = {}
+        token = create_access_token(identity='JWT_SECRET_KEY_TEST')
+        self.headers = {'Authorization': 'Bearer ' + token}
         self.client = application.test_client()
         application.app_context().push()
 
@@ -96,7 +97,8 @@ class TestVistaTeamProjectCreate(TestCase):
 class TestVistaTeamProject(TestCase):
 
     def setUp(self):
-        self.headers = {}
+        token = create_access_token(identity='JWT_SECRET_KEY_TEST')
+        self.headers = {'Authorization': 'Bearer ' + token}
         self.client = application.test_client()
         application.app_context().push()
 
@@ -305,8 +307,10 @@ class TestVistaTeamProject(TestCase):
         self.assertIsNotNone(team)
 
 class TestVistaTeamProjectList(TestCase):
+
     def setUp(self):
-        self.headers = {}
+        token = create_access_token(identity='JWT_SECRET_KEY_TEST')
+        self.headers = {'Authorization': 'Bearer ' + token}
         self.client = application.test_client()
         application.app_context().push()
 
@@ -342,7 +346,8 @@ class TestVistaTeamProjectList(TestCase):
 class TestVistaTeamProjectByProjectId(TestCase):
 
     def setUp(self):
-        self.headers = {}
+        token = create_access_token(identity='JWT_SECRET_KEY_TEST')
+        self.headers = {'Authorization': 'Bearer ' + token}
         self.client = application.test_client()
         application.app_context().push()
 
