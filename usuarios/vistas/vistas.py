@@ -38,15 +38,21 @@ class VistaSignIn(Resource):
             )
             db.session.add(nuevo_usuario)
             db.session.commit()
-
             # Llamado funciones para el guardado de la informacion del usuario segun el tipo de usuario
             if userType == "PERSON":
                 response = TechnicalResourceCreate(nuevo_usuario.id, parse_json)
             if userType == "EMPLOYEE":
                 response = EmployeeCreate(nuevo_usuario.id, parse_json)
+                if response[1] != 201:
+                    db.session.delete(nuevo_usuario)
+                    db.session.commit()
+                    return response[0], response[1]
             if userType == "COMPANY":
                 response = CompanyCreate(nuevo_usuario.id, parse_json)
-
+                if response[1] != 201:
+                    db.session.delete(nuevo_usuario)
+                    db.session.commit()
+                    return response[0], response[1]
             return {
                 "id": nuevo_usuario.id,
                 "createdAt": f"{nuevo_usuario.createdAt}",
@@ -97,7 +103,8 @@ class VistaUsuario(Resource):
         return {
             "id":usuario.id,
             "username":f"{usuario.username}",
-            "email":f"{usuario.email}"
+            "email":f"{usuario.email}",
+            "userType":f"{usuario.userType}"
         }, 200
 
 class VistaUsuarioSesion(Resource):

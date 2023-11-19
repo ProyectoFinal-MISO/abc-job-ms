@@ -62,7 +62,7 @@ class TechnicalResource(db.Model):
     state = db.Column(db.Integer, db.ForeignKey('states.id', ondelete='SET NULL'))
     country = db.Column(db.Integer, db.ForeignKey('countries.id', ondelete='SET NULL'))
     address = db.Column(db.String(50), nullable=False)
-    photo = db.Column(db.String(500))
+    photo = db.Column(db.Text)
     userId = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='SET NULL'))
 
     def __init__(self, name, lastName, typeIdentification, identification, birthdate, genre, phoneNumber, mobileNumber, city, state, country, address, photo, userId):
@@ -234,7 +234,7 @@ class Employee(db.Model):
     state = db.Column(db.Integer, db.ForeignKey('states.id', ondelete='SET NULL'))
     country = db.Column(db.Integer, db.ForeignKey('countries.id', ondelete='SET NULL'))
     address = db.Column(db.String(50), nullable=False)
-    photo = db.Column(db.String(500))
+    photo = db.Column(db.Text)
     userId = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='SET NULL'))
 
     def __init__(self, name, lastName, typeIdentification, identification, phoneNumber, mobileNumber, city, state, country, address, photo, userId):
@@ -263,7 +263,7 @@ class Company(db.Model):
     state = db.Column(db.Integer, db.ForeignKey('states.id', ondelete='SET NULL'))
     country = db.Column(db.Integer, db.ForeignKey('countries.id', ondelete='SET NULL'))
     address = db.Column(db.String(50), nullable=False)
-    photo = db.Column(db.String(500))
+    photo = db.Column(db.Text)
     userId = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='SET NULL'))
 
     def __init__(self, name, typeIdentification, identification, phoneNumber, mobileNumber, city, state, country, address, photo, userId):

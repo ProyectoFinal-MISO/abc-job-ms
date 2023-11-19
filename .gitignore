@@ -47,6 +47,10 @@ htmlcov/
 .pytest_cache/
 cover/
 report.html
+.coverage
+coverage.xml
+tls.crt
+tls.key
 
 # Translations
 *.mo

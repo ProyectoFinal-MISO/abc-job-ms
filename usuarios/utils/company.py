@@ -1,36 +1,47 @@
-from flask import Response
-from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, get_jwt, verify_jwt_in_request
+from psycopg2 import IntegrityError
 
 from modelos.modelos import Usuario, db, Company
 
 def CompanyCreate(userId = None, user_data = None):
 
     try:
-        company_data = user_data['personalInformation']
+        company_data = user_data.get('personalInformation', {})
 
-        new_company = Company(
-            name = company_data.get('name', None),
-            typeIdentification = company_data.get('typeIdentification', None),
-            identification = company_data.get('identification', None),
-            phoneNumber = company_data.get('phoneNumber', None),
-            mobileNumber = company_data.get('mobileNumber', None),
-            city = company_data.get('city', None),
-            state = company_data.get('state', None),
-            country = company_data.get('country', None),
-            address = company_data.get('address', None),
-            photo = company_data.get('photo', None),
-            userId = userId
+        required_params = ['name', 'typeIdentification', 'identification', 'phoneNumber', 'mobileNumber', 'city', 'state', 'country', 'address']
+        if not all(param in company_data for param in required_params):
+            return {"mensaje": "Missing required parameters"}, 400
+
+        identification = company_data.get('identification')
+        existing_employee = Company.query.filter_by(identification=identification).first()
+        if existing_employee:
+            return {"mensaje": f"An employee with identification {identification} already exists"}, 412
+
+        new_employee = Company(
+            name=company_data['name'],
+            typeIdentification=company_data['typeIdentification'],
+            identification=company_data['identification'],
+            phoneNumber=company_data['phoneNumber'],
+            mobileNumber=company_data['mobileNumber'],
+            state=company_data['state'],
+            city=company_data['city'],
+            country=company_data['country'],
+            address=company_data['address'],
+            photo=company_data.get('photo'),
+            userId=userId
         )
-        db.session.add(new_company)
+
+        db.session.add(new_employee)
         db.session.commit()
 
         return {
-            "id": new_company.id,
-            "companyId": f"{new_company.userId}"
+            "id": new_employee.id,
+            "employeeId": str(new_employee.userId)
         }, 201
+
+    except IntegrityError as e:
+        db.session.rollback()
+        return {"mensaje": f"Database integrity error: {str(e)}"}, 500
 
     except Exception as e:
         db.session.rollback()
-        return {
-            "Error": e
-        }, 400
+        return {"mensaje": f"An unexpected error occurred: {str(e)}"}, 500

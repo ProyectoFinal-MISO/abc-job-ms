@@ -49,4 +49,4 @@ def test_company_create_identification_exits():
     response = CompanyCreate(userId = 1, user_data = data)
     response_2 = CompanyCreate(userId = 1, user_data = data)
 
-    assert response_2[1] == 400
+    assert response_2[1] == 412

@@ -24,8 +24,7 @@ def new_technical_resource():
             "city": "Bogota",
             "state": "Bogota",
             "country": "Colombia",
-            "address": "Calle 123",
-            "photo": "//"
+            "address": "Calle 123"
         },
         "academicInformation" : [
             {

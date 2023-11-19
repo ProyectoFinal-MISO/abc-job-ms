@@ -5,9 +5,12 @@ from sqlalchemy.orm import sessionmaker
 
 from modelos.modelos import TypeIdentification, Employee
 from application import application as app
+from modelos.populate_db import populate_database
 
 from utils.utils import generate_string_random
 from utils.employee import EmployeeCreate
+
+populate_database()
 
 def test_employee_create():
     data = {
@@ -28,7 +31,7 @@ def test_employee_create():
 
     # Llama a la función EmployeeCreate
     response = EmployeeCreate(userId = 1, user_data = data)
-
+    print(response[0].get('mensaje'))
     assert response[1] == 201
 
 def test_employee_create_identification_exits():
