@@ -49,6 +49,10 @@ class VistaSignIn(Resource):
                     return response[0], response[1]
             if userType == "COMPANY":
                 response = CompanyCreate(nuevo_usuario.id, parse_json)
+                if response[1] != 201:
+                    db.session.delete(nuevo_usuario)
+                    db.session.commit()
+                    return response[0], response[1]
             return {
                 "id": nuevo_usuario.id,
                 "createdAt": f"{nuevo_usuario.createdAt}",
