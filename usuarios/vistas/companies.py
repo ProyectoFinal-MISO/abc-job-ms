@@ -25,7 +25,7 @@ class VistaCompany(Resource):
                 'userId': company.userId,
                 'personalInformation': {
                     'name': company.name,
-                    'typeIdentification':  json.dumps(company.typeIdentification, default=enum_serializer),
+                    'typeIdentification':  f"{company.typeIdentification.name}",
                     'identification': company.identification,
                     'phoneNumber': company.phoneNumber,
                     'mobileNumber': company.mobileNumber,
