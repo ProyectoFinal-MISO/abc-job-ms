@@ -14,7 +14,7 @@ def new_user():
         username='test',
         password=b'password',
         userType=UserType.PERSON,
-        salt = 'salt',
+        salt = 'salt'
     )
     return user
 
