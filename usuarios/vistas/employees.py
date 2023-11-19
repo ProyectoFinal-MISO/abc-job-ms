@@ -1,10 +1,8 @@
 from flask_restful import Resource
 from modelos.modelos import db, Employee
-from utils.utils import enum_serializer, location_user
-from flask import request, Response
+from utils.utils import location_user
+from flask import request
 from flask_jwt_extended import jwt_required
-
-import json
 
 class VistaEmployee(Resource):
 
@@ -88,8 +86,3 @@ class VistaEmployee(Resource):
                 return {'mensaje': 'Employee not exist'}, 404
         else:
             return {'mensaje': 'Field is missing'}, 400
-
-def enum_serializer(obj):
-    if isinstance(obj, Enum):
-        return obj.name
-    raise TypeError(f"Object of type {type(obj)} is not JSON serializable")
