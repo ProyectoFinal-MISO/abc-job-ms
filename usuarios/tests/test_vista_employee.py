@@ -15,7 +15,7 @@ from vistas.employees import VistaEmployee
 class TestEmployees(TestCase):
 
     def setUp(self):
-        token = create_access_token(identity='JWT_SECRET_KEY')
+        token = create_access_token(identity='JWT_SECRET_KEY_TEST')
         self.headers = {'Authorization': 'Bearer ' + token}
         self.data_factory = Faker()
         self.client = application.test_client()
@@ -87,7 +87,7 @@ class TestEmployees(TestCase):
 
         # Check that the employee was deleted
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json['message'], 'Employee deleted')
+        self.assertEqual(response.json['mensaje'], 'Employee deleted')
 
     def test_delete_nonexistent_employee(self):
         # Delete a nonexistent employee
@@ -95,7 +95,7 @@ class TestEmployees(TestCase):
 
         # Check that the response is correct
         self.assertEqual(response.status_code, 404)
-        self.assertEqual(response.json['message'], 'Employee not exist')
+        self.assertEqual(response.json['mensaje'], 'Employee not exist')
 
     def test_delete_employee_with_noninteger_id(self):
         # Delete a employee with a non-integer ID
@@ -103,7 +103,7 @@ class TestEmployees(TestCase):
 
         # Check that the response is correct
         self.assertEqual(response.status_code, 400)
-        self.assertEqual(response.json['message'], 'Employee id is not integer')
+        self.assertEqual(response.json['mensaje'], 'Employee id is not integer')
 
     def test_put_employee(self):
         # Create a employee to update
@@ -165,7 +165,7 @@ class TestEmployees(TestCase):
 
         # Check that the response is correct
         self.assertEqual(response.status_code, 404)
-        self.assertEqual(response.json['message'], 'Employee not exist')
+        self.assertEqual(response.json['mensaje'], 'Employee not exist')
 
     def test_update_employee_with_noninteger_id(self):
         # Update the employee
@@ -187,7 +187,7 @@ class TestEmployees(TestCase):
 
         # Check that the response is correct
         self.assertEqual(response.status_code, 400)
-        self.assertEqual(response.json['message'], 'Employee id is not integer')
+        self.assertEqual(response.json['mensaje'], 'Employee id is not integer')
 
     def test_update_employee_with_field_missing(self):
         # Update the employee
@@ -208,10 +208,4 @@ class TestEmployees(TestCase):
 
         # Check that the response is correct
         self.assertEqual(response.status_code, 400)
-        self.assertEqual(response.json['message'], 'Field is missing')
-
-def generate_string_random(length):
-    import string
-    import random
-    letters = string.ascii_lowercase
-    return ''.join(random.choice(letters) for i in range(length))
+        self.assertEqual(response.json['mensaje'], 'Field is missing')

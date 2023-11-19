@@ -1,8 +1,8 @@
 from flask_restful import Resource
 from modelos.modelos import db, Employee
+from utils.utils import enum_serializer, location_user
 from flask import request, Response
 from flask_jwt_extended import jwt_required
-from enum import Enum
 
 import json
 
@@ -19,6 +19,7 @@ class VistaEmployee(Resource):
         employee = Employee.query.filter_by(userId=id_employee).first()
 
         if employee:
+            location = location_user(employee)
             return {
                 'id': employee.id,
                 'userId': employee.userId,
@@ -34,7 +35,8 @@ class VistaEmployee(Resource):
                     'country': employee.country,
                     'address': employee.address,
                     'photo': employee.photo
-                }
+                },
+                'location': location,
             }, 200
         else:
             return {'mensaje': 'Employee not exist'}, 404
@@ -59,7 +61,7 @@ class VistaEmployee(Resource):
     def put(self, id_employee):
 
         if not request.is_json:
-            return Response(status=400)
+            return {"mensaje": "Error format body"}, 400
         parse_json = request.get_json()
         if parse_json.get('name', None) and parse_json.get('lastName', None) and parse_json.get('typeIdentification', None) and parse_json.get('identification', None) and parse_json.get('phoneNumber', None) and parse_json.get('mobileNumber', None) and parse_json.get('city', None) and parse_json.get('state', None) and parse_json.get('country', None) and parse_json.get('address', None):
             try:

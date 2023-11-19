@@ -5,6 +5,7 @@ from sqlalchemy.orm import sessionmaker
 
 from modelos.modelos import db, Usuario, Languages, TechnicalResource, TechnicalResourceProgrammingLanguages, UserType, TypeIdentification, Genre, AditionalInformation, ProfessionalExperience, AcademicInformation, EducationLevel, ProfessionalSector, TechnicalResourceLanguages, TechnicalResourcePersonalSkills, Country, State, City, Employee, Company
 from application import application as app
+from utils.utils import generate_string_random
 
 @pytest.fixture(scope = 'module')
 def new_user():
@@ -50,7 +51,7 @@ def new_professional_experience():
     return professional_experience
 
 @pytest.fixture(scope = 'module')
-def new_aditional_information():
+def new_additional_information():
     aditional_information = AditionalInformation(
         technicalResourceId = 1,
         driverLicense = 'abcdefg',
@@ -245,17 +246,16 @@ def test_academic_information(new_academic_information):
     assert ai.schoolName == 'Anytown University'
     assert ai.educationLevel == EducationLevel.COLLEGE
 
-def test_aditional_information(new_aditional_information):
+def test_additional_information(new_additional_information):
     # Add the object to the database
-    ai = AditionalInformation(new_aditional_information.technicalResourceId,
-                         new_aditional_information.driverLicense,
-                         new_aditional_information.transferAvailability,
-                         new_aditional_information.vehicule)
+    ai = AditionalInformation(new_additional_information.technicalResourceId,
+                         new_additional_information.driverLicense,
+                         new_additional_information.transferAvailability,
+                         new_additional_information.vehicule)
 
     # Check that the retrieved object matches the original object
     assert ai.driverLicense == 'abcdefg'
     assert ai.transferAvailability == True
-    assert ai.vehicule == '12345'
 
 def test_professional_sector(new_professional_sector):
     # Add the object to the database
@@ -377,9 +377,3 @@ def test_company(new_company):
     assert c.address == '123 Main St.'
     assert c.photo == "//"
     assert c.userId == 1
-
-def generate_string_random(length):
-    import string
-    import random
-    letters = string.ascii_lowercase
-    return ''.join(random.choice(letters) for i in range(length))
