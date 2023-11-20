@@ -8,7 +8,7 @@ from faker.generator import random
 
 from application import application
 from modelos.modelos import Usuario, db, UserType, TypeIdentification, Genre, EducationLevel
-
+from utils.utils import generate_string_random
 
 def new_technical_resource():
     return {
@@ -24,8 +24,7 @@ def new_technical_resource():
             "city": "Bogota",
             "state": "Bogota",
             "country": "Colombia",
-            "address": "Calle 123",
-            "photo": "//"
+            "address": "Calle 123"
         },
         "academicInformation" : [
             {
@@ -45,7 +44,7 @@ def new_technical_resource():
                 "details": "Desarrollador de software"
             }
         ],
-        "aditionalInformation" : {
+        "additionalInformation" : {
             "driverLicense": "abcdef",
             "transferAvailability": True,
             "vehicule": "abcdef"
@@ -150,6 +149,7 @@ class TestUsuarios(TestCase):
         nuevo_usuario = {
             "username":"dacperezce1",
             "password":"hola",
+            "userType":"PERSON",
         }
         solicitud_nuevo_usuario = self.client.post(
             "/users/auth",
@@ -162,6 +162,7 @@ class TestUsuarios(TestCase):
         nuevo_usuario = {
             "username":"dacperezce",
             "password":"hola1",
+            "userType":"PERSON",
         }
         solicitud_nuevo_usuario = self.client.post(
             "/users/auth",
@@ -174,6 +175,7 @@ class TestUsuarios(TestCase):
         nuevo_usuario = {
             "username":"dacperezce",
             "password":"hola",
+            "userType":"PERSON",
         }
         solicitud_nuevo_usuario = self.client.post(
             "/users/auth",
@@ -192,6 +194,7 @@ class TestUsuarios(TestCase):
         nuevo_usuario = {
             "username":"dacperezce",
             "password":"hola",
+            "userType":"PERSON",
         }
         solicitud_nuevo_usuario = self.client.post(
             "/users/auth",
@@ -204,9 +207,3 @@ class TestUsuarios(TestCase):
             headers={'Authorization': f"Bearer {token}"}
         )
         self.assertEqual(solicitud_nuevo_usuario.status_code, 200)
-
-def generate_string_random(length):
-    import string
-    import random
-    letters = string.ascii_lowercase
-    return ''.join(random.choice(letters) for i in range(length))

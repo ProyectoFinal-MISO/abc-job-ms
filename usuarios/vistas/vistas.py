@@ -13,19 +13,17 @@ import json
 class VistaSignIn(Resource):
     def post(self):
         if not request.is_json:
-            return Response(status=400)
+            return {"mensaje": "Error format body"}, 400
         parse_json = request.get_json()
         if parse_json.get('username', None) and parse_json.get('email', None) and parse_json.get('password', None):
             usuarios = Usuario.query.filter((Usuario.username==f"{parse_json.get('username', None)}") | (Usuario.email==f"{parse_json.get('email', None)}")).count()
             if usuarios > 0:
-                return {
-                    "mensaje": "Email or username already exists"
-                }, 412
+                return {"mensaje": "Email or username already exists"}, 412
             tr = TechnicalResource.query.filter((TechnicalResource.identification==f"{parse_json['personalInformation'].get('identification', None)}")).count()
-            if tr > 0:
-                return {
-                    "mensaje": "Identification already exists"
-                }, 412
+            c = Company.query.filter((Company.identification==f"{parse_json['personalInformation'].get('identification', None)}")).count()
+            e = Employee.query.filter((Employee.identification==f"{parse_json['personalInformation'].get('identification', None)}")).count()
+            if tr > 0 or c > 0 or e > 0:
+                return {"mensaje": "Identification already exists"}, 412
 
             salt = StringGenerator("[\l\d]{15}").render_list(1)
             password = salt[0] + parse_json.get('password', None)
@@ -40,15 +38,21 @@ class VistaSignIn(Resource):
             )
             db.session.add(nuevo_usuario)
             db.session.commit()
-
             # Llamado funciones para el guardado de la informacion del usuario segun el tipo de usuario
             if userType == "PERSON":
                 response = TechnicalResourceCreate(nuevo_usuario.id, parse_json)
             if userType == "EMPLOYEE":
                 response = EmployeeCreate(nuevo_usuario.id, parse_json)
+                if response[1] != 201:
+                    db.session.delete(nuevo_usuario)
+                    db.session.commit()
+                    return response[0], response[1]
             if userType == "COMPANY":
                 response = CompanyCreate(nuevo_usuario.id, parse_json)
-
+                if response[1] != 201:
+                    db.session.delete(nuevo_usuario)
+                    db.session.commit()
+                    return response[0], response[1]
             return {
                 "id": nuevo_usuario.id,
                 "createdAt": f"{nuevo_usuario.createdAt}",
@@ -56,18 +60,15 @@ class VistaSignIn(Resource):
             }, 201
 
         else:
-            return Response(status=400)
+            return {'mensaje': 'Field is missing'}, 400
 
 class VistasLogIn(Resource):
     def post (self):
-        error_message = {"mensaje":"Wrong email or password"}
-        response = jsonify(error_message)
-        response.status_code = 404
         if not request.is_json:
-            return Response(status=400)
+            return {"mensaje": "Error format body"}, 400
         parse_json = request.get_json()
-        if parse_json.get('username', None) and parse_json.get('password', None):
-            usuario = Usuario.query.filter_by(username=parse_json.get('username', None)).all()
+        if parse_json.get('username', None) and parse_json.get('password', None) and parse_json.get('userType', None):
+            usuario = Usuario.query.filter_by(username=parse_json.get('username', None), userType=parse_json.get('userType', None)).all()
             if usuario:
                 salt = usuario[0].salt
                 password = salt + parse_json.get('password', None)
@@ -88,11 +89,11 @@ class VistasLogIn(Resource):
                         "expireAt":f"{expireAt}"
                     }, 200
                 else:
-                    return response
+                    return {'mensaje': 'Wrong password'}, 404
             else:
-               return response
+               return {'mensaje': 'User not exist'}, 404
         else:
-            return Response(status=400)
+            return {'mensaje': 'Field is missing'}, 400
 
 class VistaUsuario(Resource):
     @jwt_required()
@@ -102,15 +103,16 @@ class VistaUsuario(Resource):
         return {
             "id":usuario.id,
             "username":f"{usuario.username}",
-            "email":f"{usuario.email}"
+            "email":f"{usuario.email}",
+            "userType":f"{usuario.userType}"
         }, 200
-    
+
 class VistaUsuarioSesion(Resource):
     @jwt_required()
     def get(self):
         id = get_jwt_identity()
         usuario = Usuario.query.get(id)
-        if usuario:            
+        if usuario:
             if usuario.userType == UserType.PERSON:
                 obj = TechnicalResource.query.filter_by(userId=id).first()
                 if obj:
@@ -144,7 +146,7 @@ class VistaUsuarioSesion(Resource):
                         'userType': usuario.userType.name,
                         'name': obj.name,
                         'username': usuario.username
-                    }, 200 
+                    }, 200
                 else:
                     return {'mensaje': 'employee not exist'}, 404
         else:

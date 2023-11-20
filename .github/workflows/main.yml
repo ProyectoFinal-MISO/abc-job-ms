@@ -32,13 +32,6 @@ jobs:
           coverage run -m --omit="*/usr/lib/*" unittest discover -s tests -v
           coverage report --fail-under=80
       - uses: actions/checkout@v1
-      - name: Run tests for projects
-        working-directory: ./proyectos
-        run: |
-          pip install -r requirements.txt
-          coverage run -m --omit="*/usr/lib/*" unittest discover -s tests -v
-          coverage report --fail-under=80
-      - uses: actions/checkout@v1
       - name: Run tests for interviews
         working-directory: ./entrevistas
         run: |

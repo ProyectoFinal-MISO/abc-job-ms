@@ -1,16 +1,22 @@
 from flask import Response
 from datetime import datetime
-from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, get_jwt, verify_jwt_in_request
+import json
 
 from modelos.modelos import Usuario, db, TechnicalResource, ProfessionalExperience, AcademicInformation, AditionalInformation, TechnicalResourceProgrammingLanguages, TechnicalResourceLanguages, TechnicalResourcePersonalSkills
 
 def TechnicalResourceCreate(userId = None, user_data = None):
 
     try:
+        tr = TechnicalResource.query.filter((TechnicalResource.identification==f"{user_data['personalInformation'].get('identification', None)}")).count()
+        if tr > 0:
+            return {
+                "Identification": "Identification already exists"
+            }, 412
+
         personal_data = user_data['personalInformation']
         academic_data = user_data['academicInformation']
         professional_data = user_data['professionalExperience']
-        aditional_data = user_data['aditionalInformation']
+        additional_data = user_data['additionalInformation']
 
         new_technical_resource = TechnicalResource(
             name = personal_data.get('name', None),
@@ -33,7 +39,7 @@ def TechnicalResourceCreate(userId = None, user_data = None):
 
         new_academic_info = AcademicInformationCreate(new_technical_resource.id, academic_data)
         new_proffesional_experience = ProfessionalExperienceCreate(new_technical_resource.id, professional_data)
-        new_aditional_info = AditionalInformationCreate(new_technical_resource.id, aditional_data)
+        new_aditional_info = AdditionalInformationCreate(new_technical_resource.id, additional_data)
 
         tr_programming_languages = user_data['programmingLanguages']
         tr_languages = user_data['languages']
@@ -44,7 +50,10 @@ def TechnicalResourceCreate(userId = None, user_data = None):
         new_tr_personal_skills = TechnicalResourcePersonalSkillsCreate(new_technical_resource.id, tr_personal_skills)
 
         if new_academic_info[1] != 201 or new_proffesional_experience[1] != 201 or new_aditional_info[1] != 201 or new_tr_programming_languages[1] != 201 or new_tr_languages[1] != 201 or new_tr_personal_skills[1] != 201:
-            return Response(status=400)
+            return {"mensaje": "Error created technical resource"}, 400
+
+
+
 
         return {
             "id": new_technical_resource.id,
@@ -57,7 +66,9 @@ def TechnicalResourceCreate(userId = None, user_data = None):
             "personalSkillsIds": f"{new_tr_personal_skills[0]['ids']}"
         }, 201
 
-    except Exception as e:
+    except KeyError as e:
+        # Serialize the exception using the custom encoder
+        json_data = json.dumps({"error": e})
         db.session.rollback()
         return {
             "Error": e
@@ -78,9 +89,7 @@ def AcademicInformationCreate(technical_resource_id, academic_info):
         db.session.commit()
         ids.append(new_academic_info.id)
 
-    return {
-        "ids": ids
-    }, 201
+    return {"ids": ids}, 201
 
 def ProfessionalExperienceCreate(technical_resource_id, professional_data):
     ids = []
@@ -97,23 +106,19 @@ def ProfessionalExperienceCreate(technical_resource_id, professional_data):
         db.session.commit()
         ids.append(new_proffesional_experience.id)
 
-    return {
-        "ids": ids
-    }, 201
+    return {"ids": ids}, 201
 
-def AditionalInformationCreate(technical_resource_id, aditional_data):
+def AdditionalInformationCreate(technical_resource_id, additional_data):
     new_aditional_info = AditionalInformation(
         technicalResourceId = technical_resource_id,
-        driverLicense = aditional_data.get('driverLicense', None),
-        transferAvailability = aditional_data.get('transferAvailability', None),
-        vehicule = aditional_data.get('vehicule', None),
+        driverLicense = additional_data.get('driverLicense', None),
+        transferAvailability = additional_data.get('transferAvailability', None),
+        vehicule = additional_data.get('vehicule', None),
     )
     db.session.add(new_aditional_info)
     db.session.commit()
 
-    return {
-        "id": new_aditional_info.id
-    }, 201
+    return {"id": new_aditional_info.id}, 201
 
 def TechnicalResourceProgrammingLanguagesCreate(technical_resource_id, tr_programming_languages):
     ids = []
@@ -127,9 +132,7 @@ def TechnicalResourceProgrammingLanguagesCreate(technical_resource_id, tr_progra
         db.session.commit()
         ids.append(new_tr_programming_languages.id)
 
-    return {
-        "ids": ids
-    }, 201
+    return {"ids": ids}, 201
 
 def TechnicalResourceLanguagesCreate(technical_resource_id, tr_languages):
     ids = []
@@ -143,9 +146,7 @@ def TechnicalResourceLanguagesCreate(technical_resource_id, tr_languages):
         db.session.commit()
         ids.append(new_tr_languages.id)
 
-    return {
-        "ids": ids
-    }, 201
+    return {"ids": ids}, 201
 
 def TechnicalResourcePersonalSkillsCreate(technical_resource_id, tr_personal_skills):
     ids = []
@@ -159,6 +160,4 @@ def TechnicalResourcePersonalSkillsCreate(technical_resource_id, tr_personal_ski
         db.session.commit()
         ids.append(new_tr_personal_skills.id)
 
-    return {
-        "ids": ids
-    }, 201
+    return {"ids": ids}, 201
