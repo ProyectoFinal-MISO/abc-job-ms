@@ -23,7 +23,7 @@ def TechnicalResourceCreate(userId = None, user_data = None):
             lastName = personal_data.get('lastName', None),
             typeIdentification = personal_data.get('typeIdentification', None),
             identification = personal_data.get('identification', None),
-            birthdate = datetime.strptime(personal_data.get('birthdate', None), '%Y-%m-%d %H:%M:%S'),
+            birthdate = datetime.strptime(personal_data.get('birthdate', None), '%Y-%m-%d'),
             genre = personal_data.get('genre', None),
             phoneNumber = personal_data.get('phoneNumber', None),
             mobileNumber = personal_data.get('mobileNumber', None),
@@ -50,7 +50,7 @@ def TechnicalResourceCreate(userId = None, user_data = None):
         new_tr_personal_skills = TechnicalResourcePersonalSkillsCreate(new_technical_resource.id, tr_personal_skills)
 
         if new_academic_info[1] != 201 or new_proffesional_experience[1] != 201 or new_aditional_info[1] != 201 or new_tr_programming_languages[1] != 201 or new_tr_languages[1] != 201 or new_tr_personal_skills[1] != 201:
-            return {"mensaje": "Error created technical resource"}, 400
+            return Response(status=400)
 
 
 
@@ -82,22 +82,24 @@ def AcademicInformationCreate(technical_resource_id, academic_info):
             schoolName = academic.get('schoolName', None),
             educationLevel = academic.get('educationLevel', None),
             professionalSector = academic.get('professionalSector', None),
-            startDate = datetime.strptime(academic.get('startDate', None), '%Y-%m-%d %H:%M:%S'),
-            endDate = datetime.strptime(academic.get('endDate', None), '%Y-%m-%d %H:%M:%S'),
+            startDate = datetime.strptime(academic.get('startDate', None), '%Y-%m-%d'),
+            endDate = datetime.strptime(academic.get('endDate', None), '%Y-%m-%d'),
         )
         db.session.add(new_academic_info)
         db.session.commit()
         ids.append(new_academic_info.id)
 
-    return {"ids": ids}, 201
+    return {
+        "ids": ids
+    }, 201
 
 def ProfessionalExperienceCreate(technical_resource_id, professional_data):
     ids = []
     for professional in professional_data:
         new_proffesional_experience = ProfessionalExperience(
             technicalResourceId = technical_resource_id,
-            startDate = datetime.strptime(professional.get('startDate', None), '%Y-%m-%d %H:%M:%S'),
-            endDate = datetime.strptime(professional.get('endDate', None), '%Y-%m-%d %H:%M:%S'),
+            startDate = datetime.strptime(professional.get('startDate', None), '%Y-%m-%d'),
+            endDate = datetime.strptime(professional.get('endDate', None), '%Y-%m-%d'),
             titleJob = professional.get('titleJob', None),
             companyName = professional.get('companyName', None),
             details = professional.get('details', None),
@@ -106,19 +108,23 @@ def ProfessionalExperienceCreate(technical_resource_id, professional_data):
         db.session.commit()
         ids.append(new_proffesional_experience.id)
 
-    return {"ids": ids}, 201
+    return {
+        "ids": ids
+    }, 201
 
 def AdditionalInformationCreate(technical_resource_id, additional_data):
     new_aditional_info = AditionalInformation(
         technicalResourceId = technical_resource_id,
         driverLicense = additional_data.get('driverLicense', None),
         transferAvailability = additional_data.get('transferAvailability', None),
-        vehicule = additional_data.get('vehicule', None),
+        vehicule = additional_data.get('vehicle', None),
     )
     db.session.add(new_aditional_info)
     db.session.commit()
 
-    return {"id": new_aditional_info.id}, 201
+    return {
+        "id": new_aditional_info.id
+    }, 201
 
 def TechnicalResourceProgrammingLanguagesCreate(technical_resource_id, tr_programming_languages):
     ids = []
@@ -132,7 +138,9 @@ def TechnicalResourceProgrammingLanguagesCreate(technical_resource_id, tr_progra
         db.session.commit()
         ids.append(new_tr_programming_languages.id)
 
-    return {"ids": ids}, 201
+    return {
+        "ids": ids
+    }, 201
 
 def TechnicalResourceLanguagesCreate(technical_resource_id, tr_languages):
     ids = []
@@ -146,7 +154,9 @@ def TechnicalResourceLanguagesCreate(technical_resource_id, tr_languages):
         db.session.commit()
         ids.append(new_tr_languages.id)
 
-    return {"ids": ids}, 201
+    return {
+        "ids": ids
+    }, 201
 
 def TechnicalResourcePersonalSkillsCreate(technical_resource_id, tr_personal_skills):
     ids = []
@@ -160,4 +170,6 @@ def TechnicalResourcePersonalSkillsCreate(technical_resource_id, tr_personal_ski
         db.session.commit()
         ids.append(new_tr_personal_skills.id)
 
-    return {"ids": ids}, 201
+    return {
+        "ids": ids
+    }, 201
