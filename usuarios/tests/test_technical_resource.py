@@ -16,7 +16,7 @@ def new_technical_resource():
             "lastName": "Perez",
             "typeIdentification": TypeIdentification.CC,
             "identification":  '123456789' + generate_string_random(5),
-            "birthdate": '1993-10-31 12:30:45',
+            "birthdate": '1993-10-31',
             "genre": Genre.MALE,
             "phoneNumber": "1234567",
             "mobileNumber": "1234567890",
@@ -31,16 +31,16 @@ def new_technical_resource():
                 "schoolName": "Universidad Nacional",
                 "educationLevel": EducationLevel.MASTER,
                 "professionalSector": 1,
-                "startDate": '2010-10-31 12:30:45',
-                "endDate": '2012-10-31 12:30:45',
+                "startDate": '2010-10-31',
+                "endDate": '2012-10-31',
             }
         ],
         "professionalExperience" : [
             {
                 "companyName": "ABC",
                 "titleJob": "Desarrollador",
-                "startDate": '2010-10-31 12:30:45',
-                "endDate": '2012-10-31 12:30:45',
+                "startDate": '2010-10-31',
+                "endDate": '2012-10-31',
                 "details": "Desarrollador de software"
             }
         ],
