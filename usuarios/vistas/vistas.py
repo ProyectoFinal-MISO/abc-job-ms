@@ -104,50 +104,64 @@ class VistaUsuario(Resource):
             "id":usuario.id,
             "username":f"{usuario.username}",
             "email":f"{usuario.email}",
-            "userType":f"{usuario.userType}"
+            "userType":f"{usuario.userType.name}"
         }, 200
+    
+class VistaUsuarioValidate(Resource):
+    @jwt_required()
+    def get(self, id_user):
+        return find_user(id_user)
+        
+
 
 class VistaUsuarioSesion(Resource):
     @jwt_required()
     def get(self):
         id = get_jwt_identity()
-        usuario = Usuario.query.get(id)
-        if usuario:
-            if usuario.userType == UserType.PERSON:
-                obj = TechnicalResource.query.filter_by(userId=id).first()
-                if obj:
-                    return {
-                        'id': obj.id,
-                        'userId': obj.userId,
-                        'userType': usuario.userType.name,
-                        'name': obj.name,
-                        'username': usuario.username
-                    }, 200
-                else:
-                    return {'mensaje': 'technical resource not exist'}, 404
-            elif usuario.userType == UserType.COMPANY:
-                obj = Company.query.filter_by(userId=id).first()
-                if obj:
-                    return {
-                        'id': obj.id,
-                        'userId': obj.userId,
-                        'userType': usuario.userType.name,
-                        'name': obj.name,
-                        'username': usuario.username
-                    }, 200
-                else:
-                    return {'mensaje': 'company not exist'}, 404
+        return find_user(id)
+
+
+def find_user(id):
+    usuario = Usuario.query.get(id)
+    if usuario:
+        if usuario.userType == UserType.PERSON:
+            obj = TechnicalResource.query.filter_by(userId=id).first()
+            if obj:
+                return {
+                    'id': obj.id,
+                    'userId': obj.userId,
+                    'userType': usuario.userType.name,
+                    'name': obj.name,
+                    'email': usuario.email,
+                    'username': usuario.username
+                }, 200
             else:
-                obj = Employee.query.filter_by(userId=id).first()
-                if obj:
-                    return {
-                        'id': obj.id,
-                        'userId': obj.userId,
-                        'userType': usuario.userType.name,
-                        'name': obj.name,
-                        'username': usuario.username
-                    }, 200
-                else:
-                    return {'mensaje': 'employee not exist'}, 404
+                return {'mensaje': 'technical resource not exist'}, 404
+        elif usuario.userType == UserType.COMPANY:
+            obj = Company.query.filter_by(userId=id).first()
+            if obj:
+                return {
+                    'id': obj.id,
+                    'userId': obj.userId,
+                    'userType': usuario.userType.name,
+                    'name': obj.name,
+                    'email': usuario.email,
+                    'username': usuario.username
+                }, 200
+            else:
+                return {'mensaje': 'company not exist'}, 404
         else:
-            return {'mensaje': 'User not exist'}, 404
+            obj = Employee.query.filter_by(userId=id).first()
+            if obj:
+                return {
+                    'id': obj.id,
+                    'userId': obj.userId,
+                    'userType': usuario.userType.name,
+                    'name': obj.name,
+                    'email': usuario.email,
+                    'username': usuario.username
+                }, 200
+            else:
+                return {'mensaje': 'employee not exist'}, 404
+    else:
+        return {'mensaje': 'User not exist'}, 404

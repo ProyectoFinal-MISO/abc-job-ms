@@ -2,7 +2,7 @@ import os
 from flask import Flask, Response
 from modelos.modelos import db
 from modelos.populate_db import populate_database
-from vistas.vistas import VistasLogIn, VistaSignIn, VistaUsuario, VistaUsuarioSesion
+from vistas.vistas import VistaUsuarioValidate, VistasLogIn, VistaSignIn, VistaUsuario, VistaUsuarioSesion
 from vistas.employees import VistaEmployee
 from vistas.companies import VistaCompany
 from vistas.technical_resources import VistaTechnicalResource
@@ -32,6 +32,7 @@ api.add_resource(VistaSignIn, '/users')
 api.add_resource(VistasLogIn, '/users/auth')
 api.add_resource(VistaUsuario, '/users/me')
 api.add_resource(VistaUsuarioSesion, '/users/user_session')
+api.add_resource(VistaUsuarioValidate, '/users/validate/<int:id_user>')
 
 api.add_resource(VistaEmployee, '/users/employee/<id_employee>')
 api.add_resource(VistaCompany, '/users/company/<id_company>')
