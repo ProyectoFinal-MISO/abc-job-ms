@@ -31,7 +31,7 @@ class Guest(db.Model):
     email_user = db.Column(db.String(100))
     type_user = db.Column(db.String(20))
     is_confirm = db.Column(db.String(20), default='WAIT')
-    score = db.Column(db.Integer, default=0)
+    score = db.Column(db.Integer, default=-1)
     id_meet = db.Column(db.Integer, db.ForeignKey('meet.id'), nullable=False)
 
 class GuestSchema(SQLAlchemyAutoSchema):
