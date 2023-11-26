@@ -1,5 +1,6 @@
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
+from marshmallow import fields
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 from sqlalchemy import DateTime, func
 import enum
@@ -357,14 +358,31 @@ class CitySchema(SQLAlchemyAutoSchema):
          include_relationships = False
          load_instance = True
 
+    def get_course_type(self, obj):
+        return obj.typeIdentification.name
+    
+    typeIdentification = fields.Method("get_course_type")
+
 class EmployeeSchema(SQLAlchemyAutoSchema):
     class Meta:
          model = Employee
          include_relationships = False
          load_instance = True
 
+    def get_course_type(self, obj):
+        return obj.typeIdentification.name
+    
+    typeIdentification = fields.Method("get_course_type")
+
 class CompanySchema(SQLAlchemyAutoSchema):
     class Meta:
          model = Company
          include_relationships = False
          load_instance = True
+
+    def get_course_type(self, obj):
+        return obj.typeIdentification.name
+    
+    typeIdentification = fields.Method("get_course_type")
+
+

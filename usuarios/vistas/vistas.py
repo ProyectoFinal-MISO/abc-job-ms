@@ -1,5 +1,5 @@
 from flask_restful import Resource
-from modelos.modelos import db, Usuario, TechnicalResource, Company, Employee, UserType
+from modelos.modelos import db, Usuario, TechnicalResource, Company, Employee, UserType, TechnicalResourceSchema, CompanySchema, EmployeeSchema
 from utils.technical_resource import TechnicalResourceCreate
 from utils.company import CompanyCreate
 from utils.employee import EmployeeCreate
@@ -9,6 +9,10 @@ import hashlib
 from flask_jwt_extended import create_access_token, decode_token, jwt_required, get_jwt_identity
 from datetime import datetime
 import json
+
+technical_resource_schema = TechnicalResourceSchema()
+employee_schema = EmployeeSchema()
+company_schema = CompanySchema()
 
 class VistaSignIn(Resource):
     def post(self):
@@ -106,6 +110,41 @@ class VistaUsuario(Resource):
             "email":f"{usuario.email}",
             "userType":f"{usuario.userType.name}"
         }, 200
+    
+class VistaUsuarios(Resource):
+    @jwt_required()
+    def get(self, type_query):
+        id = get_jwt_identity()
+        usuario:Usuario = Usuario.query.get(id)
+        if usuario == None:
+            return {
+                "mensaje": "Insuficient permits"
+            }, 400
+        if type_query == UserType.PERSON.name:
+            if usuario.userType != UserType.EMPLOYEE and usuario.userType != UserType.COMPANY:
+                return {
+                    "mensaje": "Insuficient permits"
+                }, 400
+            users = TechnicalResource.query.all() 
+            return  [technical_resource_schema.dump(ca) for ca in users], 200
+        elif type_query == UserType.COMPANY.name:
+            if usuario.userType != UserType.EMPLOYEE:
+                return {
+                    "mensaje": "Insuficient permits"
+                }, 400
+            users = Company.query.all() 
+            return  [company_schema.dump(ca) for ca in users], 200
+        elif type_query == UserType.EMPLOYEE.name:
+            if usuario.userType != UserType.EMPLOYEE:
+                return {
+                    "mensaje": "Insuficient permits"
+                }, 400
+            users = Employee.query.all() 
+            return  [employee_schema.dump(ca) for ca in users], 200
+        else:
+            return {
+                "mensaje": "Bad type query"
+            }, 400
     
 class VistaUsuarioValidate(Resource):
     @jwt_required()
