@@ -292,6 +292,14 @@ class TechnicalResourceSchema(SQLAlchemyAutoSchema):
          include_relationships = False
          load_instance = True
 
+    def get_course_type(self, obj):
+        return obj.typeIdentification.name
+    def get_course_genre(self, obj):
+        return obj.genre.name
+    
+    typeIdentification = fields.Method("get_course_type")
+    genre = fields.Method("get_course_genre")
+
 class AcademicInformationSchema(SQLAlchemyAutoSchema):
     class Meta:
          model = AcademicInformation
@@ -357,11 +365,6 @@ class CitySchema(SQLAlchemyAutoSchema):
          model = City
          include_relationships = False
          load_instance = True
-
-    def get_course_type(self, obj):
-        return obj.typeIdentification.name
-    
-    typeIdentification = fields.Method("get_course_type")
 
 class EmployeeSchema(SQLAlchemyAutoSchema):
     class Meta:
