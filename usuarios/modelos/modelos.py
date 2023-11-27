@@ -289,7 +289,7 @@ class UsuarioSchema(SQLAlchemyAutoSchema):
 class TechnicalResourceSchema(SQLAlchemyAutoSchema):
     class Meta:
          model = TechnicalResource
-         include_relationships = False
+         include_relationships = True
          load_instance = True
 
     def get_course_type(self, obj):
@@ -299,6 +299,7 @@ class TechnicalResourceSchema(SQLAlchemyAutoSchema):
     
     typeIdentification = fields.Method("get_course_type")
     genre = fields.Method("get_course_genre")
+    userId = fields.Int()
 
 class AcademicInformationSchema(SQLAlchemyAutoSchema):
     class Meta:
@@ -369,23 +370,25 @@ class CitySchema(SQLAlchemyAutoSchema):
 class EmployeeSchema(SQLAlchemyAutoSchema):
     class Meta:
          model = Employee
-         include_relationships = False
+         include_relationships = True
          load_instance = True
 
     def get_course_type(self, obj):
         return obj.typeIdentification.name
     
     typeIdentification = fields.Method("get_course_type")
+    userId = fields.Int()
 
 class CompanySchema(SQLAlchemyAutoSchema):
     class Meta:
          model = Company
-         include_relationships = False
+         include_relationships = True
          load_instance = True
 
     def get_course_type(self, obj):
         return obj.typeIdentification.name
     
     typeIdentification = fields.Method("get_course_type")
+    userId = fields.Int()
 
 

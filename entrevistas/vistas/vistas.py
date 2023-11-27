@@ -45,8 +45,8 @@ class VistaMeets(Resource):
                 new_meet = Meet(
                     tittle = response_json['tittle'],
                     description = response_json['description'],
-                    start_date = datetime.strptime(response_json['start_date'], "%Y-%m-%d %H:%M").date(),
-                    end_date = datetime.strptime(response_json['end_date'], "%Y-%m-%d %H:%M").date(),
+                    start_date = datetime.strptime(response_json['start_date'], "%Y-%m-%dT%H:%M:%S.000Z"),
+                    end_date = datetime.strptime(response_json['end_date'], "%Y-%m-%dT%H:%M:%S.000Z"),
                     place = response_json['place'],
                     id_employee = user_id
                 )
@@ -133,12 +133,46 @@ class VistaMeet(Resource):
                 
                 meet.tittle = request_json['tittle']
                 meet.description = request_json['description']
-                meet.start_date = datetime.strptime(request_json['start_date'], "%Y-%m-%d %H:%M").date()
-                meet.end_date = datetime.strptime(request_json['end_date'], "%Y-%m-%d %H:%M").date()
+                meet.start_date = datetime.strptime(request_json['start_date'], "%Y-%m-%dT%H:%M:%S.000Z")
+                meet.end_date = datetime.strptime(request_json['end_date'], "%Y-%m-%dT%H:%M:%S.000Z")
                 meet.place = request_json['place']
                 db.session.commit()
 
                 return meet_schema.dump(meet), 201                
+
+        except IntegrityError as e:
+            return {"mensaje": f"Database integrity error: {str(e)}"}, 412
+
+        except Exception as e:
+            return {"mensaje": f"An unexpected error occurred: {str(e)}"}, 500
+        
+    def get(self, id_meet):
+        try:
+            token_response = validar_token()
+            print(str(token_response))
+            if token_response.status_code != 200:
+                return {
+                    "mensaje": "Expired session"
+                }, token_response.status_code
+            else:
+                user = token_response.json()
+                user_id = user.get('userId', None)
+                user_type = user.get('userType', None)
+
+                if user_id == None or user_type == None:
+                    return {
+                        "mensaje": "Incomplete user"
+                    }, 400           
+                meet:Meet = Meet.query.get(id_meet)                
+                if not meet:
+                    return {
+                        "mensaje": "There is not a meet with that id"
+                    }, 400            
+                if user_type != "EMPLOYEE" or meet.id_employee != user_id:
+                    return {
+                        "mensaje": "Insufficient permits"
+                    }, 400         
+                return meet_schema.dump(meet), 200   
 
         except IntegrityError as e:
             return {"mensaje": f"Database integrity error: {str(e)}"}, 412
