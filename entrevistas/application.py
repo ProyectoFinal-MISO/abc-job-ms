@@ -1,5 +1,6 @@
 import os
 from flask import Flask, Response
+from vistas.vistas import VistaConfirmar, VistaGuest, VistaMeet, VistaMeets
 from modelos.modelos import db
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
@@ -18,7 +19,10 @@ db.create_all()
 
 api = Api(application)
 
-jwt = JWTManager(application)
+api.add_resource(VistaMeets, '/interviews')
+api.add_resource(VistaMeet, '/interviews/<int:id_meet>')
+api.add_resource(VistaGuest, '/interviews/<int:id_meet>/usuario/<int:id_user_guest>')
+api.add_resource(VistaConfirmar, '/interviews/<string:flow>/<int:id_guest>')
 
 @application.route("/interviews/ping")
 def index():

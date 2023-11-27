@@ -1,0 +1,253 @@
+{
+	"info": {
+		"_postman_id": "14601037-319a-4aab-bb77-ac80d6e5b37c",
+		"name": "abcJobs-entrevista",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11751534"
+	},
+	"item": [
+		{
+			"name": "add meet",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcwMDg3MzY0NiwianRpIjoiMTY1MTBhMWUtMzIzMy00NGM4LWEwZmQtMjE1ZjZkNWZkMjFjIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MSwibmJmIjoxNzAwODczNjQ2LCJleHAiOjE3MDA4NzcyNDYsImlkIjoiMSJ9.FzqGSX-D_mGAz0wS2MMyUiO5sw7KwJzd2TChXrYS_Dw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"tittle\":\"reunion de prueba\",\n    \"description\":\"descripcion de reunion\",\n    \"start_date\":\"2023-11-10 16:00\",\n    \"end_date\":\"2023-11-10 16:30\",\n    \"place\":\"virtual\",\n    \"guests\":[\n        3       \n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:5003/interviews",
+					"host": [
+						"localhost"
+					],
+					"port": "5003",
+					"path": [
+						"interviews"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "all meets",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcwMDg4NTQzMSwianRpIjoiZjA0Y2UxMDUtYTJiMi00NzNiLTliNGEtZDVlMTYwNjY4MjQyIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MiwibmJmIjoxNzAwODg1NDMxLCJleHAiOjE3MDA4ODkwMzEsImlkIjoiMiJ9.C-vhRugM5r7lkrWikpLlhllE3I_dA_qAwIXCGXIZ9Jo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:5003/interviews",
+					"host": [
+						"localhost"
+					],
+					"port": "5003",
+					"path": [
+						"interviews"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update commit",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcwMDQ2MDg0NCwianRpIjoiMDUwNjljZTUtZjA5Yi00ZjllLThiODEtYzhhMGY2YTFmZWQ4IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MywibmJmIjoxNzAwNDYwODQ0LCJleHAiOjE3MDA0NjQ0NDQsImlkIjoiMyJ9.nF_MVG7dj0PJSjuqa4MnHgOkuh_TWQx4CZpKaySSiDo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"tittle\":\"reunion de prueba update\",\n    \"description\":\"descripcion de reunion\",\n    \"start_date\":\"2023-11-10 16:00\",\n    \"end_date\":\"2023-11-10 16:30\",\n    \"place\":\"virtual update RESOURCE\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:5003/interviews/2",
+					"host": [
+						"localhost"
+					],
+					"port": "5003",
+					"path": [
+						"interviews",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add guest to meet",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcwMDg4MDQ3OCwianRpIjoiMTY2NThhNTAtNzZlMC00MjY5LThmZTktNDk2YmRiNTg1MmQwIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MiwibmJmIjoxNzAwODgwNDc4LCJleHAiOjE3MDA4ODQwNzgsImlkIjoiMiJ9.vVuhlfyve3QX_tM5PVccPQSPWIpC1KuBq9J-eMLvdJ0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:5003/interviews/2/usuario/4",
+					"host": [
+						"localhost"
+					],
+					"port": "5003",
+					"path": [
+						"interviews",
+						"2",
+						"usuario",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete guest to meet",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcwMDg4MDQ3OCwianRpIjoiMTY2NThhNTAtNzZlMC00MjY5LThmZTktNDk2YmRiNTg1MmQwIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MiwibmJmIjoxNzAwODgwNDc4LCJleHAiOjE3MDA4ODQwNzgsImlkIjoiMiJ9.vVuhlfyve3QX_tM5PVccPQSPWIpC1KuBq9J-eMLvdJ0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:5003/interviews/2/usuario/4",
+					"host": [
+						"localhost"
+					],
+					"port": "5003",
+					"path": [
+						"interviews",
+						"2",
+						"usuario",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "confrim meet",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcwMDg4NTQzMSwianRpIjoiZjA0Y2UxMDUtYTJiMi00NzNiLTliNGEtZDVlMTYwNjY4MjQyIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MiwibmJmIjoxNzAwODg1NDMxLCJleHAiOjE3MDA4ODkwMzEsImlkIjoiMiJ9.C-vhRugM5r7lkrWikpLlhllE3I_dA_qAwIXCGXIZ9Jo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"confirmar\":\"REFUSED\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:5003/interviews/confirmar/1",
+					"host": [
+						"localhost"
+					],
+					"port": "5003",
+					"path": [
+						"interviews",
+						"confirmar",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "score meet",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcwMDg4NTQzMSwianRpIjoiZjA0Y2UxMDUtYTJiMi00NzNiLTliNGEtZDVlMTYwNjY4MjQyIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MiwibmJmIjoxNzAwODg1NDMxLCJleHAiOjE3MDA4ODkwMzEsImlkIjoiMiJ9.C-vhRugM5r7lkrWikpLlhllE3I_dA_qAwIXCGXIZ9Jo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"score\": 5\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:5003/interviews/confirmar/1",
+					"host": [
+						"localhost"
+					],
+					"port": "5003",
+					"path": [
+						"interviews",
+						"confirmar",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
