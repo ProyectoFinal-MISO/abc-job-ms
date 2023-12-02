@@ -22,7 +22,7 @@ class Meet(db.Model):
     end_date = db.Column(db.DateTime)
     place = db.Column(db.String(50))
     id_employee = db.Column(db.Integer)
-    guests = db.relationship('Guest', backref='meet', lazy=True)
+    guests = db.relationship('Guest', backref='meet', lazy=True, cascade='all, delete-orphan')
 
 class Guest(db.Model):
     id = db.Column(db.Integer, primary_key=True)

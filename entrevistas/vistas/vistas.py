@@ -179,6 +179,42 @@ class VistaMeet(Resource):
 
         except Exception as e:
             return {"mensaje": f"An unexpected error occurred: {str(e)}"}, 500
+        
+    def delete(self, id_meet):
+        try:
+            token_response = validar_token()
+            print(str(token_response))
+            if token_response.status_code != 200:
+                return {
+                    "mensaje": "Expired session"
+                }, token_response.status_code
+            else:
+                user = token_response.json()
+                user_id = user.get('userId', None)
+                user_type = user.get('userType', None)
+
+                if user_id == None or user_type == None:
+                    return {
+                        "mensaje": "Incomplete user"
+                    }, 400           
+                meet:Meet = Meet.query.get(id_meet)                
+                if not meet:
+                    return {
+                        "mensaje": "There is not a meet with that id"
+                    }, 400            
+                if user_type != "EMPLOYEE" or meet.id_employee != user_id:
+                    return {
+                        "mensaje": "Insufficient permits"
+                    }, 400
+                db.session.delete(meet)
+                db.session.commit()         
+                return Response(status=204)        
+
+        except IntegrityError as e:
+            return {"mensaje": f"Database integrity error: {str(e)}"}, 412
+
+        except Exception as e:
+            return {"mensaje": f"An unexpected error occurred: {str(e)}"}, 500
 
 class VistaGuest(Resource):
     def post(self, id_meet, id_user_guest):
